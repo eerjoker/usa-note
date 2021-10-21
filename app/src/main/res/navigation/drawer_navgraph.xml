@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_navgraph"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.ort.usanote.fragments.InicioFragment"
+        android:label="inicio_fragment"
+        tools:layout="@layout/inicio_fragment" />
+    <fragment
+        android:id="@+id/contactoFragment"
+        android:name="com.ort.usanote.fragments.ContactoFragment"
+        android:label="contacto_fragment"
+        tools:layout="@layout/contacto_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ort.usanote.fragments.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" />
+    <fragment
+        android:id="@+id/misComprasFragment"
+        android:name="com.ort.usanote.fragments.MisComprasFragment"
+        android:label="mis_compras_fragment"
+        tools:layout="@layout/mis_compras_fragment" />
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.ort.usanote.fragments.ProductosFragment"
+        android:label="productos_fragment"
+        tools:layout="@layout/productos_fragment" />
+    <fragment
+        android:id="@+id/registroFragment"
+        android:name="com.ort.usanote.fragments.RegistroFragment"
+        android:label="registro_fragment"
+        tools:layout="@layout/registro_fragment" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.ort.usanote.fragments.UserFragment"
+        android:label="user_fragment"
+        tools:layout="@layout/user_fragment" />
+</navigation>
