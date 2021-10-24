@@ -1,4 +1,4 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.viewModels.auth
 
 import androidx.lifecycle.ViewModel
 

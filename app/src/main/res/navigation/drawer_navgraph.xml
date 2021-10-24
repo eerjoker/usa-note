@@ -17,7 +17,7 @@
         tools:layout="@layout/contacto_fragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ort.usanote.fragments.LoginFragment"
+        android:name="com.ort.usanote.fragments.auth.LoginFragment"
         android:label="login_fragment"
         tools:layout="@layout/login_fragment" />
     <fragment
@@ -32,7 +32,7 @@
         tools:layout="@layout/productos_fragment" />
     <fragment
         android:id="@+id/registroFragment"
-        android:name="com.ort.usanote.fragments.RegistroFragment"
+        android:name="com.ort.usanote.fragments.auth.RegistroFragment"
         android:label="registro_fragment"
         tools:layout="@layout/registro_fragment" />
     <fragment
