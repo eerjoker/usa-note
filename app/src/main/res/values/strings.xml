@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">Usa Note</string>
+        <string name="app_name">Usa Note</string>
+        <string name="titulo_login">Login</string>
+        <string name="titulo_registro">Registro</string>
+        <string name="password">Contraseña</string>
+        <string name="email">Email</string>
+        <string name="login">Ingresar</string>
+        <string name="registro">Registrarme</string>
+        <string name="nombre">Nombre</string>
+        <string name="apellido">Apellido</string>
+        <string name="telefono">Teléfono</string>
+        <string name="recovery_password">Olvide mi contraseña</string>
+        <string name="primer_text_registro">¿Aún no estas registrado? Hace click</string>
+        <string name="segundo_text_registro">Aqui</string>
+        <string name="title_check_email">Verificación de Email</string>
+        <string name="subtitle_check_email">Para completar su registro verifique su correo.</string>
+        <string name="continue_check_email">Continuar</string>
+        <string name="title_account_recovery">Recuperación de la cuenta</string>
+        <string name="subtitle_account_recovery">Ingrese su email para recibir un correo con los pasos a seguir para cambiar su contraseña.</string>
+        <string name="recovery_account">Enviar</string>
+        <string name="title_update_password">Cambio de contraseña</string>
+        <string name="subtitle_update_password">Por motivos de seguridad para cambiar tu contraseña, primero debes ingresar tu contraseña actual.</string>
+        <string name="title_delete_account">Eliminar cuenta</string>
 </resources>

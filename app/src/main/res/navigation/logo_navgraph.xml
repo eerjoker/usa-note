@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/logo_navgraph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/logo_navgraph"
+    app:startDestination="@id/loginFragment2">
 
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.ort.usanote.fragments.auth.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment2_to_registroFragment2"
+            app:destination="@id/registroFragment2" />
+        <action
+            android:id="@+id/action_loginFragment2_to_inicioFragment2"
+            app:destination="@id/inicioFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/registroFragment2"
+        android:name="com.ort.usanote.fragments.auth.RegistroFragment"
+        android:label="registro_fragment"
+        tools:layout="@layout/registro_fragment" >
+        <action
+            android:id="@+id/action_registroFragment2_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/inicioFragment2"
+        android:name="com.ort.usanote.fragments.InicioFragment"
+        android:label="inicio_fragment"
+        tools:layout="@layout/inicio_fragment" />
 </navigation>
