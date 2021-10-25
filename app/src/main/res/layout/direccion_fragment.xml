@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DireccionFragment">
+
+
+    <LinearLayout
+        android:id="@+id/tituloLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/formLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tituloDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Nueva dirección"
+            android:textSize="34sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/formLinearLayout"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:background="#95AFF1"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btnDireccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloLinearLayout">
+
+
+        <LinearLayout
+            android:id="@+id/nombreLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="24dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/aliasText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Alias (opcional)"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/nombreText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Nombre Completo"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/calleLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/calleText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_margin="5dp"
+                android:layout_weight="50"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Calle"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/localidadText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_margin="5dp"
+                android:layout_weight="50"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Localidad"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deptoLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/numeroText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_weight="30"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Nro"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/pisoText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_weight="30"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Piso"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/deptoText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_margin="5dp"
+                android:layout_weight="30"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Depto"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/provinciaLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="24dp"
+            android:gravity="clip_vertical|center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/provinciaText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginVertical="10dp"
+                android:layout_weight="50"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Provincia"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/cpText"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginVertical="10dp"
+                android:layout_weight="50"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Código Postal"
+                android:inputType="number" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDireccion"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="138dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="139dp"
+        android:layout_marginBottom="74dp"
+        android:backgroundTint="#4CAF50"
+        android:text="Agregar dirección"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formLinearLayout"
+        app:rippleColor="#4CAF50" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
