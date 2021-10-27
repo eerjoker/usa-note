@@ -9,23 +9,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
 import com.ort.usanote.viewModels.auth.LoginViewModel
 
 class LoginFragment : Fragment() {
 
     lateinit var v: View
-    lateinit var emailLogin: EditText
-    lateinit var passwordLogin: EditText
+    lateinit var email2TxtLayout: TextInputLayout
+    lateinit var email2TextInputEdit: TextInputEditText
+    lateinit var password2TxtLayout: TextInputLayout
+    lateinit var password2TextInputEdit: TextInputEditText
     lateinit var loginButton: Button
     lateinit var irARegistro: Button
     lateinit var rootLayout: ConstraintLayout
+    lateinit var progressBar: ProgressBar
     private val viewModelLogin: LoginViewModel by viewModels()
 
     // lateinit var emailV2: EditText
@@ -41,13 +47,14 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.login_fragment, container, false)
-        emailLogin = v.findViewById(R.id.emailLoginTxt)
-        passwordLogin = v.findViewById(R.id.passwordLoginTxt)
+        email2TxtLayout = v.findViewById(R.id.emailInputLayOutTxt)
+        email2TextInputEdit = v.findViewById(R.id.emailRegistroTxt)
+        password2TxtLayout = v.findViewById(R.id.passInputLayOutTxt)
+        password2TextInputEdit = v.findViewById(R.id.passRegistroTxt)
         loginButton = v.findViewById(R.id.loginButton)
         irARegistro = v.findViewById(R.id.segundo_text_registro)
+        progressBar = v.findViewById(R.id.progressBar)
         rootLayout = v.findViewById(R.id.frameLayout2)
-
-        //   emailV2 = v.findViewById(R.id.emailLoginTxt2)
 
         return v
     }
@@ -61,16 +68,19 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        progressBar.setVisibility(View.GONE)
+
         viewModelLogin.loginExitoso.observe(viewLifecycleOwner, Observer { result ->
             if (result){
                 Snackbar.make(rootLayout, "Ingreso Exitoso", Snackbar.LENGTH_LONG)
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                         Color.parseColor("#4CAF50")).show()
-
+                progressBar.setVisibility(View.GONE)
                 //Rompe al buscar la action.
                 val action = LoginFragmentDirections.actionLoginFragment2ToInicioFragment2()
                 v.findNavController().navigate(action)
             }else{
+                progressBar.setVisibility(View.GONE)
                 Snackbar.make(rootLayout, "El ingreso no fue exitoso. Verifique sus datos", Snackbar.LENGTH_LONG).setAnimationMode(
                     BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                     Color.parseColor("#E91E3C")).show()
@@ -79,13 +89,16 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener(){
 
-            val email: String = emailLogin.text.toString()
-            val password: String = passwordLogin.text.toString()
+            var email: String = email2TextInputEdit.text.toString()
+            var password: String = password2TextInputEdit.text.toString()
 
-            val emailValido = viewModelLogin.validateEmail(email)
-            val passwordValida = viewModelLogin.validatePassword(password)
+            var emailValido = viewModelLogin.validateEmail(email)
+            var passwordValida = viewModelLogin.validatePassword(password)
+
+            sacarErrores(emailValido, passwordValida)
 
             if (viewModelLogin.validateLogin(emailValido, passwordValida)){
+                progressBar.setVisibility(View.VISIBLE)
                 viewModelLogin.ingresar(email, password)
             }else{
                 asignarErrores(emailValido, passwordValida)
@@ -104,8 +117,12 @@ class LoginFragment : Fragment() {
     }
 
     fun asignarErrores (email: Boolean, password: Boolean){
-        if (!email) emailLogin.error = viewModelLogin.msgErrorEmail
-        if (!password) passwordLogin.error = viewModelLogin.msgErrorPassword
+        if (!email) email2TxtLayout.error = viewModelLogin.msgErrorEmail
+        if (!password) password2TxtLayout.error = viewModelLogin.msgErrorPassword
     }
 
+    fun sacarErrores (email: Boolean, password: Boolean){
+        if (email) email2TxtLayout.error = null
+        if (password) password2TxtLayout.error = null
+    }
 }

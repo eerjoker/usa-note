@@ -17,6 +17,7 @@ class RegistroViewModel : ViewModel() {
     lateinit var msgErrorEmail: String
     lateinit var msgErrorPassword: String
     lateinit var msgErrorGeneral: String
+    lateinit var msgErrorPhone: String
 
     fun registrar (nombre: String, apellido: String, telefono: String, email: String, password: String){
 
@@ -55,6 +56,22 @@ class RegistroViewModel : ViewModel() {
             emailValido = true
         }
         return emailValido
+    }
+
+    fun validatePhone (phone: String): Boolean{
+        var phoneValido: Boolean = false
+
+        if (phone.isEmpty()){
+            msgErrorPhone = "Debe completar su celular"
+        }else if (phone.length < 10 || phone.length > 10){
+            msgErrorPhone = "Debe tener 10 digitos incluyendo el 11"
+        }else if ((!phone[0].equals("1".toCharArray()[0], false)) || !phone[1].equals("1".toCharArray()[0], false)){
+            msgErrorPhone = "Debe empezar con 11"
+        }else{
+            phoneValido = true
+        }
+
+        return phoneValido
     }
 
     fun validatePassword(pass: String): Boolean {

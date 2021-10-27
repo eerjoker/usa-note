@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".fragments.auth.LoginFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:indeterminate="true"
+        android:max="100"
+        android:progress="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="match_parent"
@@ -16,7 +30,7 @@
         android:text="@string/titulo_login"
         android:textColor="@color/teal_700"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/emailLoginTxt"
+        app:layout_constraintBottom_toTopOf="@+id/emailInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,56 +41,72 @@
         tools:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
-        android:id="@+id/emailLoginTxt"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/ic_field"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailInputLayOutTxt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:drawableStart="@drawable/ic_email"
-        android:drawableLeft="@drawable/ic_email"
-        android:drawablePadding="16dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLoginTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Email"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="clear_text"
+        app:errorIconDrawable= "@null"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/passInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginTitle"
-        app:errorEnabled="true"
-        tools:layout_constraintBottom_toTopOf="@+id/passwordLoginTxt"
-        tools:layout_constraintEnd_toEndOf="parent"
-        tools:layout_constraintStart_toStartOf="parent"
-        tools:layout_constraintTop_toBottomOf="@+id/loginTitle" />
+        app:startIconDrawable="@drawable/ic_email">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailRegistroTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress">
 
-    <EditText
-        android:id="@+id/passwordLoginTxt"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/ic_field"
-        android:drawableStart="@drawable/ic_lock"
-        android:drawablePadding="16dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passInputLayOutTxt"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:padding="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:hint="Password"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLoginTxt"
-        app:errorEnabled="true"
-        tools:layout_constraintBottom_toTopOf="@+id/loginButton"
-        tools:layout_constraintEnd_toEndOf="parent"
-        tools:layout_constraintStart_toStartOf="parent"
-        tools:layout_constraintTop_toBottomOf="@+id/emailLoginTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInputLayOutTxt"
+        app:startIconDrawable="@drawable/ic_lock">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passRegistroTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginButton"
@@ -92,7 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLoginTxt"
+        app:layout_constraintTop_toBottomOf="@+id/passInputLayOutTxt"
         tools:layout_constraintBottom_toTopOf="@+id/recovery_password"
         tools:layout_constraintEnd_toEndOf="parent"
         tools:layout_constraintStart_toStartOf="parent"
@@ -102,11 +132,11 @@
         android:id="@+id/recovery_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="280dp"
         android:text="@string/recovery_password"
-        app:layout_constraintBottom_toTopOf="@+id/primer_text_registro"
+        app:layout_constraintBottom_toTopOf="@+id/segundo_text_registro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
@@ -120,11 +150,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="112dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="180dp"
         android:text="@string/primer_text_registro"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/segundo_text_registro"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recovery_password" />
 
     <Button
         android:id="@+id/segundo_text_registro"

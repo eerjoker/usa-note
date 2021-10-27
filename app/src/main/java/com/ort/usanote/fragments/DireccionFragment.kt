@@ -77,7 +77,6 @@ class DireccionFragment : Fragment() {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                         Color.parseColor("#4CAF50")).show()
 
-
                 v.findNavController().popBackStack()
 
             }else{
