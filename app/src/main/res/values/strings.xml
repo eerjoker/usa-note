@@ -21,4 +21,8 @@
         <string name="title_update_password">Cambio de contraseña</string>
         <string name="subtitle_update_password">Por motivos de seguridad para cambiar tu contraseña, primero debes ingresar tu contraseña actual.</string>
         <string name="title_delete_account">Eliminar cuenta</string>
+        <string name="title_cart">Carrito</string>
+        <string name="cart_subtotal_label">Subtotal</string>
+        <string name="dollar_sign">$</string>
+        <string name="go_to_checkout">Checkout</string>
 </resources>
