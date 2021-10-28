@@ -77,7 +77,7 @@ class LoginFragment : Fragment() {
                         Color.parseColor("#4CAF50")).show()
                 progressBar.setVisibility(View.GONE)
                 //Rompe al buscar la action.
-                val action = LoginFragmentDirections.actionLoginFragment2ToInicioFragment2()
+                val action = LoginFragmentDirections.actionLoginFragmentToSearchActivity()
                 v.findNavController().navigate(action)
             }else{
                 progressBar.setVisibility(View.GONE)
@@ -111,7 +111,7 @@ class LoginFragment : Fragment() {
         }
 
         irARegistro.setOnClickListener(){
-            val action = LoginFragmentDirections.actionLoginFragment2ToRegistroFragment2()
+            val action = LoginFragmentDirections.actionLoginFragmentToRegistroFragment()
             v.findNavController().navigate(action)
         }
     }

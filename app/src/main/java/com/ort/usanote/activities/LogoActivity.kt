@@ -36,7 +36,7 @@ class LogoActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.not_logged_drawer_menu, menu)
+        menuInflater.inflate(R.menu.not_logged_drawer_logo_menu, menu)
         return true
     }
 
