@@ -40,6 +40,16 @@ class ProductItemsAdapter(
                 .into(imgProductItem)
         }
 
+        fun setQuantity(quantity: Int) {
+            var txtQuantity : TextView = view.findViewById(R.id.txtProductItemQuantity)
+            txtQuantity.text = quantity.toString()
+        }
+
+        fun setSubtotal(subtotal: Double) {
+            var txtSubtotal : TextView = view.findViewById(R.id.txtProductItemSubtotal)
+            txtSubtotal.text = R.string.dollar_sign.toString() + subtotal.toString()
+        }
+
         fun getCardView() : CardView {
             return view.findViewById(R.id.cardProductItem)
         }
@@ -61,6 +71,8 @@ class ProductItemsAdapter(
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
         holder.setTitle(productItemList[position].product.title)
         holder.setImage(context, productItemList[position].product.imageUrl)
+        holder.setQuantity(productItemList[position].quantity)
+        holder.setSubtotal(productItemList[position].calculateSubtotal())
         holder.getDeleteButton().setOnClickListener {
             holder.deleteProductItem()
         }
