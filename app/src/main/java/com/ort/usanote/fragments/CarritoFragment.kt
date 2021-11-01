@@ -6,7 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
+import com.ort.usanote.adapters.ProductItemsAdapter
+import com.ort.usanote.entities.Cart
+import com.ort.usanote.entities.Product
+import com.ort.usanote.entities.ProductItem
 import com.ort.usanote.viewModels.CarritoViewModel
 
 class CarritoFragment : Fragment() {
@@ -16,12 +22,31 @@ class CarritoFragment : Fragment() {
     }
 
     private lateinit var viewModel: CarritoViewModel
+    private lateinit var v : View
+    private lateinit var recProductItem : RecyclerView
+    private var cart : Cart = Cart()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.carrito_fragment, container, false)
+        v = inflater.inflate(R.layout.carrito_fragment, container, false)
+        recProductItem = v.findViewById(R.id.recProductItem)
+        return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        recProductItem.setHasFixedSize(true)
+        recProductItem.layoutManager = LinearLayoutManager(context)
+        recProductItem.adapter = ProductItemsAdapter(cart.getProductItems(), requireContext()) { index ->
+            onItemClick(index)
+        }
+    }
+
+    fun onItemClick(pos : Int) {
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
