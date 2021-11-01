@@ -1,43 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group
         android:id="@+id/grp_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/userFragment"
-            android:icon="@drawable/baseline_account_circle_black_18dp"
-            android:title="Usuario" />
+            android:id="@+id/registroFragment"
+            android:icon="@drawable/baseline_border_color_black_18dp"
+            android:title="Registrarse" />
     </group>
 
     <group
         android:id="@+id/grp_main"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/inicioFragment"
+            android:id="@+id/searchActivityInicio"
             android:icon="@drawable/home_black_18dp"
             android:title="Inicio" />
-        <item
+        <!--<item
             android:id="@+id/productosFragment"
             android:icon="@drawable/outline_desktop_windows_black_18dp"
             android:title="Productos" />
         <item
             android:id="@+id/contactoFragment"
             android:icon="@drawable/baseline_perm_contact_calendar_black_18dp"
-            android:title="Contacto" />
-        <item
-            android:id="@+id/misComprasFragment"
-            android:icon="@drawable/outline_shopping_bag_black_18dp"
-            android:title="Mis Compras" />
+            android:title="Contacto" />-->
     </group>
 
     <group
         android:id="@+id/grp_bottom"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/logoActivityLogin"
-            android:icon="@drawable/exit_run_black_24"
-            android:title="Cerrar sesión" />
+            android:id="@+id/loginFragment"
+            android:icon="@drawable/baseline_login_black_18dp"
+            android:title="Iniciar sesión" />
     </group>
-
 </menu>
