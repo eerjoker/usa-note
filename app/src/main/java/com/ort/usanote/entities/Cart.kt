@@ -1,11 +1,14 @@
 package com.ort.usanote.entities
 
-class Cart {
+import android.content.SharedPreferences
+
+class Cart (
+        var preferences : SharedPreferences
+    ) {
     private var productItemList : MutableList<ProductItem> = mutableListOf()
+    private var url = "https://edu-delitech2.odoo.com/web/image/product.template/1/image_1024?unique=fb5c381"
 
     init {
-        var url = "https://edu-delitech2.odoo.com/web/image/product.template/1/image_1024?unique=fb5c381"
-
         productItemList.add(ProductItem(Product("Keyboard", "Keyboard description", 200.0, url), 2))
         productItemList.add(ProductItem(Product("Mouse", "Mouse description", 90.0, url), 5))
         productItemList.add(ProductItem(Product("Microchip", "Microchip description", 170.0, url), 1))
@@ -17,6 +20,12 @@ class Cart {
 
     fun getProductItems () : MutableList<ProductItem> {
         return productItemList
+    }
+
+    fun addProductItem(producItem: ProductItem) {
+        //var editor : SharedPreferences.Editor = preferences.edit()
+        //editor.putString("title", producItem.product.title)
+        productItemList.add(producItem)
     }
 
     fun deleteProductItem(pos: Int) {

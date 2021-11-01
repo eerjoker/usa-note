@@ -1,5 +1,6 @@
 package com.ort.usanote.fragments
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -24,7 +25,7 @@ class CarritoFragment : Fragment() {
     private lateinit var viewModel: CarritoViewModel
     private lateinit var v : View
     private lateinit var recProductItem : RecyclerView
-    private var cart : Cart = Cart()
+    private lateinit var cart : Cart
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,9 @@ class CarritoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        var preferences = requireContext().getSharedPreferences("cart", Context.MODE_PRIVATE)
+        cart = Cart(preferences)
 
         recProductItem.setHasFixedSize(true)
         recProductItem.layoutManager = LinearLayoutManager(context)

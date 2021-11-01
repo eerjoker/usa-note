@@ -76,6 +76,8 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/roundcorner30dp"
             android:backgroundTint="#C4C4C4"
+            android:drawableLeft="@android:drawable/arrow_down_float"
+            android:drawableRight="@android:drawable/arrow_up_float"
             android:ems="10"
             android:inputType="number|textPersonName"
             android:padding="0dp"
@@ -95,13 +97,17 @@
             android:id="@+id/txtProductItemSubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="31dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="246dp"
             android:text="$"
             android:textColor="#373D39"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtProductItemQuantity"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtProductItemQuantity" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imgBtnDeleteProductItem"
+            app:layout_constraintTop_toTopOf="@+id/imgBtnDeleteProductItem"
+            app:layout_constraintVertical_bias="0.047" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

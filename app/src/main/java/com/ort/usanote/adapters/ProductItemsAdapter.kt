@@ -2,8 +2,10 @@ package com.ort.usanote.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItem
+import android.view.View.OnTouchListener
+
+
+
 
 class ProductItemsAdapter(
     var productItemList : MutableList<ProductItem>,
@@ -58,6 +64,10 @@ class ProductItemsAdapter(
             return view.findViewById(R.id.imgBtnDeleteProductItem)
         }
 
+        fun getQuantityEditText() : EditText {
+            return view.findViewById(R.id.txtProductItemQuantity)
+        }
+
         fun deleteProductItem() {
             getCardView().removeAllViews()
         }
@@ -73,9 +83,29 @@ class ProductItemsAdapter(
         holder.setImage(context, productItemList[position].product.imageUrl)
         holder.setQuantity(productItemList[position].quantity)
         holder.setSubtotal(productItemList[position].calculateSubtotal())
+
+        var productItemQuantity = holder.getQuantityEditText()
+        productItemQuantity.setOnTouchListener(OnTouchListener { v, event ->
+            val DRAWABLE_LEFT = 0
+            val DRAWABLE_TOP = 1
+            val DRAWABLE_RIGHT = 2
+            val DRAWABLE_BOTTOM = 3
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (event.rawX >= productItemQuantity.getRight() - productItemQuantity.getCompoundDrawables()
+                        .get(DRAWABLE_RIGHT).getBounds().width()
+                ) {
+                    // your action here
+                    holder.deleteProductItem()
+                    return@OnTouchListener true
+                }
+            }
+            false
+        })
+
         holder.getDeleteButton().setOnClickListener {
             holder.deleteProductItem()
         }
+
         holder.getCardView().setOnClickListener {
             onClick(position)
         }
