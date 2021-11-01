@@ -20,11 +20,13 @@
             android:id="@+id/imgProductItem"
             android:layout_width="256px"
             android:layout_height="256px"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="260dp"
             android:background="@drawable/roundcorner4dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -32,7 +34,7 @@
 
         <TextView
             android:id="@+id/txtTitleProductItem"
-            android:layout_width="235dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="31dp"
@@ -43,6 +45,7 @@
             android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imgProductItem"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -51,6 +54,7 @@
             android:id="@+id/imgBtnDeleteProductItem"
             android:layout_width="256px"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="260dp"
             android:background="@drawable/roundcorner4dp"
@@ -58,6 +62,7 @@
             android:paddingVertical="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProductItem"
             app:layout_constraintVertical_bias="0.0"
@@ -67,6 +72,7 @@
             android:id="@+id/txtProductItemQuantity"
             android:layout_width="123dp"
             android:layout_height="32dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/roundcorner30dp"
             android:backgroundTint="#C4C4C4"
@@ -80,7 +86,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imgProductItem"
             app:layout_constraintTop_toBottomOf="@+id/txtTitleProductItem"
             app:layout_constraintVertical_bias="0.0" />
