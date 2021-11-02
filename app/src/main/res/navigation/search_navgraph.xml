@@ -9,7 +9,11 @@
         android:id="@+id/inicioFragment"
         android:name="com.ort.usanote.fragments.InicioFragment"
         android:label="inicio_fragment"
-        tools:layout="@layout/inicio_fragment" />
+        tools:layout="@layout/inicio_fragment" >
+        <action
+            android:id="@+id/action_inicioFragment_to_openFromSliderFragment"
+            app:destination="@id/openFromSliderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/contactoFragment"
         android:name="com.ort.usanote.fragments.ContactoFragment"
@@ -24,7 +28,11 @@
         android:id="@+id/productosFragment"
         android:name="com.ort.usanote.fragments.ProductosFragment"
         android:label="productos_fragment"
-        tools:layout="@layout/productos_fragment" />
+        tools:layout="@layout/productos_fragment" >
+        <action
+            android:id="@+id/action_productosFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.ort.usanote.fragments.UserFragment"
@@ -38,4 +46,42 @@
         android:id="@+id/logoActivityRegistro"
         android:name="com.ort.usanote.activities.LogoActivity"
         android:label="LogoActivity" />
+    <fragment
+        android:id="@+id/openFromSliderFragment"
+        android:name="com.ort.usanote.fragments.OpenFromSliderFragment"
+        android:label="open_from_slider_fragment"
+        tools:layout="@layout/open_from_slider_fragment" >
+        <argument
+            android:name="image"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDescriptionFragment"
+        android:name="com.ort.usanote.fragments.ProductDescriptionFragment"
+        android:label="product_description_fragment"
+        tools:layout="@layout/product_description_fragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="integer" />
+        <argument
+            android:name="cantidad"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_productDescriptionFragment_to_carritoFragment"
+            app:destination="@id/carritoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carritoFragment"
+        android:name="com.ort.usanote.fragments.CarritoFragment"
+        android:label="carrito_fragment"
+        tools:layout="@layout/carrito_fragment" />
 </navigation>
