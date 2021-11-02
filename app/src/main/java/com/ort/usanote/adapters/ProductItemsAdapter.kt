@@ -15,14 +15,13 @@ import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItem
 import android.view.View.OnTouchListener
-
-
+import androidx.core.widget.addTextChangedListener
+import com.ort.usanote.entities.Cart
 
 
 class ProductItemsAdapter(
-    var productItemList : MutableList<ProductItem>,
-    var context : Context,
-    var onClick : (Int) -> Unit
+    var cart : Cart,
+    var context : Context
 ) : RecyclerView.Adapter<ProductItemsAdapter.ProductItemHolder>() {
 
     class ProductItemHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -53,7 +52,7 @@ class ProductItemsAdapter(
 
         fun setSubtotal(subtotal: Double) {
             var txtSubtotal : TextView = view.findViewById(R.id.txtProductItemSubtotal)
-            txtSubtotal.text = R.string.dollar_sign.toString() + subtotal.toString()
+            txtSubtotal.text = "$" + subtotal.toString()
         }
 
         fun getCardView() : CardView {
@@ -79,12 +78,18 @@ class ProductItemsAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
+        var productItemList : MutableList<ProductItem> = cart.getProductItems()
+
         holder.setTitle(productItemList[position].product.title)
         holder.setImage(context, productItemList[position].product.imageUrl)
         holder.setQuantity(productItemList[position].quantity)
         holder.setSubtotal(productItemList[position].calculateSubtotal())
 
         var productItemQuantity = holder.getQuantityEditText()
+        productItemQuantity.addTextChangedListener() {
+            productItemList[position].quantity = Integer.parseInt(productItemQuantity.text.toString())
+            holder.setSubtotal(productItemList[position].calculateSubtotal())
+        }
         productItemQuantity.setOnTouchListener(OnTouchListener { v, event ->
             val DRAWABLE_LEFT = 0
             val DRAWABLE_TOP = 1
@@ -95,23 +100,29 @@ class ProductItemsAdapter(
                         .get(DRAWABLE_RIGHT).getBounds().width()
                 ) {
                     // your action here
-                    holder.deleteProductItem()
-                    return@OnTouchListener true
+                    productItemList[position].quantity += 1
+                    //return@OnTouchListener true
+                } else if(event.rawX <= productItemQuantity.getLeft() + productItemQuantity.getCompoundDrawables()
+                        .get(DRAWABLE_LEFT).getBounds().width()) {
+                    if (productItemList[position].quantity > 1) {
+                        productItemList[position].quantity -= 1
+                    }
                 }
+                holder.setQuantity(productItemList[position].quantity)
+                holder.setSubtotal(productItemList[position].calculateSubtotal())
+                cart.modifyProductItemQuantity(position, productItemList[position].quantity)
+                return@OnTouchListener true
             }
             false
         })
 
         holder.getDeleteButton().setOnClickListener {
             holder.deleteProductItem()
-        }
-
-        holder.getCardView().setOnClickListener {
-            onClick(position)
+            cart.deleteProductItem(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return productItemList.size
+        return cart.getProductItems().size
     }
 }

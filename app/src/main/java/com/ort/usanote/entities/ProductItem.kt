@@ -6,6 +6,6 @@ class ProductItem (
 ) {
 
     fun calculateSubtotal() : Double {
-        return this.product.price * this.quantity
+        return this.product.price * this.quantity.toDouble()
     }
 }

@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imgProductItem"
-            android:layout_width="256px"
-            android:layout_height="256px"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="260dp"
             android:background="@drawable/roundcorner4dp"
@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-<!--            tools:srcCompat="@drawable/spinner" /> -->
+        <!--            tools:srcCompat="@drawable/spinner" /> -->
 
         <TextView
             android:id="@+id/txtTitleProductItem"
@@ -52,7 +52,7 @@
 
         <ImageButton
             android:id="@+id/imgBtnDeleteProductItem"
-            android:layout_width="256px"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
@@ -70,8 +70,8 @@
 
         <EditText
             android:id="@+id/txtProductItemQuantity"
-            android:layout_width="123dp"
-            android:layout_height="32dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/roundcorner30dp"
@@ -98,7 +98,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="246dp"
             android:text="$"
             android:textColor="#373D39"
             android:textSize="20sp"

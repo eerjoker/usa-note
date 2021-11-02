@@ -3,8 +3,8 @@ package com.ort.usanote.entities
 import android.content.SharedPreferences
 
 class Cart (
-        var preferences : SharedPreferences
-    ) {
+    var onChange : (MutableList<ProductItem>) -> Unit
+) {
     private var productItemList : MutableList<ProductItem> = mutableListOf()
     private var url = "https://edu-delitech2.odoo.com/web/image/product.template/1/image_1024?unique=fb5c381"
 
@@ -22,13 +22,18 @@ class Cart (
         return productItemList
     }
 
-    fun addProductItem(producItem: ProductItem) {
-        //var editor : SharedPreferences.Editor = preferences.edit()
-        //editor.putString("title", producItem.product.title)
-        productItemList.add(producItem)
+    fun modifyProductItemQuantity(pos: Int, quantity: Int) {
+        productItemList[pos].quantity = quantity
+        onChange(productItemList)
+    }
+
+    fun addProductItem(productItem: ProductItem) {
+        productItemList.add(productItem)
+        onChange(productItemList)
     }
 
     fun deleteProductItem(pos: Int) {
         productItemList.removeAt(pos)
+        onChange(productItemList)
     }
 }

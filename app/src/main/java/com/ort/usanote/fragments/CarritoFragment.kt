@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
@@ -25,6 +26,7 @@ class CarritoFragment : Fragment() {
     private lateinit var viewModel: CarritoViewModel
     private lateinit var v : View
     private lateinit var recProductItem : RecyclerView
+    private lateinit var txtSubtotalValue : TextView
     private lateinit var cart : Cart
 
     override fun onCreateView(
@@ -33,24 +35,26 @@ class CarritoFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.carrito_fragment, container, false)
         recProductItem = v.findViewById(R.id.recProductItem)
+        txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
         return v
     }
 
     override fun onStart() {
         super.onStart()
 
-        var preferences = requireContext().getSharedPreferences("cart", Context.MODE_PRIVATE)
-        cart = Cart(preferences)
+        cart = Cart() { productItemList ->
+            var subtotal = 0.00
+
+            for (productItem in productItemList ) {
+                subtotal += productItem.calculateSubtotal()
+            }
+
+            txtSubtotalValue.text = "$" + subtotal.toString()
+        }
 
         recProductItem.setHasFixedSize(true)
         recProductItem.layoutManager = LinearLayoutManager(context)
-        recProductItem.adapter = ProductItemsAdapter(cart.getProductItems(), requireContext()) { index ->
-            onItemClick(index)
-        }
-    }
-
-    fun onItemClick(pos : Int) {
-
+        recProductItem.adapter = ProductItemsAdapter(cart, requireContext())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
