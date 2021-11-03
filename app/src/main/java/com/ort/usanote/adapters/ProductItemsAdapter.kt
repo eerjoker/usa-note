@@ -69,9 +69,8 @@ class ProductItemsAdapter(
             return view.findViewById(R.id.txtProductItemQuantity)
         }
 
-        fun deleteProductItem(position: Int) {
-            parent.removeViewAt(position)
-//            getCardView().removeAllViews()
+        fun deleteProductItem() {
+            parent.removeView(getCardView())
         }
     }
 
@@ -120,8 +119,8 @@ class ProductItemsAdapter(
         })
 
         holder.getDeleteButton().setOnClickListener {
-            //holder.deleteProductItem(position)
-            notifyItemRemoved(position)
+            holder.deleteProductItem()
+            //notifyItemRemoved(position)
             cart.deleteProductItem(holder.adapterPosition)
         }
     }
