@@ -15,6 +15,7 @@ import com.ort.usanote.adapters.ProductItemsAdapter
 import com.ort.usanote.entities.Cart
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItem
+import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.viewModels.CarritoViewModel
 
 class CarritoFragment : Fragment() {
@@ -42,7 +43,7 @@ class CarritoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        cart = Cart() { subtotal ->
+        cart = Cart(ProductItemRepository().getProductItems()) { subtotal ->
             setSubtotalValue(subtotal)
         }
 
