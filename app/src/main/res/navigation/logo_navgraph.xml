@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_loginFragment_to_searchActivity"
             app:destination="@id/searchActivityInicio" />
-        <action
-            android:id="@+id/action_loginFragment_to_direccionFragment"
-            app:destination="@id/direccionFragment" />
     </fragment>
     <fragment
         android:id="@+id/registroFragment"
@@ -34,9 +31,4 @@
         android:name="com.ort.usanote.activities.SearchActivity"
         android:label="activity_search"
         tools:layout="@layout/activity_search" />
-    <fragment
-        android:id="@+id/direccionFragment"
-        android:name="com.ort.usanote.fragments.DireccionFragment"
-        android:label="direccion_fragment"
-        tools:layout="@layout/direccion_fragment" />
 </navigation>

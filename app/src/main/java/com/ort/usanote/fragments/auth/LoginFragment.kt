@@ -76,7 +76,6 @@ class LoginFragment : Fragment() {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                         Color.parseColor("#4CAF50")).show()
                 progressBar.setVisibility(View.GONE)
-                //Rompe al buscar la action.
                 val action = LoginFragmentDirections.actionLoginFragmentToSearchActivity()
                 v.findNavController().navigate(action)
             }else{
