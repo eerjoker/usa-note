@@ -42,19 +42,15 @@ class CarritoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        cart = Cart() { productItemList ->
-            var subtotal = 0.00
-
-            for (productItem in productItemList ) {
-                subtotal += productItem.calculateSubtotal()
-            }
-
-            txtSubtotalValue.text = "$" + subtotal.toString()
+        cart = Cart() { subtotal ->
+            setSubtotalValue(subtotal)
         }
 
         recProductItem.setHasFixedSize(true)
         recProductItem.layoutManager = LinearLayoutManager(context)
         recProductItem.adapter = ProductItemsAdapter(cart, requireContext())
+
+        setSubtotalValue(cart.calculateSubtotal())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -63,4 +59,7 @@ class CarritoFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    fun setSubtotalValue(subtotal : Double) {
+        txtSubtotalValue.text = "$" + subtotal.toString()
+    }
 }

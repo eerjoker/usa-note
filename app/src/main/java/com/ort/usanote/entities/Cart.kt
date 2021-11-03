@@ -3,7 +3,7 @@ package com.ort.usanote.entities
 import android.content.SharedPreferences
 
 class Cart (
-    var onChange : (MutableList<ProductItem>) -> Unit
+    var onChange : (Double) -> Unit
 ) {
     private var productItemList : MutableList<ProductItem> = mutableListOf()
     private var url = "https://edu-delitech2.odoo.com/web/image/product.template/1/image_1024?unique=fb5c381"
@@ -14,8 +14,6 @@ class Cart (
         productItemList.add(ProductItem(Product("Microchip", "Microchip description", 170.0, url), 1))
         productItemList.add(ProductItem(Product("Screen", "Screen description", 900.0, url), 3))
         productItemList.add(ProductItem(Product("Headphones", "Headphones description", 940.0, url), 2))
-        productItemList.add(ProductItem(Product("Keyboard", "Keyboard description", 230.0, url), 1))
-        productItemList.add(ProductItem(Product("Screen", "Screen description", 250.0, url), 5))
     }
 
     fun getProductItems () : MutableList<ProductItem> {
@@ -24,16 +22,25 @@ class Cart (
 
     fun modifyProductItemQuantity(pos: Int, quantity: Int) {
         productItemList[pos].quantity = quantity
-        onChange(productItemList)
+        onChange(calculateSubtotal())
     }
 
     fun addProductItem(productItem: ProductItem) {
         productItemList.add(productItem)
-        onChange(productItemList)
+        onChange(calculateSubtotal())
     }
 
     fun deleteProductItem(pos: Int) {
         productItemList.removeAt(pos)
-        onChange(productItemList)
+        onChange(calculateSubtotal())
+    }
+
+    fun calculateSubtotal() : Double {
+        var subtotal = 0.0
+
+        for (productItem in productItemList ) {
+            subtotal += productItem.calculateSubtotal()
+        }
+        return subtotal
     }
 }

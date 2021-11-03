@@ -24,11 +24,13 @@ class ProductItemsAdapter(
     var context : Context
 ) : RecyclerView.Adapter<ProductItemsAdapter.ProductItemHolder>() {
 
-    class ProductItemHolder(v: View) : RecyclerView.ViewHolder(v) {
+    class ProductItemHolder(v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
         private var view : View
+        private var parent : ViewGroup
 
         init {
             this.view = v
+            this.parent = parentView
         }
 
         fun setTitle(title: String) {
@@ -67,14 +69,15 @@ class ProductItemsAdapter(
             return view.findViewById(R.id.txtProductItemQuantity)
         }
 
-        fun deleteProductItem() {
-            getCardView().removeAllViews()
+        fun deleteProductItem(position: Int) {
+            parent.removeViewAt(position)
+//            getCardView().removeAllViews()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cart_product_item, parent, false)
-        return (ProductItemHolder(view))
+        return (ProductItemHolder(view, parent))
     }
 
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
@@ -117,8 +120,9 @@ class ProductItemsAdapter(
         })
 
         holder.getDeleteButton().setOnClickListener {
-            holder.deleteProductItem()
-            cart.deleteProductItem(position)
+            //holder.deleteProductItem(position)
+            notifyItemRemoved(position)
+            cart.deleteProductItem(holder.adapterPosition)
         }
     }
 
