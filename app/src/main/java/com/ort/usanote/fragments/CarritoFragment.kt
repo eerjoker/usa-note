@@ -7,13 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
 import com.ort.usanote.adapters.ProductItemsAdapter
 import com.ort.usanote.entities.Cart
+import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.viewModels.CarritoViewModel
 
 class CarritoFragment : Fragment() {
@@ -28,6 +32,8 @@ class CarritoFragment : Fragment() {
     private lateinit var txtSubtotalValue : TextView
     private lateinit var cart : Cart
     private lateinit var checkoutButton : Button
+    private lateinit var cstrLayoutGoToCheckout : ConstraintLayout
+    private lateinit var productItems : ProductItemRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,25 +43,35 @@ class CarritoFragment : Fragment() {
         recProductItem = v.findViewById(R.id.recProductItem)
         txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
         checkoutButton = v.findViewById(R.id.btnCheckout)
+        cstrLayoutGoToCheckout = v.findViewById(R.id.constraintLayoutGoToCheckout)
         return v
     }
 
     override fun onStart() {
         super.onStart()
-        val productos = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
-        print(productos)
-        cart = Cart(productos.getProductItems()) { subtotal ->
-            setSubtotalValue(subtotal)
-        }
+        productItems = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
 
-        recProductItem.setHasFixedSize(true)
-        recProductItem.layoutManager = LinearLayoutManager(context)
-        recProductItem.adapter = ProductItemsAdapter(cart, requireContext())
+        if (productItems?.getProductItems().size > 0) {
+            cart = Cart(productItems.getProductItems()) { subtotal ->
+                setSubtotalValue(subtotal)
+            }
 
-        setSubtotalValue(cart.calculateSubtotal())
-        checkoutButton.setOnClickListener {
-            val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment(productos)
-            v.findNavController().navigate(action)
+            recProductItem.setHasFixedSize(true)
+            recProductItem.layoutManager = LinearLayoutManager(context)
+            recProductItem.adapter = ProductItemsAdapter(cart, requireContext())
+
+            setSubtotalValue(cart.calculateSubtotal())
+            checkoutButton.setOnClickListener {
+                val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment(productItems)
+                v.findNavController().navigate(action)
+            }
+        } else {
+            recProductItem.removeAllViews()
+            cstrLayoutGoToCheckout.removeAllViews()
+            val txtEmptyCart = TextView(requireContext())
+            txtEmptyCart.text = getString(R.string.empty_cart)
+            val frameLayoutCart = v.findViewById<FrameLayout>(R.id.frameLayoutCart)
+            frameLayoutCart.addView(txtEmptyCart)
         }
     }
 
