@@ -41,22 +41,28 @@ class ProductDescriptionFragment : Fragment() {
     private fun btnAddCart(v:View){
         btnAddCart = v.findViewById(R.id.add_cart)
         btnAddCart.setOnClickListener{
-            val spinner = v.findViewById<Spinner>(R.id.spinner_cantidad)
-            val title = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).title
-            val desc = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
-            val price = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
-            val image = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).image
-            val stock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
-            itemsCarrito = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).itemsCarrito
-            itemsCarrito.addProductItem(Product(title,desc,price,stock,image), spinner.selectedItem as Int)
+            itemsCarrito = addToCart(v)
         }
     }
     private fun btnToCartInit(v:View){
         btnToCart = v.findViewById(R.id.comprar)
         btnToCart.setOnClickListener{
+            itemsCarrito = addToCart(v)
             val action = ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment(itemsCarrito)
             v.findNavController().navigate(action)
         }
+    }
+
+    fun addToCart(v:View):ProductItemRepository{
+        val spinner = v.findViewById<Spinner>(R.id.spinner_cantidad)
+        val title = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).title
+        val desc = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
+        val price = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
+        val image = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).image
+        val stock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
+        var ret = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).itemsCarrito
+        ret.addProductItem(Product(title,desc,price,stock,image), spinner.selectedItem as Int)
+        return ret
     }
 
     override fun onStart() {
