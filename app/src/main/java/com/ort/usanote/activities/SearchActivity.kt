@@ -11,12 +11,14 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.ort.usanote.R
+import com.ort.usanote.entities.ProductItemRepository
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+    lateinit var itemsCarrito : ProductItemRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout_search)
         navigationView = findViewById(R.id.navigation_view_search)
         navController = Navigation.findNavController(this,R.id.nav_host_fragment_search)
-
+        itemsCarrito = ProductItemRepository()
 
         navigationView.setupWithNavController(navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)

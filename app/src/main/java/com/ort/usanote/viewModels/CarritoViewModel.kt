@@ -1,7 +1,7 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.viewModels
 
 import androidx.lifecycle.ViewModel
 
-class UserViewModel : ViewModel() {
+class CarritoViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

@@ -7,26 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ort.usanote.R
-import com.ort.usanote.viewModels.UserViewModel
+import com.ort.usanote.viewModels.PurchaseFinishedViewModel
 
-class UserFragment : Fragment() {
+class PurchaseFinishedFragment : Fragment() {
 
     companion object {
-        fun newInstance() = UserFragment()
+        fun newInstance() = PurchaseFinishedFragment()
     }
 
-    private lateinit var viewModel: UserViewModel
+    private lateinit var viewModel: PurchaseFinishedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_fragment, container, false)
+        return inflater.inflate(R.layout.purchase_finished_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PurchaseFinishedViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
