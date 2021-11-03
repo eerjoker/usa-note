@@ -1,6 +1,5 @@
 package com.ort.usanote.fragments
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
 import com.ort.usanote.adapters.ProductItemsAdapter
 import com.ort.usanote.entities.Cart
-import com.ort.usanote.entities.Product
-import com.ort.usanote.entities.ProductItem
 import com.ort.usanote.viewModels.CarritoViewModel
 
 class CarritoFragment : Fragment() {
@@ -45,8 +42,9 @@ class CarritoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        cart = Cart() { subtotal ->
+        val productos = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
+        print(productos)
+        cart = Cart(productos.getProductItems()) { subtotal ->
             setSubtotalValue(subtotal)
         }
 

@@ -1,5 +1,6 @@
 package com.ort.usanote.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,9 +21,11 @@ import com.ort.usanote.entities.Cart
 
 
 class ProductItemsAdapter(
-    var cart : Cart,
-    var context : Context
+    private var cart : Cart,
+    private var context : Context
 ) : RecyclerView.Adapter<ProductItemsAdapter.ProductItemHolder>() {
+    private val DRAWABLE_LEFT = 0
+    private val DRAWABLE_RIGHT = 2
 
     class ProductItemHolder(v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
         private var view : View
@@ -34,12 +37,12 @@ class ProductItemsAdapter(
         }
 
         fun setTitle(title: String) {
-            var txtTitle : TextView = view.findViewById(R.id.txtTitleProductItem)
+            val txtTitle : TextView = view.findViewById(R.id.txtTitleProductItem)
             txtTitle.text = title
         }
 
         fun setImage(context: Context, imageUrl: String) {
-            var imgProductItem : ImageView = view.findViewById(R.id.imgProductItem)
+            val imgProductItem : ImageView = view.findViewById(R.id.imgProductItem)
             Glide
                 .with(context)
                 .load(imageUrl)
@@ -48,12 +51,12 @@ class ProductItemsAdapter(
         }
 
         fun setQuantity(quantity: Int) {
-            var txtQuantity : TextView = view.findViewById(R.id.txtProductItemQuantity)
+            val txtQuantity : TextView = view.findViewById(R.id.txtProductItemQuantity)
             txtQuantity.text = quantity.toString()
         }
 
         fun setSubtotal(subtotal: Double) {
-            var txtSubtotal : TextView = view.findViewById(R.id.txtProductItemSubtotal)
+            val txtSubtotal : TextView = view.findViewById(R.id.txtProductItemSubtotal)
             txtSubtotal.text = "$" + subtotal.toString()
         }
 
@@ -69,9 +72,8 @@ class ProductItemsAdapter(
             return view.findViewById(R.id.txtProductItemQuantity)
         }
 
-        fun deleteProductItem(position: Int) {
-            parent.removeViewAt(position)
-//            getCardView().removeAllViews()
+        fun deleteProductItem() {
+            parent.removeView(getCardView())
         }
     }
 
@@ -80,24 +82,21 @@ class ProductItemsAdapter(
         return (ProductItemHolder(view, parent))
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
-        var productItemList : MutableList<ProductItem> = cart.getProductItems()
+        val productItemList : MutableList<ProductItem> = cart.getProductItems()
 
         holder.setTitle(productItemList[position].product.title)
         holder.setImage(context, productItemList[position].product.imageUrl)
         holder.setQuantity(productItemList[position].quantity)
         holder.setSubtotal(productItemList[position].calculateSubtotal())
 
-        var productItemQuantity = holder.getQuantityEditText()
+        val productItemQuantity = holder.getQuantityEditText()
         productItemQuantity.addTextChangedListener() {
             productItemList[position].quantity = Integer.parseInt(productItemQuantity.text.toString())
             holder.setSubtotal(productItemList[position].calculateSubtotal())
         }
         productItemQuantity.setOnTouchListener(OnTouchListener { v, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
-            val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= productItemQuantity.getRight() - productItemQuantity.getCompoundDrawables()
                         .get(DRAWABLE_RIGHT).getBounds().width()
@@ -120,9 +119,9 @@ class ProductItemsAdapter(
         })
 
         holder.getDeleteButton().setOnClickListener {
-            //holder.deleteProductItem(position)
-            notifyItemRemoved(position)
-            cart.deleteProductItem(holder.adapterPosition)
+            holder.deleteProductItem()
+            //notifyItemRemoved(position)
+            cart.deleteProductItem(position)
         }
     }
 
