@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
+import com.ort.usanote.activities.SearchActivity
 import com.ort.usanote.adapters.ProductAdapter
 import com.ort.usanote.entities.*
 import com.ort.usanote.viewModels.ProductosViewModel
@@ -35,7 +36,7 @@ class ProductosFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
         itemProductList()
-        itemsCarrito = ProductItemRepository()
+        itemsCarrito = (activity as SearchActivity).itemsCarrito
         recyclerView(rootView,requireContext())
 
         return  rootView
