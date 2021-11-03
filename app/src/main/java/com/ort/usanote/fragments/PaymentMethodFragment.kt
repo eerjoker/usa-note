@@ -39,8 +39,11 @@ class PaymentMethodFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        var productItems = PaymentMethodFragmentArgs.fromBundle(requireArguments()).productItems
+
         btnContinue.setOnClickListener {
-            val action = PaymentMethodFragmentDirections.actionPaymentMethodFragmentToPurchaseConfirmationFragment()
+            val action = PaymentMethodFragmentDirections.actionPaymentMethodFragmentToPurchaseConfirmationFragment(productItems)
             v.findNavController().navigate(action)
         }
     }
