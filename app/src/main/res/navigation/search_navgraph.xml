@@ -90,5 +90,49 @@
         <argument
             android:name="itemsCarrito"
             app:argType="com.ort.usanote.entities.ProductItemRepository" />
+        <action
+            android:id="@+id/action_carritoFragment_to_shipmentMethodFragment"
+            app:destination="@id/shipmentMethodFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/shipmentMethodFragment"
+        android:name="com.ort.usanote.fragments.ShipmentMethodFragment"
+        android:label="shipment_method_fragment"
+        tools:layout="@layout/shipment_method_fragment" >
+        <action
+            android:id="@+id/action_shipmentMethodFragment_to_checkAddressFragment"
+            app:destination="@id/checkAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkAddressFragment"
+        android:name="com.ort.usanote.fragments.CheckAddressFragment"
+        android:label="check_address_fragment"
+        tools:layout="@layout/check_address_fragment" >
+        <action
+            android:id="@+id/action_checkAddressFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentMethodFragment"
+        android:name="com.ort.usanote.fragments.PaymentMethodFragment"
+        android:label="payment_method_fragment"
+        tools:layout="@layout/payment_method_fragment" >
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_purchaseConfirmationFragment"
+            app:destination="@id/purchaseConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseConfirmationFragment"
+        android:name="com.ort.usanote.fragments.PurchaseConfirmationFragment"
+        android:label="purchase_confirmation_fragment"
+        tools:layout="@layout/purchase_confirmation_fragment" >
+        <action
+            android:id="@+id/action_purchaseConfirmationFragment_to_purchaseFinishedFragment"
+            app:destination="@id/purchaseFinishedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseFinishedFragment"
+        android:name="com.ort.usanote.fragments.PurchaseFinishedFragment"
+        android:label="purchase_finished_fragment"
+        tools:layout="@layout/purchase_finished_fragment" />
 </navigation>

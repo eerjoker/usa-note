@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
@@ -25,6 +27,7 @@ class CarritoFragment : Fragment() {
     private lateinit var recProductItem : RecyclerView
     private lateinit var txtSubtotalValue : TextView
     private lateinit var cart : Cart
+    private lateinit var checkoutButton : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +36,7 @@ class CarritoFragment : Fragment() {
         v = inflater.inflate(R.layout.carrito_fragment, container, false)
         recProductItem = v.findViewById(R.id.recProductItem)
         txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
+        checkoutButton = v.findViewById(R.id.btnCheckout)
         return v
     }
 
@@ -49,6 +53,10 @@ class CarritoFragment : Fragment() {
         recProductItem.adapter = ProductItemsAdapter(cart, requireContext())
 
         setSubtotalValue(cart.calculateSubtotal())
+        checkoutButton.setOnClickListener {
+            val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment()
+            v.findNavController().navigate(action)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
