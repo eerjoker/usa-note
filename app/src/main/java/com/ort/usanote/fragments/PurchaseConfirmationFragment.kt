@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.ort.usanote.R
+import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.viewModels.PurchaseConfirmationViewModel
 
 class PurchaseConfirmationFragment : Fragment() {
 
     lateinit var btnContinue : Button
     lateinit var v: View
+    private lateinit var productItems : ProductItemRepository
 
     companion object {
         fun newInstance() = PurchaseConfirmationFragment()
@@ -39,6 +41,9 @@ class PurchaseConfirmationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        productItems = ShipmentMethodFragmentArgs.fromBundle(requireArguments()).productItems
+        
         btnContinue.setOnClickListener {
             val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
             v.findNavController().navigate(action)

@@ -40,8 +40,11 @@ class ShipmentMethodFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        var productItems = ShipmentMethodFragmentArgs.fromBundle(requireArguments()).productItems
+
         btnContinue.setOnClickListener {
-            val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment()
+            val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(productItems)
             v.findNavController().navigate(action)
         }
     }
