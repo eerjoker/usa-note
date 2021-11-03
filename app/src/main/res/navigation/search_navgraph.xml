@@ -68,20 +68,27 @@
             app:argType="string" />
         <argument
             android:name="price"
-            app:argType="string" />
+            app:argType="java.lang.Double" />
         <argument
             android:name="image"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="cantidad"
             app:argType="integer" />
         <action
             android:id="@+id/action_productDescriptionFragment_to_carritoFragment"
             app:destination="@id/carritoFragment" />
+        <argument
+            android:name="itemsCarrito"
+            app:argType="com.ort.usanote.entities.ProductItemRepository" />
     </fragment>
     <fragment
         android:id="@+id/carritoFragment"
         android:name="com.ort.usanote.fragments.CarritoFragment"
         android:label="carrito_fragment"
-        tools:layout="@layout/carrito_fragment" />
+        tools:layout="@layout/carrito_fragment" >
+        <argument
+            android:name="itemsCarrito"
+            app:argType="com.ort.usanote.entities.ProductItemRepository" />
+    </fragment>
 </navigation>
