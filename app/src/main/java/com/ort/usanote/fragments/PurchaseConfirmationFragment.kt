@@ -42,8 +42,8 @@ class PurchaseConfirmationFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        productItems = ShipmentMethodFragmentArgs.fromBundle(requireArguments()).productItems
-        
+        productItems = PurchaseConfirmationFragmentArgs.fromBundle(requireArguments()).productItems
+
         btnContinue.setOnClickListener {
             val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
             v.findNavController().navigate(action)
