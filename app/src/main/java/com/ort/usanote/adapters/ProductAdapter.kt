@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.usanote.R
@@ -31,6 +32,7 @@ class ProductAdapter(
             var itemTItle: TextView = itemView.findViewById(R.id.item_title)
             var itemDetail: TextView = itemView.findViewById(R.id.item_desc)
             var itemPrice: TextView = itemView.findViewById(R.id.item_price)
+            var item_stock: TextView = itemView.findViewById(R.id.item_stock)
             fun setImage(context: Context, imageUrl: String) {
                 var imgProductItem : ImageView = view.findViewById(R.id.item_image)
                 Glide
@@ -46,9 +48,25 @@ class ProductAdapter(
         return ViewHolder(view,parent)
     }
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-        holder.itemTItle.text = productList[i].title
+        val stockText : String
+        val color : Int
+        if(productList[i].stock <= 0){
+            stockText = "No hay stock"
+            color = ContextCompat.getColor(context,R.color.rojo_stock)
+        }else if(productList[i].stock > 0 && productList[i].stock < 4){
+            stockText = "Poco stock"
+            color = ContextCompat.getColor(context,R.color.naranja_stock)
+        }else{
+            stockText = "Hay stock"
+            color = ContextCompat.getColor(context,R.color.verde_stock)
+        }
+
+        holder.item_stock.text = stockText
+        holder.item_stock.setTextColor(color)
+        holder.itemTItle.text = productList[i].nombre
         holder.itemDetail.text = productList[i].description
         holder.itemPrice.text = productList[i].price.toString()
+
         holder.setImage(context,productList[i].imageUrl)
         holder.card.setOnClickListener() {
             onClick(i)
