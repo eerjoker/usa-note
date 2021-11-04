@@ -43,7 +43,6 @@ class CarritoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val productos = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
-        print(productos)
         cart = Cart(productos.getProductItems()) { subtotal ->
             setSubtotalValue(subtotal)
         }
