@@ -3,6 +3,7 @@ package com.ort.usanote.fragments
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.activities.SearchActivity
 import com.ort.usanote.adapters.ProductAdapter
@@ -25,8 +27,10 @@ class ProductosFragment : Fragment() {
     private lateinit var viewModel: ProductosViewModel
     private lateinit var rootView : View
     private lateinit var recyclerView: RecyclerView
-    private var productList : MutableList<Product> = mutableListOf()
     private lateinit var itemsCarrito : ProductItemRepository
+    private lateinit var myAdapter : ProductAdapter
+    private lateinit var db : FirebaseFirestore
+    private lateinit var productList : MutableList<Product>
 
 
 
@@ -35,34 +39,61 @@ class ProductosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
-        itemProductList()
+        db = FirebaseFirestore.getInstance()
         itemsCarrito = (activity as SearchActivity).itemsCarrito
+        productList = (activity as SearchActivity).productListActivity
+        productList.clear()
         recyclerView(rootView,requireContext())
-
         return  rootView
     }
+
+    private fun  EventChangeListener() {
+        db = FirebaseFirestore.getInstance()
+        var producto:Product
+        db.collection("productos")
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })
+    }
+
 
     private fun recyclerView(rootView: View, context: Context){
         recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(rootView.context)
-        recyclerView.adapter = ProductAdapter(productList,context){
+        myAdapter = ProductAdapter(productList,context){
             onItemClick(it)
         }
+        recyclerView.adapter = myAdapter
+        EventChangeListener()
 
-    }
-    private fun itemProductList(){
-        var url = "https://edu-delitech2.odoo.com/web/image/product.template/1/image_1024?unique=fb5c381"
-        productList = ProductsRepository().getProductItems()
+
     }
 
     private fun onItemClick(pos:Int){
-        var title = productList[pos].title
+        var idProducto = productList[pos].idProducto
+        var title = productList[pos].nombre
         var description = productList[pos].description
         var price = productList[pos].price
         var image = productList[pos].imageUrl
         var cant = productList[pos].stock
-        val action = ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(title,description,price,image,cant,itemsCarrito)
+        var categoria = productList[pos].categoria
+        var marca = productList[pos].marca
+        val action = ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(title,description,price,image,cant,itemsCarrito,idProducto, categoria, marca)
         rootView.findNavController().navigate(action)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,3 +103,5 @@ class ProductosFragment : Fragment() {
     }
 
 }
+
+
