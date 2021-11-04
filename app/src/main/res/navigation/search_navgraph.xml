@@ -146,5 +146,9 @@
         android:id="@+id/purchaseFinishedFragment"
         android:name="com.ort.usanote.fragments.PurchaseFinishedFragment"
         android:label="purchase_finished_fragment"
-        tools:layout="@layout/purchase_finished_fragment" />
+        tools:layout="@layout/purchase_finished_fragment" >
+        <action
+            android:id="@+id/action_purchaseFinishedFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
 </navigation>
