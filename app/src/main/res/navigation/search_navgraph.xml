@@ -81,6 +81,15 @@
         <argument
             android:name="itemsCarrito"
             app:argType="com.ort.usanote.entities.ProductItemRepository" />
+        <argument
+            android:name="idProducto"
+            app:argType="string" />
+        <argument
+            android:name="categoria"
+            app:argType="string" />
+        <argument
+            android:name="marca"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/carritoFragment"
