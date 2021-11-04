@@ -19,7 +19,10 @@ class ProductItemRepository() : Parcelable {
         //productItemList.add(ProductItem(Product("Screen", "Screen description", 900.0,4, url), 3))
         //productItemList.add(ProductItem(Product("Headphones", "Headphones description", 940.0,4, url), 2))
     }
-
+    fun dropList(){
+        productItemList.clear()
+        print(productItemList)
+    }
     fun addProductItem(product:Product,cant:Int){
         productItemList.add(ProductItem(product,cant))
 
