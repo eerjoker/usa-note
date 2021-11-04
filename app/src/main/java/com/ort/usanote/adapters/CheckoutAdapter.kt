@@ -52,7 +52,7 @@ class CheckoutAdapter (
     override fun onBindViewHolder(holder: CheckoutHolder, position: Int) {
         val productItemList : MutableList<ProductItem> = productItems.getProductItems()
 
-        holder.setTitle(productItemList[position].product.title)
+        holder.setTitle(productItemList[position].product.nombre)
         holder.setPrice(productItemList[position].product.price)
     }
 
