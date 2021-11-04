@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 
 class Cart (
     private var productItemList : MutableList<ProductItem>,
-    var onChange : (Double) -> Unit
+    var onChange : (Double, Int) -> Unit
 ) {
 
 //    init {
@@ -19,19 +19,23 @@ class Cart (
         return productItemList
     }
 
+    fun notifyChange() {
+        onChange(calculateSubtotal(), productItemList?.size)
+    }
+
     fun modifyProductItemQuantity(pos: Int, quantity: Int) {
         productItemList[pos].quantity = quantity
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun addProductItem(productItem: ProductItem) {
         productItemList.add(productItem)
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun deleteProductItem(pos: Int) {
         productItemList.removeAt(pos)
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun calculateSubtotal() : Double {

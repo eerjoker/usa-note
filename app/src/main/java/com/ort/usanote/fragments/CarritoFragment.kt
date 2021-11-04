@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.setPadding
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
@@ -51,9 +54,12 @@ class CarritoFragment : Fragment() {
         super.onStart()
         productItems = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
 
-        if (productItems?.getProductItems().size > 0) {
-            cart = Cart(productItems.getProductItems()) { subtotal ->
+        if (productItems.getProductItems().size > 0) {
+            cart = Cart(productItems.getProductItems()) { subtotal, size ->
                 setSubtotalValue(subtotal)
+                if (size == 0) {
+                    clearCart()
+                }
             }
 
             recProductItem.setHasFixedSize(true)
@@ -66,12 +72,7 @@ class CarritoFragment : Fragment() {
                 v.findNavController().navigate(action)
             }
         } else {
-            recProductItem.removeAllViews()
-            cstrLayoutGoToCheckout.removeAllViews()
-            val txtEmptyCart = TextView(requireContext())
-            txtEmptyCart.text = getString(R.string.empty_cart)
-            val frameLayoutCart = v.findViewById<FrameLayout>(R.id.frameLayoutCart)
-            frameLayoutCart.addView(txtEmptyCart)
+            clearCart()
         }
     }
 
@@ -83,5 +84,26 @@ class CarritoFragment : Fragment() {
 
     fun setSubtotalValue(subtotal : Double) {
         txtSubtotalValue.text = "$" + subtotal.toString()
+    }
+
+    fun clearCart() {
+        recProductItem.removeAllViews()
+        cstrLayoutGoToCheckout.removeAllViews()
+        val simpleTextColor = ContextCompat.getColor(requireContext(), R.color.design_default_color_on_secondary)
+        val txtEmptyCart = TextView(requireContext())
+        txtEmptyCart.id = ViewCompat.generateViewId()
+        txtEmptyCart.setPadding(50, 50, 50, 50)
+        txtEmptyCart.setTextColor(simpleTextColor)
+        txtEmptyCart.text = getString(R.string.empty_cart)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(cstrLayoutGoToCheckout)
+        constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.LEFT, txtEmptyCart.id, ConstraintSet.LEFT, 0)
+        constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.RIGHT, txtEmptyCart.id, ConstraintSet.RIGHT, 0)
+        constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.TOP, txtEmptyCart.id, ConstraintSet.TOP, 0)
+        constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.BOTTOM, txtEmptyCart.id, ConstraintSet.BOTTOM, 0)
+        constraintSet.applyTo(cstrLayoutGoToCheckout)
+
+        cstrLayoutGoToCheckout.addView(txtEmptyCart)
     }
 }
