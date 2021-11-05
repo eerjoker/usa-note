@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ort.usanote.R
 import com.ort.usanote.adapters.SliderAdapter
 import com.ort.usanote.entities.SliderItem
+import com.ort.usanote.viewModels.InicioViewModel
 import kotlin.math.abs
 
 class InicioFragment : Fragment() {
