@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.*
@@ -16,20 +16,23 @@ import com.ort.usanote.R
 import com.ort.usanote.activities.SearchActivity
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItemRepository
+import com.ort.usanote.viewModels.ProductDescriptionViewModel
 
 class ProductDescriptionFragment : Fragment() {
     lateinit var v : View
     companion object {
         fun newInstance() = ProductDescriptionFragment()
     }
-
     private lateinit var viewModel: ProductDescriptionViewModel
+    private lateinit var spinner: Spinner
     private lateinit var btnToCart:Button
     private lateinit var btnAddCart: Button
     private lateinit var itemsCarrito : ProductItemRepository
     private lateinit var db : FirebaseFirestore
     private var cant_imported = 0
     private lateinit var idProducto: String
+    private var sinStock = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,22 +76,47 @@ class ProductDescriptionFragment : Fragment() {
         val marca = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).marca
         var ret = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).itemsCarrito
         ret.addProductItem(Product(idProducto,title,desc,price,stock,categoria,marca,image), spinner.selectedItem as Int)
+        //***Actualizar al nuevo stock
         var nuevoStock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad - spinner.selectedItem as Int
-        if (nuevoStock < 0){
-            nuevoStock = 0
+        if(nuevoStock == 0){
+            btnAddCart.isEnabled = false
+            btnAddCart.isClickable = false
+            btnAddCart.text = "No hay stock"
+            btnAddCart.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.greyStrong))
         }
+        cant_imported = nuevoStock
         val productoActualizar = db.collection("productos").document(idProducto)
         productoActualizar.update("stock",nuevoStock)
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
-        //
-        cant_imported = nuevoStock
-        val array = arrayOfNulls<Number>(cant_imported)
-        for (i in array.indices){
-            array[i] = i +1
+        //***
+
+        //---Traer el nuevo stock para el spiner
+
+        productoActualizar.addSnapshotListener{
+            snapshot,e ->
+            if(e!=null){
+                Log.d("Error","Listen failed",e)
+                return@addSnapshotListener
+            }
+            if(snapshot != null){
+                val producto = snapshot.toObject(Product::class.java)!!
+                cant_imported = producto.stock
+            }
         }
-        val adaptador = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,array)
-        spinner.adapter = adaptador
+        //
+        if (cant_imported !=0){
+            val array = arrayOfNulls<Number>(cant_imported)
+            for (i in array.indices){
+                array[i] = i +1
+            }
+            val adaptador = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,array)
+            spinner.adapter = adaptador
+
+        }else{
+            bloquearBtnYSpiner()
+            sinStock = true
+        }
         //
 
         return ret
@@ -100,9 +128,13 @@ class ProductDescriptionFragment : Fragment() {
         var nombre_producto = v.findViewById<TextView>(R.id.item_title)
         var desc = v.findViewById<TextView>(R.id.item_desc)
         var price = v.findViewById<TextView>(R.id.item_price)
-        var spinner = v.findViewById<Spinner>(R.id.spinner_cantidad)
-        if (cant_imported == 0){
+        spinner = v.findViewById(R.id.spinner_cantidad)
+        if (!sinStock && cant_imported == 0){
             cant_imported = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
+        }else{
+            if(cant_imported == 0){
+                bloquearBtnYSpiner()
+            }
         }
         val array = arrayOfNulls<Number>(cant_imported)
         for (i in array.indices){
@@ -121,6 +153,15 @@ class ProductDescriptionFragment : Fragment() {
         desc.text = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
         price.text = "$" + ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
 
+    }
+
+    fun bloquearBtnYSpiner(){
+        btnAddCart.isEnabled = false
+        btnAddCart.isClickable = false
+        btnAddCart.text = "No hay stock"
+        btnAddCart.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.greyStrong))
+        spinner.isEnabled = false
+        spinner.isClickable = false
     }
 
 }
