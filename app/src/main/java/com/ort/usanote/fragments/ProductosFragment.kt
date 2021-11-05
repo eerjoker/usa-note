@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.activities.SearchActivity
@@ -31,6 +32,7 @@ class ProductosFragment : Fragment() {
     private lateinit var myAdapter : ProductAdapter
     private lateinit var db : FirebaseFirestore
     private lateinit var productList : MutableList<Product>
+    private lateinit var swipeRefreshView : SwipeRefreshLayout
 
 
 
@@ -44,6 +46,7 @@ class ProductosFragment : Fragment() {
         productList = (activity as SearchActivity).productListActivity
         productList.clear()
         recyclerView(rootView,requireContext())
+        swipeRefreshView(rootView,requireContext())
         return  rootView
     }
 
@@ -69,7 +72,14 @@ class ProductosFragment : Fragment() {
             })
     }
 
-
+    private fun swipeRefreshView(rootView: View, context: Context){
+        swipeRefreshView = rootView.findViewById(R.id.refres_layout)
+        swipeRefreshView.setOnRefreshListener {
+            productList.clear()
+            EventChangeListener()
+            swipeRefreshView.isRefreshing = false
+        }
+    }
     private fun recyclerView(rootView: View, context: Context){
         recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(rootView.context)
