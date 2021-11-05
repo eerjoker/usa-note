@@ -37,7 +37,11 @@
         android:id="@+id/userFragment"
         android:name="com.ort.usanote.fragments.UserFragment"
         android:label="user_fragment"
-        tools:layout="@layout/user_fragment" />
+        tools:layout="@layout/user_fragment" >
+        <action
+            android:id="@+id/action_userFragment_to_direccionFragment"
+            app:destination="@id/direccionFragment" />
+    </fragment>
     <activity
         android:id="@+id/logoActivityLogin"
         android:name="com.ort.usanote.activities.LogoActivity"
@@ -160,4 +164,9 @@
             android:id="@+id/action_purchaseFinishedFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/direccionFragment"
+        android:name="com.ort.usanote.fragments.DireccionFragment"
+        android:label="direccion_fragment"
+        tools:layout="@layout/direccion_fragment" />
 </navigation>
