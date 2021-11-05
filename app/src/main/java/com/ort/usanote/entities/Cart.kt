@@ -30,9 +30,9 @@ class Cart (
 
         db = FirebaseFirestore.getInstance()
         val productoActualizar = db.collection("productos").document(productItemList[pos].product.idProducto)
-        val nuevoStock = productItemList[pos].product.stock
+        val nuevoStock = productItemList[pos].quantity.toDouble()
         print(nuevoStock)
-        productoActualizar.update("stock",nuevoStock)
+        productoActualizar.update("stock",FieldValue.increment(nuevoStock))
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
 
