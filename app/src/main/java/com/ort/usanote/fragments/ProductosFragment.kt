@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.activities.SearchActivity
@@ -33,6 +36,8 @@ class ProductosFragment : Fragment() {
     private lateinit var db : FirebaseFirestore
     private lateinit var productList : MutableList<Product>
     private lateinit var swipeRefreshView : SwipeRefreshLayout
+    private lateinit var btnOrdenar:Button
+    private lateinit var producto: Product
 
 
 
@@ -47,12 +52,55 @@ class ProductosFragment : Fragment() {
         productList.clear()
         recyclerView(rootView,requireContext())
         swipeRefreshView(rootView,requireContext())
+        btnActualizar(rootView)
         return  rootView
     }
 
+    private fun btnActualizar(rootView: View) {
+        btnOrdenar = rootView.findViewById(R.id.btnOrdenar)
+
+        btnOrdenar.setOnClickListener{
+            val dialog = BottomSheetDialog(requireContext())
+            val v = layoutInflater.inflate(R.layout.filter_modal_card,null)
+            // Nombre
+            val OrdenarPorNombreASCENDING = v.findViewById<TextView>(R.id.A_Z)
+            val OrdenarPorNombreDESCENDING = v.findViewById<TextView>(R.id.Z_A)
+            // Precio
+            val OrdenarPorPrecioASCENDING = v.findViewById<TextView>(R.id.precio_men_may)
+            val OrdenarPorPrecioDESCENDING = v.findViewById<TextView>(R.id.precio_may_men)
+            // Fecha creacion
+            val OrdenarPorFechaDESCENDING = v.findViewById<TextView>(R.id.mas_reciente)
+            //click listener nombre
+            OrdenarPorNombreASCENDING.setOnClickListener{
+                orderByNameASCENDING()
+            }
+            OrdenarPorNombreDESCENDING.setOnClickListener{
+                orderByNameDECENDING()
+            }
+            //click precio
+            OrdenarPorPrecioASCENDING.setOnClickListener{
+                orderByPriceASCENDING()
+            }
+            OrdenarPorPrecioDESCENDING.setOnClickListener{
+                orderByPriceDECENDING()
+            }
+            //click listener Fecha
+            OrdenarPorFechaDESCENDING.setOnClickListener{
+                orderByFechaDECENDING()
+            }
+
+            dialog.setContentView(v)
+            dialog.show()
+            dialog.setCancelable(true)
+        }
+
+
+
+
+    }
+
     private fun  EventChangeListener() {
-        db = FirebaseFirestore.getInstance()
-        var producto:Product
+
         db.collection("productos")
             .addSnapshotListener(object: EventListener<QuerySnapshot>{
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -111,6 +159,103 @@ class ProductosFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ProductosViewModel::class.java)
         // TODO: Use the ViewModel
     }
+
+    private fun orderByNameASCENDING(){
+        productList.clear()
+        db.collection("productos").orderBy("nombre",Query.Direction.ASCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })
+    }
+    private fun orderByNameDECENDING(){
+        productList.clear()
+        db.collection("productos").orderBy("nombre",Query.Direction.DESCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })
+    }
+    private fun orderByPriceASCENDING(){
+        productList.clear()
+        db.collection("productos").orderBy("price",Query.Direction.ASCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })
+    }
+    private fun orderByPriceDECENDING(){productList.clear()
+        db.collection("productos").orderBy("price",Query.Direction.DESCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })}
+    private fun orderByFechaDECENDING(){productList.clear()
+        db.collection("productos").orderBy("created_at",Query.Direction.DESCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.d("Firebase Error",error.message.toString())
+                    }
+                    for(dc:DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            producto = dc.document.toObject(Product::class.java)
+                            producto.idProducto = dc.document.id
+                            productList.add(producto)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+
+            })}
 
 }
 
