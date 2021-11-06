@@ -1,5 +1,9 @@
 package com.ort.usanote.entities
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
+import java.util.*
+
 class Product (
     idProducto:String,
     nombre : String,
@@ -8,7 +12,7 @@ class Product (
     stock: Int,
     categoria:String,
     marca:String,
-    imageUrl : String
+    imageUrl : String,
 ) {
     lateinit var idProducto:String
     lateinit var nombre : String
@@ -18,6 +22,8 @@ class Product (
     lateinit var categoria:String
     lateinit var marca:String
     lateinit var imageUrl : String
+    @ServerTimestamp
+    var created_at: Date? = null
     constructor():this("","","",0.0,0,"","","")
     init {
         this.idProducto = idProducto!!
