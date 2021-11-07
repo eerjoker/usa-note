@@ -1,13 +1,12 @@
 package com.ort.usanote.entities
 
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 class Product (
     idProducto:String,
     nombre : String,
-    description: String,
+    descripcion: String,
     price : Double,
     stock: Int,
     categoria:String,
@@ -28,7 +27,7 @@ class Product (
     init {
         this.idProducto = idProducto!!
         this.nombre = nombre!!
-        this.description = description!!
+        this.description = descripcion!!
         this.price = price!!
         this.stock = stock!!
         this.categoria = categoria!!
