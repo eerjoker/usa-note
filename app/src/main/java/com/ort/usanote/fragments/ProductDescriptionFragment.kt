@@ -16,7 +16,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
-import com.ort.usanote.activities.SearchActivity
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.viewModels.ProductDescriptionViewModel
@@ -63,7 +63,7 @@ class ProductDescriptionFragment : Fragment() {
     private fun btnToCartInit(v:View){
         btnToCart = v.findViewById(R.id.comprar)
         btnToCart.setOnClickListener{
-            itemsCarrito = (activity as SearchActivity).itemsCarrito
+            itemsCarrito = (activity as MainActivity).itemsCarrito
             val action = ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment(itemsCarrito)
             v.findNavController().navigate(action)
         }

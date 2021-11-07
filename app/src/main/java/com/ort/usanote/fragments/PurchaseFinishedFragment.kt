@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.ort.usanote.R
-import com.ort.usanote.activities.SearchActivity
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.viewModels.PurchaseFinishedViewModel
 
 class PurchaseFinishedFragment : Fragment() {
@@ -41,7 +41,7 @@ class PurchaseFinishedFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         btnBackToHome.setOnClickListener {
-            val itemsCarrito = (activity as SearchActivity).itemsCarrito
+            val itemsCarrito = (activity as MainActivity).itemsCarrito
             print(itemsCarrito)
             itemsCarrito.dropList()
             print(itemsCarrito)

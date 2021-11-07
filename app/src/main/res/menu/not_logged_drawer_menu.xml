@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<group
+    <group
         android:id="@+id/grp_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/logoActivityRegistro"
+            android:id="@+id/registroFragment"
             android:icon="@drawable/baseline_border_color_black_18dp"
             android:title="Registrarse" />
-    </group>-->
+    </group>
 
     <group
         android:id="@+id/grp_main"
@@ -31,7 +31,7 @@
         android:id="@+id/grp_bottom"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/logoActivityLogin"
+            android:id="@+id/loginFragment"
             android:icon="@drawable/baseline_login_black_18dp"
             android:title="Iniciar sesión" />
     </group>

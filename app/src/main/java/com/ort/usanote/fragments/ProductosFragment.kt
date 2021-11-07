@@ -17,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
-import com.ort.usanote.activities.SearchActivity
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.ProductAdapter
 import com.ort.usanote.entities.*
 import com.ort.usanote.viewModels.ProductosViewModel
@@ -47,8 +47,8 @@ class ProductosFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
         db = FirebaseFirestore.getInstance()
-        itemsCarrito = (activity as SearchActivity).itemsCarrito
-        productList = (activity as SearchActivity).productListActivity
+        itemsCarrito = (activity as MainActivity).itemsCarrito
+        productList = (activity as MainActivity).productListActivity
         productList.clear()
         recyclerView(rootView,requireContext())
         swipeRefreshView(rootView,requireContext())
