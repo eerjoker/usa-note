@@ -2,7 +2,6 @@ package com.ort.usanote.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +15,7 @@ import com.ort.usanote.R
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItemRepository
 
-class SearchActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -26,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById(R.id.drawer_layout_search)
         navigationView = findViewById(R.id.navigation_view_search)

@@ -2,33 +2,25 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout_logo"
+    android:id="@+id/drawer_layout_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LogoActivity">
+    tools:context=".activities.MainActivity">
 
     <fragment
-        android:id="@+id/nav_host_fragment_logo"
+        android:id="@+id/nav_host_fragment_search"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/logo_navgraph" />
+        app:navGraph="@navigation/main_navgraph" />
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view_logo"
+        android:id="@+id/navigation_view_search"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/not_logged_drawer_menu" />
-
-    <!--<androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/logo_navgraph" />-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

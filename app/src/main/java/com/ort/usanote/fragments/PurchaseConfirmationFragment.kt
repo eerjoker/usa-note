@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
-import com.ort.usanote.activities.SearchActivity
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.CheckoutAdapter
 import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.viewModels.PurchaseConfirmationViewModel
@@ -52,7 +52,7 @@ class PurchaseConfirmationFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.purchase_confirmation_fragment, container, false)
         btnContinue = v.findViewById(R.id.buttonContinue)
-        itemsCarrito = (activity as SearchActivity).itemsCarrito
+        itemsCarrito = (activity as MainActivity).itemsCarrito
         setSubtotal(calculateSubtotalItemsCarrito(itemsCarrito).toString())
         setTotalAPagar(calculateTotalAPagar().toString())
         return v
