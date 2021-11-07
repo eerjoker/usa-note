@@ -33,7 +33,7 @@ class UserViewModel : ViewModel() {
 
     }
 
-    fun setUser(){
+    fun getUser(){
 
         db.collection("usuarios").document(auth.currentUser!!.uid).get().addOnSuccessListener {
             if(it != null){
@@ -41,6 +41,12 @@ class UserViewModel : ViewModel() {
             }else{
                 userDb.value = null
             }
+        }
+    }
+
+    fun updateUser(field: String, value: String){
+
+        db.collection("usuarios").document(auth.currentUser!!.uid).update(field, value).addOnSuccessListener {
         }
     }
 }

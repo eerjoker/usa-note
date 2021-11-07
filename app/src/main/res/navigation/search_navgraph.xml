@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_userFragment_to_direccionFragment"
             app:destination="@id/direccionFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_updateDireccionFragment"
+            app:destination="@id/updateDireccionFragment" />
     </fragment>
     <activity
         android:id="@+id/logoActivityLogin"
@@ -169,4 +172,9 @@
         android:name="com.ort.usanote.fragments.DireccionFragment"
         android:label="direccion_fragment"
         tools:layout="@layout/direccion_fragment" />
+    <fragment
+        android:id="@+id/updateDireccionFragment"
+        android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
+        android:label="update_direccion_fragment"
+        tools:layout="@layout/update_direccion_fragment" />
 </navigation>
