@@ -5,53 +5,48 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ProductosFragment">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textproductos"
-        android:text="Productos"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categorias"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnFiltrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <Button
-        android:id="@+id/btnOrdenar"
-        android:layout_width="107dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/naranja_stock"
-        android:text="Ordenar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnFiltrar"
-        android:layout_width="107dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/naranja_stock"
+        android:layout_width="95dp"
+        android:layout_height="38dp"
+        android:backgroundTint="@color/white"
         android:text="filtros"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.051" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refres_layout"
-        android:layout_width="416dp"
-        android:layout_height="576dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="407dp"
+        android:layout_height="549dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textproductos"
-        app:layout_constraintVertical_bias="0.327">
+        app:layout_constraintTop_toBottomOf="@+id/btnFiltrar"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="parent"
