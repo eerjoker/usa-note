@@ -83,8 +83,8 @@ class InicioFragment : Fragment() {
     }
     private fun onItemClick(pos: Int){
         var imagen = sliderItemList[pos].imagen
-        val action = InicioFragmentDirections.actionInicioFragmentToOpenFromSliderFragment(imagen)
-        rootView.findNavController().navigate(action)
+//        val action = InicioFragmentDirections.actionInicioFragmentToOpenFromSliderFragment(imagen)
+//        rootView.findNavController().navigate(action)
     }
     override fun onPause() {
         super.onPause()
