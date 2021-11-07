@@ -17,7 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
-import com.ort.usanote.activities.SearchActivity
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.CategoryAdapter
 import com.ort.usanote.adapters.ProductAdapter
 import com.ort.usanote.entities.*
@@ -57,8 +57,8 @@ class ProductosFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
         db = FirebaseFirestore.getInstance()
-        itemsCarrito = (activity as SearchActivity).itemsCarrito
-        productList = (activity as SearchActivity).productListActivity
+        itemsCarrito = (activity as MainActivity).itemsCarrito
+        productList = (activity as MainActivity).productListActivity
         productList.clear()
         categoryInit()
         recyclerView(rootView,requireContext())
@@ -199,10 +199,10 @@ class ProductosFragment : Fragment() {
             .setTitle("Ordenar")
             .setItems(order) { dialog, i ->
                 when (i) {
-                    0 -> orderByNameASCENDING("name",Query.Direction.ASCENDING)
-                    1 -> orderByNameDECENDING("name",Query.Direction.DESCENDING)
-                    2 -> orderByPriceASCENDING("price",Query.Direction.ASCENDING)
-                    3 -> orderByPriceDECENDING("price",Query.Direction.DESCENDING)
+                    0 -> orderByNameASCENDING("nombre",Query.Direction.ASCENDING)
+                    1 -> orderByNameDECENDING("nombre",Query.Direction.DESCENDING)
+                    2 -> orderByPriceDECENDING("price",Query.Direction.DESCENDING)
+                    3 -> orderByPriceASCENDING("price",Query.Direction.ASCENDING)
                     4 -> orderByFechaDECENDING("created_at",Query.Direction.DESCENDING)
 
                 }
@@ -213,6 +213,7 @@ class ProductosFragment : Fragment() {
     }
     //Funciones para ordenar y filtrar la lista
     private fun orderByNameASCENDING(field: String,query: Query.Direction){
+        productList.clear()
         if(categoryFilterOn){
             orderByProductsWithCategory(field,query)
         }else{
@@ -254,10 +255,9 @@ class ProductosFragment : Fragment() {
         if(categoryFilterOn){
             orderByProductsWithCategory(field,query)
         }else{
-            productList.clear()
             orderByProducts(field,query)
         }
-        }
+    }
 
     private fun filterStock(){
         productList.clear()
@@ -422,7 +422,7 @@ class ProductosFragment : Fragment() {
 
     // Querys a Firestore con categoria
     private fun orderByProductsWithCategory(field:String,query: Query.Direction){
-        db.collection("productos").orderBy(field,query).whereEqualTo("categoria",categoryBy)
+        db.collection("productos").whereEqualTo("categoria",categoryBy).orderBy(field,query)
             .addSnapshotListener(object: EventListener<QuerySnapshot>{
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null){
