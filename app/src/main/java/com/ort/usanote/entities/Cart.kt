@@ -6,7 +6,7 @@ import com.google.firebase.firestore.*
 
 class Cart (
     private var productItemList : MutableList<ProductItem>,
-    var onChange : (Double) -> Unit
+    var onChange : (Double, Int) -> Unit
 ) {
     private lateinit var db : FirebaseFirestore
 
@@ -15,14 +15,18 @@ class Cart (
         return productItemList
     }
 
+    fun notifyChange() {
+        onChange(calculateSubtotal(), productItemList?.size)
+    }
+
     fun modifyProductItemQuantity(pos: Int, quantity: Int) {
         productItemList[pos].quantity = quantity
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun addProductItem(productItem: ProductItem) {
         productItemList.add(productItem)
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun deleteProductItem(pos: Int) {
@@ -37,7 +41,7 @@ class Cart (
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
 
         productItemList.removeAt(pos)
-        onChange(calculateSubtotal())
+        notifyChange()
     }
 
     fun calculateSubtotal() : Double {
