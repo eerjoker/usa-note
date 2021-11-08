@@ -1,13 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.UserFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/userTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="177dp"
+        android:text="Datos Personales"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nombreUserInputLayOutTxt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:hint="Nombre"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userTitle"
+        app:startIconDrawable="@drawable/ic_pencil_action_name">>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nombreUserTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/apellidoUserInputLayOutTxt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:enabled="false"
+        android:hint="Apellido"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        app:startIconDrawable="@drawable/ic_pencil_action_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/apellidoUserTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailUserInputLayOutTxt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:enabled="false"
+        android:hint="Email"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apellidoUserInputLayOutTxt"
+        app:startIconDrawable="@drawable/ic_pencil_action_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailUserTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/telefonoUserInputLayOutTxt"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:enabled="false"
+        android:hint="Telefono"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/agregaDireccionbtn"
+        app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailUserInputLayOutTxt"
+        app:startIconDrawable="@drawable/ic_pencil_action_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/telefonoUserTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/agregaDireccionbtn"
+        android:layout_width="305dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#95AFF1"
+        android:forceHasOverlappingRendering="false"
+        android:gravity="center"
+        android:text="Añadir domicilio"
+        android:textAlignment="center"
+        android:textColor="#070707"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.396"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/agregaDireccionbtn" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarApellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/apellidoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:hoveredFocusedTranslationZ="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/agredarDireccionMas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="220dp"
+        android:clickable="true"
+        android:scrollbarSize="4dp"
+        android:src="@android:drawable/ic_menu_add"
+        android:textAlignment="center"
+        android:verticalScrollbarPosition="defaultPosition"
+        android:visibility="visible"
+        app:backgroundTint="#95AFF1"
+        app:borderWidth="0dp"
+        app:elevation="2dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/agregaDireccionbtn"
+        app:layout_constraintEnd_toEndOf="@+id/agregaDireccionbtn"
+        app:layout_constraintHorizontal_bias="0.351"
+        app:layout_constraintStart_toStartOf="@+id/agregaDireccionbtn"
+        app:layout_constraintTop_toTopOf="@+id/agregaDireccionbtn"
+        app:layout_constraintVertical_bias="0.0"
+        app:pressedTranslationZ="6dp"
+        app:useCompatPadding="false"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

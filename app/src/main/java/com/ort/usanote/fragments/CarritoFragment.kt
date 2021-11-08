@@ -36,7 +36,6 @@ class CarritoFragment : Fragment() {
     private lateinit var cart : Cart
     private lateinit var checkoutButton : Button
     private lateinit var cstrLayoutGoToCheckout : ConstraintLayout
-    private lateinit var productItems : ProductItemRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +51,10 @@ class CarritoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        productItems = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
 
-        if (productItems.getProductItems().size > 0) {
-            cart = Cart(productItems.getProductItems()) { subtotal, size ->
+        val productos = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
+        if (productos.getProductItems().size > 0) {
+            cart = Cart(productos.getProductItems()) { subtotal, size ->
                 setSubtotalValue(subtotal)
                 if (size == 0) {
                     clearCart()

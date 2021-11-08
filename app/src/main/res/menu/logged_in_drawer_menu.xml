@@ -35,7 +35,7 @@
         android:id="@+id/grp_bottom"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/logoActivityLogin"
+            android:id="@+id/loginFragment"
             android:icon="@drawable/exit_run_black_24"
             android:title="Cerrar sesión" />
     </group>

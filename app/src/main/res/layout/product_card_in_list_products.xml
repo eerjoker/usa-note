@@ -41,6 +41,7 @@
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
             android:layout_below="@+id/item_title"
+            android:textSize="20sp"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +51,21 @@
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
             android:layout_below="@+id/item_desc"
+            android:textSize="20sp"
             />
+
+        <TextView
+            android:id="@+id/item_stock"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_desc"
+            android:layout_marginStart="160dp"
+            android:layout_marginLeft="98dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_price"
+            android:text="Stock"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 

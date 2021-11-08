@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardDireccionUser"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/titleDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="250dp"
+            android:text="Domicilio de envio"
+            app:layout_constraintBottom_toTopOf="@+id/direccionUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/direccionUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center|center_horizontal"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleDireccion"
+            tools:layout_editor_absoluteX="168dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="160dp"
+            android:clickable="true"
+            android:hapticFeedbackEnabled="false"
+            app:backgroundTint="#E91E63"
+            app:ensureMinTouchTargetSize="false"
+            app:fabCustomSize="25dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/direccionUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnUpdate"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.333"
+            app:maxImageSize="20dp"
+            app:rippleColor="#E91E63"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="#2EE436"
+            android:clickable="true"
+            android:hapticFeedbackEnabled="false"
+            app:ensureMinTouchTargetSize="false"
+            app:fabCustomSize="25dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/direccionUser"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+            app:layout_constraintStart_toEndOf="@+id/titleDireccion"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/ic_pencil_action_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

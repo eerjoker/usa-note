@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_navgraph"
+    android:id="@+id/main_navgraph"
     app:startDestination="@id/inicioFragment">
 
     <fragment
@@ -11,8 +11,8 @@
         android:label="inicio_fragment"
         tools:layout="@layout/inicio_fragment" >
         <action
-            android:id="@+id/action_inicioFragment_to_openFromSliderFragment"
-            app:destination="@id/openFromSliderFragment" />
+            android:id="@+id/action_inicioFragment_to_productosFragment"
+            app:destination="@id/productosFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactoFragment"
@@ -32,28 +32,22 @@
         <action
             android:id="@+id/action_productosFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment" />
+        <argument
+            android:name="categoria"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.ort.usanote.fragments.UserFragment"
         android:label="user_fragment"
-        tools:layout="@layout/user_fragment" />
-    <activity
-        android:id="@+id/logoActivityLogin"
-        android:name="com.ort.usanote.activities.LogoActivity"
-        android:label="LogoActivity" />
-    <activity
-        android:id="@+id/logoActivityRegistro"
-        android:name="com.ort.usanote.activities.LogoActivity"
-        android:label="LogoActivity" />
-    <fragment
-        android:id="@+id/openFromSliderFragment"
-        android:name="com.ort.usanote.fragments.OpenFromSliderFragment"
-        android:label="open_from_slider_fragment"
-        tools:layout="@layout/open_from_slider_fragment" >
-        <argument
-            android:name="image"
-            app:argType="integer" />
+        tools:layout="@layout/user_fragment" >
+        <action
+            android:id="@+id/action_userFragment_to_direccionFragment"
+            app:destination="@id/direccionFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_updateDireccionFragment"
+            app:destination="@id/updateDireccionFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDescriptionFragment"
@@ -81,6 +75,15 @@
         <argument
             android:name="itemsCarrito"
             app:argType="com.ort.usanote.entities.ProductItemRepository" />
+        <argument
+            android:name="idProducto"
+            app:argType="string" />
+        <argument
+            android:name="categoria"
+            app:argType="string" />
+        <argument
+            android:name="marca"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/carritoFragment"
@@ -146,5 +149,40 @@
         android:id="@+id/purchaseFinishedFragment"
         android:name="com.ort.usanote.fragments.PurchaseFinishedFragment"
         android:label="purchase_finished_fragment"
-        tools:layout="@layout/purchase_finished_fragment" />
+        tools:layout="@layout/purchase_finished_fragment" >
+        <action
+            android:id="@+id/action_purchaseFinishedFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/direccionFragment"
+        android:name="com.ort.usanote.fragments.DireccionFragment"
+        android:label="direccion_fragment"
+        tools:layout="@layout/direccion_fragment" />
+    <fragment
+        android:id="@+id/updateDireccionFragment"
+        android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
+        android:label="update_direccion_fragment"
+        tools:layout="@layout/update_direccion_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ort.usanote.fragments.auth.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registroFragment"
+            app:destination="@id/registroFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registroFragment"
+        android:name="com.ort.usanote.fragments.auth.RegistroFragment"
+        android:label="registro_fragment"
+        tools:layout="@layout/registro_fragment" >
+        <action
+            android:id="@+id/action_registroFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

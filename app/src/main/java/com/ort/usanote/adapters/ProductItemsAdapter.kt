@@ -86,7 +86,7 @@ class ProductItemsAdapter(
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
         val productItemList : MutableList<ProductItem> = cart.getProductItems()
 
-        holder.setTitle(productItemList[position].product.title)
+        holder.setTitle(productItemList[position].product.nombre)
         holder.setImage(context, productItemList[position].product.imageUrl)
         holder.setQuantity(productItemList[position].quantity)
         holder.setSubtotal(productItemList[position].calculateSubtotal())
