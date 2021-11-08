@@ -2,6 +2,7 @@ package com.ort.usanote.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -16,8 +17,14 @@ import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItem
 import android.view.View.OnTouchListener
+import androidx.compose.ui.res.colorResource
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.widget.addTextChangedListener
+import com.google.android.material.snackbar.Snackbar
+import com.google.common.io.Resources
+import com.google.firebase.firestore.FirebaseFirestore
 import com.ort.usanote.entities.Cart
+import com.ort.usanote.entities.Product
 
 
 class ProductItemsAdapter(
@@ -26,6 +33,7 @@ class ProductItemsAdapter(
 ) : RecyclerView.Adapter<ProductItemsAdapter.ProductItemHolder>() {
     private val DRAWABLE_LEFT = 0
     private val DRAWABLE_RIGHT = 2
+    private lateinit var db : FirebaseFirestore
 
     class ProductItemHolder(v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
         private var view : View
@@ -101,13 +109,20 @@ class ProductItemsAdapter(
                 if (event.rawX >= productItemQuantity.getRight() - productItemQuantity.getCompoundDrawables()
                         .get(DRAWABLE_RIGHT).getBounds().width()
                 ) {
-                    // your action here
-                    productItemList[position].quantity += 1
-                    //return@OnTouchListener true
+                    if (productItemList[position].product.stock > 0) {
+                        productItemList[position].quantity += 1
+                        productItemList[position].product.stock -= 1
+                    } else {
+                        val rootLayout = holder.getCardView()
+                        Snackbar.make(rootLayout, "No hay más stock!", Snackbar.LENGTH_SHORT)
+                            .setBackgroundTint(getColor(context, R.color.design_default_color_secondary))
+                            .show()
+                    }
                 } else if(event.rawX <= productItemQuantity.getLeft() + productItemQuantity.getCompoundDrawables()
                         .get(DRAWABLE_LEFT).getBounds().width()) {
                     if (productItemList[position].quantity > 1) {
                         productItemList[position].quantity -= 1
+                        productItemList[position].product.stock += 1
                     }
                 }
                 holder.setQuantity(productItemList[position].quantity)
