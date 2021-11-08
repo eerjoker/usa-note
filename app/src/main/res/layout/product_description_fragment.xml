@@ -24,10 +24,10 @@
             android:layout_height="188dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="50dp"
             android:scaleType="fitCenter"
-            android:layout_centerHorizontal="true"
             android:src="@mipmap/ic_launcher" />
 
         <TextView

@@ -61,6 +61,14 @@ class ProductosFragment : Fragment() {
         productList = (activity as MainActivity).productListActivity
         productList.clear()
         categoryInit()
+        if(ProductosFragmentArgs.fromBundle(requireArguments()).categoria != null){
+            categoryBy = ProductosFragmentArgs.fromBundle(requireArguments()).categoria!!
+            if(categoryBy != "null"){
+                categoryFilterOn = true
+            }
+        }else{
+            categoryFilterOn = false
+        }
         recyclerView(rootView,requireContext())
         swipeRefreshView(rootView,requireContext())
         btnFiltro(rootView)
@@ -70,7 +78,6 @@ class ProductosFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ProductosViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     private fun btnFiltro(rootView: View){
@@ -95,23 +102,42 @@ class ProductosFragment : Fragment() {
     }
 
     private fun  EventChangeListener() {
-
-        db.collection("productos")
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(!categoryFilterOn){
+            db.collection("productos")
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
-            })
+                })
+        }else{
+            db.collection("productos").whereEqualTo("categoria",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+                })
+        }
+
     }
     private fun recyclerViewCategorias(rootView: View,context: Context){
         recyclerViewCategorias = rootView.findViewById<RecyclerView>(R.id.categorias)
@@ -499,7 +525,7 @@ class ProductosFragment : Fragment() {
             })
     }
     private fun filterByStockWithCategory(field: String,value: Int){
-        db.collection("productos").whereGreaterThan(field,value).whereEqualTo("category",categoryBy)
+        db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
             .addSnapshotListener(object: EventListener<QuerySnapshot>{
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null){

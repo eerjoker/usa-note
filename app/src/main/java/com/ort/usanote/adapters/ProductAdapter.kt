@@ -34,7 +34,7 @@ class ProductAdapter(
             var itemPrice: TextView = itemView.findViewById(R.id.item_price)
             var item_stock: TextView = itemView.findViewById(R.id.item_stock)
             fun setImage(context: Context, imageUrl: String) {
-                var imgProductItem : ImageView = view.findViewById(R.id.item_image)
+                var imgProductItem : ImageView = itemView.findViewById(R.id.item_image)
                 Glide
                     .with(context)
                     .load(imageUrl)
@@ -65,7 +65,7 @@ class ProductAdapter(
         holder.item_stock.setTextColor(color)
         holder.itemTItle.text = productList[i].nombre
         holder.itemDetail.text = productList[i].description
-        holder.itemPrice.text = productList[i].price.toString()
+        holder.itemPrice.text = "$" + productList[i].price.toString()
 
         holder.setImage(context,productList[i].imageUrl)
         holder.card.setOnClickListener() {
