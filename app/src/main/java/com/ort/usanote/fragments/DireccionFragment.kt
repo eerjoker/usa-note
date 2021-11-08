@@ -80,7 +80,7 @@ class DireccionFragment : Fragment() {
         codigoPostalDireccion = v.findViewById(R.id.cpTxt)
         codigoPostalDireccionLayout = v.findViewById(R.id.cpInputLayOutTxt)
         btnDireccion = v.findViewById(R.id.btnDireccion)
-        rootLayout = v.findViewById(R.id.frameLayout3)
+        rootLayout = v.findViewById(R.id.frameLayout)
         progressBar = v.findViewById(R.id.progressBar2)
 
         return v

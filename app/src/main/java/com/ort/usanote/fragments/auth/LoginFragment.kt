@@ -110,7 +110,7 @@ class LoginFragment : Fragment() {
         }
 
         irARegistro.setOnClickListener(){
-            val action = LoginFragmentDirections.actionLoginFragmentToRegistroFragment()
+           val action = LoginFragmentDirections.actionLoginFragmentToRegistroFragment()
             v.findNavController().navigate(action)
         }
     }
