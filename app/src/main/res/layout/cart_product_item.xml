@@ -7,13 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
 
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#95AFF1"
         android:paddingVertical="20dp">
 
         <ImageView
