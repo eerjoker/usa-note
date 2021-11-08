@@ -105,6 +105,8 @@
         app:endIconMode="clear_text"
         app:errorIconDrawable= "@null"
         app:errorEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
         app:helperText="Debe ser un celular empezando con 11"
         app:layout_constraintBottom_toTopOf="@+id/emailInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"

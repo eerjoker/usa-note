@@ -223,9 +223,9 @@
                 android:id="@+id/pisoTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="text"
                 android:textSize="16dp"
-                android:maxLength="3">
+                android:maxLength="5">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -254,9 +254,9 @@
                 android:id="@+id/deptoTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="text"
                 android:textSize="14dp"
-                android:maxLength="4">
+                android:maxLength="5">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -313,6 +313,8 @@
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
+        app:counterEnabled="true"
+        app:counterMaxLength="5"
         app:layout_constraintBottom_toTopOf="@id/btnDireccion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
