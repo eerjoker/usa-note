@@ -27,7 +27,9 @@ class ProductItemRepository() : Parcelable {
         productItemList.add(ProductItem(product,cant))
 
     }
-
+    fun size():Int{
+        return productItemList.size
+    }
     fun getProductItems () : MutableList<ProductItem> {
         return productItemList
     }
