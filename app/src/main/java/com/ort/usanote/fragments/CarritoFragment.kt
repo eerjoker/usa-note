@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.ProductItemsAdapter
 import com.ort.usanote.entities.Cart
 import com.ort.usanote.entities.ProductItemRepository
@@ -37,6 +38,7 @@ class CarritoFragment : Fragment() {
     private lateinit var cart : Cart
     private lateinit var checkoutButton : Button
     private lateinit var cstrLayoutGoToCheckout : ConstraintLayout
+    private lateinit var itemsCarrito : ProductItemRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +46,7 @@ class CarritoFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.carrito_fragment, container, false)
         recProductItem = v.findViewById(R.id.recProductItem)
+        itemsCarrito = (activity as MainActivity).itemsCarrito
         txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
         checkoutButton = v.findViewById(R.id.btnCheckout)
         cstrLayoutGoToCheckout = v.findViewById(R.id.constraintLayoutGoToCheckout)
@@ -52,9 +55,8 @@ class CarritoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        val productos = CarritoFragmentArgs.fromBundle(requireArguments()).itemsCarrito
-        if (productos.getProductItems().size > 0) {
+        val productos = itemsCarrito
+        if (productos!!.getProductItems().size > 0) {
             cart = Cart(productos.getProductItems()) { subtotal, size ->
                 setSubtotalValue(subtotal)
                 if (size == 0) {
@@ -74,6 +76,8 @@ class CarritoFragment : Fragment() {
         } else {
             clearCart()
         }
+
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

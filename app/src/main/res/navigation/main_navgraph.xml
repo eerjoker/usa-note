@@ -74,9 +74,6 @@
             android:id="@+id/action_productDescriptionFragment_to_carritoFragment"
             app:destination="@id/carritoFragment" />
         <argument
-            android:name="itemsCarrito"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
-        <argument
             android:name="idProducto"
             app:argType="string" />
         <argument
@@ -91,9 +88,6 @@
         android:name="com.ort.usanote.fragments.CarritoFragment"
         android:label="carrito_fragment"
         tools:layout="@layout/carrito_fragment" >
-        <argument
-            android:name="itemsCarrito"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
         <action
             android:id="@+id/action_carritoFragment_to_shipmentMethodFragment"
             app:destination="@id/shipmentMethodFragment" />
