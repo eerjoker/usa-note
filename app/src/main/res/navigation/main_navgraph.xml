@@ -100,9 +100,6 @@
         <action
             android:id="@+id/action_shipmentMethodFragment_to_checkAddressFragment"
             app:destination="@id/checkAddressFragment" />
-        <argument
-            android:name="productItems"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
     </fragment>
     <fragment
         android:id="@+id/checkAddressFragment"
@@ -112,9 +109,6 @@
         <action
             android:id="@+id/action_checkAddressFragment_to_paymentMethodFragment"
             app:destination="@id/paymentMethodFragment" />
-        <argument
-            android:name="productItems"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
@@ -124,9 +118,6 @@
         <action
             android:id="@+id/action_paymentMethodFragment_to_purchaseConfirmationFragment"
             app:destination="@id/purchaseConfirmationFragment" />
-        <argument
-            android:name="productItems"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
     </fragment>
     <fragment
         android:id="@+id/purchaseConfirmationFragment"
@@ -136,9 +127,6 @@
         <action
             android:id="@+id/action_purchaseConfirmationFragment_to_purchaseFinishedFragment"
             app:destination="@id/purchaseFinishedFragment" />
-        <argument
-            android:name="productItems"
-            app:argType="com.ort.usanote.entities.ProductItemRepository" />
     </fragment>
     <fragment
         android:id="@+id/purchaseFinishedFragment"

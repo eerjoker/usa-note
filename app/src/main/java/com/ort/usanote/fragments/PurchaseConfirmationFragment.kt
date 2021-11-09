@@ -88,7 +88,7 @@ class PurchaseConfirmationFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        productItems = PurchaseConfirmationFragmentArgs.fromBundle(requireArguments()).productItems
+        productItems = itemsCarrito
         recyclerView(v, requireContext())
         btnContinue.setOnClickListener {
             val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()

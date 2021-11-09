@@ -41,10 +41,9 @@ class CheckAddressFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        var productItems = CheckAddressFragmentArgs.fromBundle(requireArguments()).productItems
 
         btnContinue.setOnClickListener {
-            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToPaymentMethodFragment(productItems)
+            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToPaymentMethodFragment()
             v.findNavController().navigate(action)
         }
     }

@@ -70,7 +70,7 @@ class CarritoFragment : Fragment() {
 
             setSubtotalValue(cart.calculateSubtotal())
             checkoutButton.setOnClickListener {
-                val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment(productos)
+                val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment()
                 v.findNavController().navigate(action)
             }
         } else {
