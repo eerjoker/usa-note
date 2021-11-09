@@ -36,7 +36,7 @@ class ProductosFragment : Fragment() {
     private lateinit var itemsCarrito : ProductItemRepository
     private lateinit var myAdapter : ProductAdapter
     private lateinit var db : FirebaseFirestore
-    private lateinit var productList : MutableList<Product>
+    private  var productList : MutableList<Product> = mutableListOf()
     private lateinit var swipeRefreshView : SwipeRefreshLayout
     private lateinit var btnFiltro: Button
     private lateinit var producto: Product
@@ -45,6 +45,7 @@ class ProductosFragment : Fragment() {
     private lateinit var listCategorias: Array<String>
     private var categoryFilterOn = false
     private lateinit var categoryBy :String
+    private lateinit var queryS: String
 
     private fun categoryInit(){
         listCategorias = arrayOf("Periferico","Refrigeracion","Procesador","GPU","RAM","Monitor","Gabinete","Fuente")
@@ -57,18 +58,16 @@ class ProductosFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
         db = FirebaseFirestore.getInstance()
-        itemsCarrito = (activity as MainActivity).itemsCarrito
-        productList = (activity as MainActivity).productListActivity
-        productList.clear()
         categoryInit()
         if(ProductosFragmentArgs.fromBundle(requireArguments()).categoria != null){
             categoryBy = ProductosFragmentArgs.fromBundle(requireArguments()).categoria!!
-            if(categoryBy != "null"){
+            if(categoryBy != "null" && categoryBy != "busqueda"){
                 categoryFilterOn = true
             }
         }else{
             categoryFilterOn = false
         }
+        queryS = ProductosFragmentArgs.fromBundle(requireArguments()).searchQuery.toString().replaceFirstChar { it.uppercase() }
         recyclerView(rootView,requireContext())
         swipeRefreshView(rootView,requireContext())
         btnFiltro(rootView)
@@ -101,26 +100,46 @@ class ProductosFragment : Fragment() {
 
     }
 
+
     private fun  EventChangeListener() {
-        if(!categoryFilterOn){
-            db.collection("productos")
-                .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                        if (error != null){
-                            Log.d("Firebase Error",error.message.toString())
-                        }
-                        for(dc:DocumentChange in value?.documentChanges!!){
-                            if(dc.type == DocumentChange.Type.ADDED){
-                                producto = dc.document.toObject(Product::class.java)
-                                producto.idProducto = dc.document.id
-                                productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            if(!categoryFilterOn){
+                db.collection("productos")
+                    .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                        override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                            if (error != null){
+                                Log.d("Firebase Error",error.message.toString())
                             }
+                            for(dc:DocumentChange in value?.documentChanges!!){
+                                if(dc.type == DocumentChange.Type.ADDED){
+                                    producto = dc.document.toObject(Product::class.java)
+                                    producto.idProducto = dc.document.id
+                                    productList.add(producto)
+                                }
+                            }
+                            myAdapter.notifyDataSetChanged()
                         }
-                        myAdapter.notifyDataSetChanged()
-                    }
-                })
+                    })
+            }else{
+                db.collection("productos").whereEqualTo("categoria",categoryBy)
+                    .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                        override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                            if (error != null){
+                                Log.d("Firebase Error",error.message.toString())
+                            }
+                            for(dc:DocumentChange in value?.documentChanges!!){
+                                if(dc.type == DocumentChange.Type.ADDED){
+                                    producto = dc.document.toObject(Product::class.java)
+                                    producto.idProducto = dc.document.id
+                                    productList.add(producto)
+                                }
+                            }
+                            myAdapter.notifyDataSetChanged()
+                        }
+                    })
+            }
         }else{
-            db.collection("productos").whereEqualTo("categoria",categoryBy)
+            db.collection("productos").whereGreaterThanOrEqualTo("nombre",queryS).whereLessThan("nombre",queryS+'z')
                 .addSnapshotListener(object: EventListener<QuerySnapshot>{
                     override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                         if (error != null){
@@ -157,6 +176,7 @@ class ProductosFragment : Fragment() {
         swipeRefreshView.setOnRefreshListener {
             productList.clear()
             categoryFilterOn = false
+            queryS = "null"
             EventChangeListener()
             swipeRefreshView.isRefreshing = false
         }
@@ -167,13 +187,16 @@ class ProductosFragment : Fragment() {
         myAdapter = ProductAdapter(productList,context){
             onItemClick(it)
         }
+
         recyclerView.adapter = myAdapter
         EventChangeListener()
 
 
     }
+
+
     private fun onItemClick(pos:Int){
-        var idProducto = productList[pos].idProducto
+        val idProducto = productList[pos].idProducto
         var title = productList[pos].nombre
         var description = productList[pos].description
         var price = productList[pos].price
@@ -189,23 +212,44 @@ class ProductosFragment : Fragment() {
         productList.clear()
         categoryFilterOn = true
         categoryBy = listCategorias[pos]
-        db.collection("productos").whereEqualTo("categoria",listCategorias[pos])
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereEqualTo("categoria",listCategorias[pos])
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereEqualTo("categoria",listCategorias[pos]).whereGreaterThanOrEqualTo("nombre",queryS).whereLessThan("nombre",queryS+'z')
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filtrar() {
         val filter = arrayOf("Stock","Rango de precios")
@@ -350,198 +394,433 @@ class ProductosFragment : Fragment() {
 
     //Querys a FireStore sin categoria
     private fun fullfilter(desde: Int,hasta: Int){
-        productList.clear()
-        db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            productList.clear()
+            db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            productList.clear()
+            db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun orderByProducts(field:String,query: Query.Direction){
-        db.collection("productos").orderBy(field,query)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").orderBy(field,query)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").orderBy(field,query)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByProductsWhereGreaterThan(value:Int,field: String){
-        db.collection("productos").whereGreaterThan(field,value)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereGreaterThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereGreaterThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByProductWhereLesserThan(value:Int,field: String){
-        db.collection("productos").whereLessThan(field,value)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereLessThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereLessThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByStock(field: String,value: Int){
-        db.collection("productos").whereGreaterThan(field,value)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereGreaterThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereGreaterThan(field,value)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
 
     // Querys a Firestore con categoria
     private fun orderByProductsWithCategory(field:String,query: Query.Direction){
-        db.collection("productos").whereEqualTo("categoria",categoryBy).orderBy(field,query)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereEqualTo("categoria",categoryBy).orderBy(field,query)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereEqualTo("categoria",categoryBy).orderBy(field,query)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByProductsWhereGreaterThanWithCategory(value:Int,field: String){
-        db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByProductWhereLesserThanWithCategory(value:Int,field: String){
-        db.collection("productos").whereLessThan(field,value).whereEqualTo("category",categoryBy)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereLessThan(field,value).whereEqualTo("category",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos").whereLessThan(field,value).whereEqualTo("category",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun fullfilterWithCategory(desde: Int,hasta: Int){
-        productList.clear()
-        db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta).whereEqualTo("category",categoryBy)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            productList.clear()
+            db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta).whereEqualTo("category",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            productList.clear()
+            db.collection("productos").whereGreaterThan("price",desde).whereLessThan("price",hasta).whereEqualTo("category",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
     private fun filterByStockWithCategory(field: String,value: Int){
-        db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
-            .addSnapshotListener(object: EventListener<QuerySnapshot>{
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.d("Firebase Error",error.message.toString())
-                    }
-                    for(dc:DocumentChange in value?.documentChanges!!){
-                        if(dc.type == DocumentChange.Type.ADDED){
-                            producto = dc.document.toObject(Product::class.java)
-                            producto.idProducto = dc.document.id
-                            productList.add(producto)
+        if(queryS == "null" || queryS == "Null"){
+            db.collection("productos").whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
                         }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                productList.add(producto)
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
                     }
-                    myAdapter.notifyDataSetChanged()
-                }
 
-            })
+                })
+        }else{
+            db.collection("productos")
+                .whereGreaterThan(field,value).whereEqualTo("categoria",categoryBy)
+                .addSnapshotListener(object: EventListener<QuerySnapshot>{
+                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                        if (error != null){
+                            Log.d("Firebase Error",error.message.toString())
+                        }
+                        for(dc:DocumentChange in value?.documentChanges!!){
+                            if(dc.type == DocumentChange.Type.ADDED){
+                                producto = dc.document.toObject(Product::class.java)
+                                producto.idProducto = dc.document.id
+                                if(queryS in producto.nombre){
+                                    productList.add(producto)
+                                }
+
+                            }
+                        }
+                        myAdapter.notifyDataSetChanged()
+                    }
+
+                })
+        }
+
     }
 }
 
