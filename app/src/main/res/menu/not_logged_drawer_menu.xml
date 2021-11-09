@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group
         android:id="@+id/grp_top"
@@ -25,6 +26,10 @@
             android:id="@+id/contactoFragment"
             android:icon="@drawable/baseline_perm_contact_calendar_black_18dp"
             android:title="Contacto" />
+        <item
+            android:id="@+id/carritoFragment"
+            android:title="Carrito"
+            android:icon="@drawable/carrito"/>
     </group>
 
     <group
