@@ -30,7 +30,6 @@ class ProductDescriptionFragment : Fragment() {
     private lateinit var spinner: Spinner
     private lateinit var btnToCart:Button
     private lateinit var btnAddCart: Button
-    private lateinit var itemsCarrito : ProductItemRepository
     private lateinit var db : FirebaseFirestore
     private var cant_imported:Int  = 0
     private lateinit var idProducto: String
@@ -57,31 +56,23 @@ class ProductDescriptionFragment : Fragment() {
     private fun btnAddCart(v:View){
         btnAddCart = v.findViewById(R.id.add_cart)
         btnAddCart.setOnClickListener{
-            itemsCarrito = addToCart(v)
+            addToCart(v)
         }
     }
     private fun btnToCartInit(v:View){
         btnToCart = v.findViewById(R.id.comprar)
         btnToCart.setOnClickListener{
-            itemsCarrito = (activity as MainActivity).itemsCarrito
-            val action = ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment(itemsCarrito)
+            val action = ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment()
             v.findNavController().navigate(action)
         }
     }
 
-    fun addToCart(v:View):ProductItemRepository{
+    fun addToCart(v:View){
         val spinner = v.findViewById<Spinner>(R.id.spinner_cantidad)
-        idProducto = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).idProducto
-        val title = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).title
-        val desc = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
-        val price = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
-        val image = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).image
-        val stock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
-        val categoria = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).categoria
-        val marca = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).marca
-        var ret = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).itemsCarrito
-        ret.addProductItem(Product(idProducto,title,desc,price,stock,categoria,marca,image), spinner.selectedItem as Int)
+        val producto = crearProducto()
+        (activity as MainActivity).itemsCarrito.addProductItem(producto, spinner.selectedItem as Int)
         //***Actualizar al nuevo stock
+
         var nuevoStock = cant_imported - spinner.selectedItem as Int
         if(nuevoStock == 0){
             bloquearBtnYSpiner()
@@ -93,20 +84,33 @@ class ProductDescriptionFragment : Fragment() {
         current_stock.value = cant_imported
 
         if (cant_imported !=0){
-            val array = arrayOfNulls<Number>(cant_imported)
-            for (i in array.indices){
-                array[i] = i +1
-            }
-            val adaptador = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,array)
-            spinner.adapter = adaptador
+//            val array = arrayOfNulls<Number>(cant_imported)
+//            for (i in array.indices){
+//                array[i] = i +1
+//            }
+//            val adaptador = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,array)
+//            spinner.adapter = adaptador
 
         }else{
             bloquearBtnYSpiner()
             sinStock = true
         }
-        //
 
-        return ret
+    }
+    private fun actualizarStock(){
+
+    }
+    private fun crearProducto(): Product {
+
+        idProducto = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).idProducto
+        val title = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).title
+        val desc = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
+        val price = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
+        val image = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).image
+        val stock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
+        val categoria = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).categoria
+        val marca = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).marca
+        return Product(idProducto,title,desc,price,stock,categoria,marca,image)
     }
 
     override fun onStart() {
