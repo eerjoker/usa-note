@@ -2,6 +2,7 @@ package com.ort.usanote.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.android.gms.common.internal.FallbackServiceBroker
 
 @Parcelize
 class ProductItemRepository() : Parcelable {
@@ -21,7 +22,21 @@ class ProductItemRepository() : Parcelable {
     }
 
     fun addProductItem(product:Product,cant:Int){
-        productItemList.add(ProductItem(product,cant))
+        var i = productItemList.size - 1
+        var found = false
+
+        while(!found && i >= 0) {
+            var currentProductItem = productItemList[i]
+            found = currentProductItem.product.idProducto == product.idProducto
+            if (found) {
+                currentProductItem.quantity += cant
+                currentProductItem.product.stock -= cant
+            }
+            i--
+        }
+        if (!found) {
+            productItemList.add(ProductItem(product,cant))
+        }
     }
 
     fun size():Int{
