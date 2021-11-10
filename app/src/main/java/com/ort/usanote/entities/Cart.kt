@@ -17,11 +17,6 @@ class Cart (
         onChange(calculateSubtotal(), productItemList?.size)
     }
 
-    fun modifyProductItemQuantity(pos: Int, quantity: Int) {
-        productItemList[pos].quantity = quantity
-        notifyChange()
-    }
-
     fun addProductItem(productItem: ProductItem) {
         productItemList.add(productItem)
         notifyChange()
@@ -35,6 +30,13 @@ class Cart (
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
         productItemList.removeAt(pos)
+        notifyChange()
+    }
+
+    fun incrementProductQuantity(pos: Int, quantity: Int) {
+        db = FirebaseFirestore.getInstance()
+        val productoActualizar = db.collection("productos").document(productItemList[pos].product.idProducto)
+        productoActualizar.update("stock", FieldValue.increment(-quantity.toDouble()))
         notifyChange()
     }
 
