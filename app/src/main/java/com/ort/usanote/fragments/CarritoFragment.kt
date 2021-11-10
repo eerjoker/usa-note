@@ -6,18 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
-import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.ViewCompat
-import androidx.core.view.setPadding
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.ProductItemsAdapter
@@ -31,6 +31,7 @@ class CarritoFragment : Fragment() {
         fun newInstance() = CarritoFragment()
     }
 
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var viewModel: CarritoViewModel
     private lateinit var v : View
     private lateinit var recProductItem : RecyclerView
@@ -55,9 +56,8 @@ class CarritoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val productos = itemsCarrito
-        if (productos!!.getProductItems().size > 0) {
-            cart = Cart(productos.getProductItems()) { subtotal, size ->
+        if (itemsCarrito!!.getProductItems().size > 0) {
+            cart = Cart(itemsCarrito.getProductItems()) { subtotal, size ->
                 setSubtotalValue(subtotal)
                 if (size == 0) {
                     clearCart()
@@ -70,14 +70,18 @@ class CarritoFragment : Fragment() {
 
             setSubtotalValue(cart.calculateSubtotal())
             checkoutButton.setOnClickListener {
-                val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment()
-                v.findNavController().navigate(action)
+                if (auth.currentUser != null) {
+                    val action = CarritoFragmentDirections.actionCarritoFragmentToShipmentMethodFragment()
+                    v.findNavController().navigate(action)
+                } else {
+                    Snackbar.make(v, R.string.not_logged_in, Snackbar.LENGTH_SHORT)
+                        .setBackgroundTint(getColor(requireContext(), R.color.alert_danger))
+                        .show()
+                }
             }
         } else {
             clearCart()
         }
-
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -93,14 +97,15 @@ class CarritoFragment : Fragment() {
     fun clearCart() {
         recProductItem.removeAllViews()
         cstrLayoutGoToCheckout.removeAllViews()
+
         val simpleTextColor = ContextCompat.getColor(requireContext(), R.color.design_default_color_on_secondary)
         val txtEmptyCart = TextView(requireContext())
+        val constraintSet = ConstraintSet()
         txtEmptyCart.id = ViewCompat.generateViewId()
         txtEmptyCart.setPadding(50, 50, 50, 50)
         txtEmptyCart.setTextColor(simpleTextColor)
         txtEmptyCart.text = getString(R.string.empty_cart)
 
-        val constraintSet = ConstraintSet()
         constraintSet.clone(cstrLayoutGoToCheckout)
         constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.LEFT, txtEmptyCart.id, ConstraintSet.LEFT, 0)
         constraintSet.connect(R.id.constraintLayoutGoToCheckout, ConstraintSet.RIGHT, txtEmptyCart.id, ConstraintSet.RIGHT, 0)
