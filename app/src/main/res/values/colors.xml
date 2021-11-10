@@ -11,5 +11,5 @@
     <color name="verde_stock">#42BF65</color>
     <color name="rojo_stock">#E5160C</color>
     <color name="naranja_stock">#F58A00</color>
-
+    <color name="alert_danger">#EA4F4F</color>
 </resources>

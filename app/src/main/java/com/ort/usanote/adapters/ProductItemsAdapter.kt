@@ -2,7 +2,6 @@ package com.ort.usanote.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,14 +16,11 @@ import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItem
 import android.view.View.OnTouchListener
-import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
-import com.google.common.io.Resources
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ort.usanote.entities.Cart
-import com.ort.usanote.entities.Product
 
 
 class ProductItemsAdapter(
@@ -114,8 +110,8 @@ class ProductItemsAdapter(
                         productItemList[position].product.stock -= 1
                     } else {
                         val rootLayout = holder.getCardView()
-                        Snackbar.make(rootLayout, "No hay más stock!", Snackbar.LENGTH_SHORT)
-                            .setBackgroundTint(getColor(context, R.color.design_default_color_secondary))
+                        Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
+                            .setBackgroundTint(getColor(context, R.color.alert_danger))
                             .show()
                     }
                 } else if(event.rawX <= productItemQuantity.getLeft() + productItemQuantity.getCompoundDrawables()

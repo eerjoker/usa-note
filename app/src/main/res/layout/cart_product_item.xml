@@ -75,7 +75,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/roundcorner30dp"
-            android:backgroundTint="#C4C4C4"
+            android:backgroundTint="#00C4C4C4"
             android:drawableLeft="@android:drawable/arrow_down_float"
             android:drawableRight="@android:drawable/arrow_up_float"
             android:ems="10"
