@@ -2,6 +2,7 @@ package com.ort.usanote.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,16 +21,18 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.ort.usanote.entities.Cart
+import com.ort.usanote.entities.Product
 
 
 class ProductItemsAdapter(
     private var cart : Cart,
-    private var context : Context
+    private var context : Context,
 ) : RecyclerView.Adapter<ProductItemsAdapter.ProductItemHolder>() {
     private val DRAWABLE_LEFT = 0
     private val DRAWABLE_RIGHT = 2
-    private lateinit var db : FirebaseFirestore
+    private var db : FirebaseFirestore = FirebaseFirestore.getInstance()
 
     class ProductItemHolder(v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
         private var view : View
@@ -102,28 +105,30 @@ class ProductItemsAdapter(
         }
         productItemQuantity.setOnTouchListener(OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= productItemQuantity.getRight() - productItemQuantity.getCompoundDrawables()
-                        .get(DRAWABLE_RIGHT).getBounds().width()
-                ) {
-                    if (productItemList[position].product.stock > 0) {
-                        productItemList[position].quantity += 1
-                        productItemList[position].product.stock -= 1
-                    } else {
-                        val rootLayout = holder.getCardView()
-                        Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
-                            .setBackgroundTint(getColor(context, R.color.alert_danger))
-                            .show()
-                    }
-                } else if(event.rawX <= productItemQuantity.getLeft() + productItemQuantity.getCompoundDrawables()
-                        .get(DRAWABLE_LEFT).getBounds().width()) {
+                if (isRightDrawable(productItemQuantity, event.rawX)) {
+                    val productoRef = db.collection("productos").document(productItemList[position].product.idProducto)
+                    productoRef.get()
+                        .addOnSuccessListener { documentSnapshot ->
+                            val product = documentSnapshot.toObject<Product>()
+                            if (product != null && product.stock > 0) {
+                                cart.incrementProductQuantity(position, 1)
+                                updateValues(holder, productItemList[position], 1)
+                            } else {
+                                val rootLayout = holder.getCardView()
+                                Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
+                                    .setBackgroundTint(getColor(context, R.color.alert_danger))
+                                    .show()
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d("Error", "get failed with ", exception)
+                        }
+                } else if(isLeftDrawable(productItemQuantity, event.rawX)) {
                     if (productItemList[position].quantity > 1) {
-                        productItemList[position].quantity -= 1
-                        productItemList[position].product.stock += 1
+                        cart.incrementProductQuantity(position, -1)
+                        updateValues(holder, productItemList[position], -1)
                     }
                 }
-                holder.setQuantity(productItemList[position].quantity)
-                holder.setSubtotal(productItemList[position].calculateSubtotal())
-                cart.modifyProductItemQuantity(position, productItemList[position].quantity)
                 return@OnTouchListener true
             }
             false
@@ -131,12 +136,26 @@ class ProductItemsAdapter(
 
         holder.getDeleteButton().setOnClickListener {
             holder.deleteProductItem()
-            //notifyItemRemoved(position)
             cart.deleteProductItem(position)
         }
     }
 
     override fun getItemCount(): Int {
         return cart.getProductItems().size
+    }
+
+    fun updateValues(holder: ProductItemHolder, productItem : ProductItem, quantity: Int) {
+        productItem.quantity += quantity
+        productItem.product.stock -= quantity
+        holder.setQuantity(productItem.quantity)
+        holder.setSubtotal(productItem.calculateSubtotal())
+    }
+
+    fun isLeftDrawable(element : TextView, x : Float) : Boolean {
+        return x <= element.getLeft() + element.getCompoundDrawables().get(DRAWABLE_LEFT).getBounds().width()
+    }
+
+    fun isRightDrawable(element : TextView, x : Float) : Boolean {
+        return x >= element.getRight() - element.getCompoundDrawables().get(DRAWABLE_RIGHT).getBounds().width()
     }
 }
