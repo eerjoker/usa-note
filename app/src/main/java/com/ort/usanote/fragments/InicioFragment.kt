@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -48,6 +46,7 @@ class InicioFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.inicio_fragment, container, false)
+        //setHasOptionsMenu(true)
         sliderItems(rootView)
         itemSliderView()
         itemsCategory()
@@ -55,6 +54,16 @@ class InicioFragment : Fragment() {
         logOut = rootView.findViewById(R.id.logout)
         return rootView
     }
+
+    /*override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }*/
+
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.not_logged_drawer_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }*/
 
     private fun itemsCategory() {
         categoryList.clear()

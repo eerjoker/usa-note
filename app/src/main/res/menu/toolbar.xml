@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_login_logout"
+        android:icon="@drawable/baseline_login_white_18dp"
+        android:title="Login"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search_offline"
+        android:title="Search"
+        android:icon="@drawable/baseline_search_white_18dp"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
+
+    <item
+        android:id="@+id/action_carrito"
+        android:icon="@drawable/baseline_shopping_cart_white_18dp"
+        android:title="Carrito"
+        app:showAsAction="ifRoom" />
+</menu>
