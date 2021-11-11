@@ -19,7 +19,6 @@ class UpdateDireccionViewModel : ViewModel() {
 
     fun actualizarDireccion(id: String, alias: String, nombre: String, calle: String, localidad: String, nro: String, piso: String, depto: String, provincia: String, codigoPostal: String){
 
-
         val dbDireccion: Direccion = Direccion(user!!.uid, depto, piso, nro, alias, localidad, codigoPostal, provincia, nombre, calle)
 
         db.collection("direcciones").document(id).set(dbDireccion)
@@ -31,8 +30,6 @@ class UpdateDireccionViewModel : ViewModel() {
                     actualizacionExitosa.value = false
                     Log.d("Auth", "No se ha podido actualizar en la BD de direcciones")
                 }
-
-
             }
     }
 

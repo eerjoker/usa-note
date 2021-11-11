@@ -122,12 +122,12 @@ class UserFragment : Fragment() {
         viewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
                 if(it.size > 0){
-
                     direcciones = it as ArrayList<Direccion>
                     direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
                         onItemClick(item)
                     }
                     recDireccion.adapter = direccionUserAdapter
+                    direccionUserAdapter.notifyDataSetChanged()
                 }
             }
         })
