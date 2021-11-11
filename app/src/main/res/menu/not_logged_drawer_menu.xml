@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_search_offline"
         android:title="Search"
@@ -37,6 +38,10 @@
             android:id="@+id/carritoFragment"
             android:title="Carrito"
             android:icon="@drawable/carrito"/>
+        <item
+            android:id="@+id/estadisticasFragment"
+            android:title="Estadisticas"
+            android:icon="@android:drawable/ic_media_ff"/>
     </group>
 
     <group
