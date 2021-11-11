@@ -1,14 +1,12 @@
 package com.ort.usanote.fragments.auth
 
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
@@ -99,8 +97,8 @@ class RegistroFragment : Fragment() {
             var email: String = email2TextInputEdit.text.toString()
             var password: String = password2TextInputEdit.text.toString()
 
-            var nombreValido = viewModelRegistro.validateGenerales(nombre)
-            var apellidoValido = viewModelRegistro.validateGenerales(apellido)
+            var nombreValido = viewModelRegistro.validateNombreApellido(nombre)
+            var apellidoValido = viewModelRegistro.validateNombreApellido(apellido)
             var telefonoValido = viewModelRegistro.validatePhone(telefono)
             var emailValido = viewModelRegistro.validateEmail(email)
             var passwordValida = viewModelRegistro.validatePassword(password)
@@ -121,7 +119,7 @@ class RegistroFragment : Fragment() {
     }
 
     fun asignarErrores (nombre: Boolean, apellido: Boolean, telefono: Boolean,email: Boolean, password: Boolean){
-        if (!nombre) nombre2TxtLayout.error = viewModelRegistro.msgErrorGeneral
+        if (!nombre) nombre2TxtLayout.error = viewModelRegistro.msgErrorNombreApellido
         if (!apellido) apellido2TxtLayout.error = viewModelRegistro.msgErrorGeneral
         if (!telefono) telefono2TxtLayout.error = viewModelRegistro.msgErrorPhone
         if (!email) email2TxtLayout.error = viewModelRegistro.msgErrorEmail

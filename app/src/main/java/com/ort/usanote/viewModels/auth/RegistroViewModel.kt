@@ -18,6 +18,7 @@ class RegistroViewModel : ViewModel() {
     lateinit var msgErrorPassword: String
     lateinit var msgErrorGeneral: String
     lateinit var msgErrorPhone: String
+    lateinit var msgErrorNombreApellido: String
 
     fun registrar (nombre: String, apellido: String, telefono: String, email: String, password: String){
 
@@ -56,6 +57,20 @@ class RegistroViewModel : ViewModel() {
             emailValido = true
         }
         return emailValido
+    }
+
+    fun validateNombreApellido(nombre: String): Boolean{
+        var nombreValido: Boolean = false
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{1,40})" + "$")
+
+        if (nombre.isEmpty()){
+            msgErrorNombreApellido = "debe completar este campo"
+        }else if (!passwordRegex.matcher(nombre).matches()){
+            msgErrorNombreApellido = "Solo se permiten letras"
+        }else{
+            nombreValido = true
+        }
+        return nombreValido
     }
 
     fun validatePhone (phone: String): Boolean{

@@ -163,7 +163,7 @@ class UpdateDireccionFragment : Fragment() {
             var codigoPostal: String = codigoPostalDireccion.text.toString()
 
             var aliasValido: Boolean = viewModelDireccion.validateGenerales(alias)
-            var nombreValido: Boolean = viewModelDireccion.validateGenerales(nombre)
+            var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)
             var calleValido: Boolean = viewModelDireccion.validateGenerales(calle)
             var localidadValido: Boolean = viewModelDireccion.validateGenerales(localidad)
             var nroValido: Boolean = viewModelDireccion.validateGenerales(nro)

@@ -56,4 +56,8 @@ class UserViewModel : ViewModel() {
         db.collection("usuarios").document(auth.currentUser!!.uid).update(field, value).addOnSuccessListener {
         }
     }
+
+    fun updateEmail(newEmail: String){
+        auth.currentUser?.updateEmail(newEmail)
+    }
 }

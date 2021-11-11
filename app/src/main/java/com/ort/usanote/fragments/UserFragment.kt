@@ -59,8 +59,6 @@ class UserFragment : Fragment() {
         fun newInstance() = UserFragment()
     }
 
-    private lateinit var viewModel: UserViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,8 +92,7 @@ class UserFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
     override fun onStart() {
@@ -110,7 +107,7 @@ class UserFragment : Fragment() {
         viewModelUser.getUser()
         viewModelUser.getDirecciones()
 
-        viewModel.userDb.observe(viewLifecycleOwner, Observer {
+        viewModelUser.userDb.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 nombreText.setText("${it.nombre}")
                 apellidoText.setText("${it.apellido}")
@@ -119,7 +116,7 @@ class UserFragment : Fragment() {
             }
         })
 
-        viewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
+        viewModelUser.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
                 if(it.size > 0){
                     direcciones = it as ArrayList<Direccion>
@@ -132,7 +129,7 @@ class UserFragment : Fragment() {
             }
         })
 
-        viewModel.idDireccionesUser.observe(viewLifecycleOwner, Observer {
+        viewModelUser.idDireccionesUser.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 idsDirecciones = it
             }
@@ -144,7 +141,7 @@ class UserFragment : Fragment() {
 
             nombreText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("nombre", nombreText.text.toString())
+                    viewModelUser.updateUser("nombre", nombreText.text.toString())
                     nombreLayout.isEnabled = false
                 }
             }
@@ -155,7 +152,7 @@ class UserFragment : Fragment() {
 
             apellidoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("apellido", apellidoText.text.toString())
+                    viewModelUser.updateUser("apellido", apellidoText.text.toString())
                     apellidoLayout.isEnabled = false
                 }
             }
@@ -163,10 +160,10 @@ class UserFragment : Fragment() {
 
         btnEmail.setOnClickListener() {
             emailLayout.isEnabled = true
-
             emailText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateEmail(emailText.text.toString())
                     emailLayout.isEnabled = false
                 }
             }
@@ -177,7 +174,7 @@ class UserFragment : Fragment() {
 
             telefonoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("telefono", telefonoText.text.toString())
+                    viewModelUser.updateUser("telefono", telefonoText.text.toString())
                     telefonoLayout.isEnabled = false
                 }
             }
