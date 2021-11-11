@@ -151,7 +151,14 @@
         android:id="@+id/updateDireccionFragment"
         android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
         android:label="update_direccion_fragment"
-        tools:layout="@layout/update_direccion_fragment" />
+        tools:layout="@layout/update_direccion_fragment" >
+        <argument
+            android:name="direccion"
+            app:argType="com.ort.usanote.entities.Direccion" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ort.usanote.fragments.auth.LoginFragment"

@@ -12,36 +12,41 @@ import com.ort.usanote.entities.Direccion
 class UpdateDireccionViewModel : ViewModel() {
     val db = Firebase.firestore
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    var direccionExitosa = MutableLiveData<Boolean>()
+    val user = auth.currentUser
+    var actualizacionExitosa = MutableLiveData<Boolean>()
+    var eliminacionExitosa = MutableLiveData<Boolean>()
     lateinit var msgErrorGeneral: String
 
-    fun actualizarDireccion(alias: String, nombre: String, calle: String, localidad: String, nro: String, piso: String, depto: String, provincia: String, codigoPostal: String){
+    fun actualizarDireccion(id: String, alias: String, nombre: String, calle: String, localidad: String, nro: String, piso: String, depto: String, provincia: String, codigoPostal: String){
 
-        val user = auth.currentUser
+
         val dbDireccion: Direccion = Direccion(user!!.uid, depto, piso, nro, alias, localidad, codigoPostal, provincia, nombre, calle)
 
-        db.collection("direcciones").add(dbDireccion)
+        db.collection("direcciones").document(id).set(dbDireccion)
             .addOnCompleteListener(){
                 if (it.isSuccessful){
-                    db.collection("usuarios").document(user.uid).update("direcciones", FieldValue.arrayUnion(
-                        it.getResult()?.id)).addOnCompleteListener(){
-                        if (it.isSuccessful){
-                            direccionExitosa.value = true
-                            Log.d("Auth", "Se pudo guardar en la BD de direcciones")
-                        }else{
-                            direccionExitosa.value = false
-                            Log.d("Auth", "No se ha podido guardar en la BD de direcciones")
-                        }
-
-                    }
-                    Log.d("Auth", "Se pudo registrar en el usuario")
+                    actualizacionExitosa.value = true
+                    Log.d("Auth", "Se pudo actualizar en la BD de direcciones")
                 }else{
-                    direccionExitosa.value = false
-                    Log.d("Auth", "No se ha podido guardar en usuarios")
+                    actualizacionExitosa.value = false
+                    Log.d("Auth", "No se ha podido actualizar en la BD de direcciones")
                 }
+
+
             }
+    }
 
+    fun eliminarDireccion(id: String){
 
+        db.collection("direcciones").document(id).delete().addOnCompleteListener(){
+            if (it.isSuccessful){
+                eliminacionExitosa.value = true
+                Log.d("Auth", "Se se ha podido eliminar en la BD de direcciones")
+            }else{
+                eliminacionExitosa.value = false
+                Log.d("Auth", "No se ha podido eliminar en la BD de direcciones")
+            }
+        }
     }
 
     fun validateGenerales(texto: String): Boolean {

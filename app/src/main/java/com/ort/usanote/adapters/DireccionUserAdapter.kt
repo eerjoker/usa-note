@@ -16,18 +16,15 @@ import com.ort.usanote.viewModels.UpdateDireccionViewModel
 
 class DireccionUserAdapter(
     var direccionList: ArrayList<Direccion>,
-    var context: Context, var onClick: (Int) -> Unit,
-    var updateDireccionViewModel: UpdateDireccionViewModel
+    var context: Context, var onClick: (Int) -> Unit
 ) :
     RecyclerView.Adapter<DireccionUserAdapter.DireccionHolder>() {
 
-    class DireccionHolder (v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
+    class DireccionHolder (v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
-        private var parent : ViewGroup
 
         init {
             this.view = v
-            this.parent = parentView
         }
 
         fun setDireccion(calle: String, altura: String, piso: String, depto: String) {
@@ -37,27 +34,16 @@ class DireccionUserAdapter(
             direccionUser.text = textoDireccion
         }
 
-        fun getUpdateBtn(): FloatingActionButton {
-            return view.findViewById(R.id.btnUpdate)
-        }
-
-        fun getDeleteBtn(): FloatingActionButton {
-            return view.findViewById(R.id.btnDelete)
-        }
-
         fun getCardView(): CardView {
             return view.findViewById(R.id.cardDireccionUser)
         }
 
-        fun deleteDireccion() {
-            parent.removeView(getCardView())
-        }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DireccionHolder {
         val view =  LayoutInflater.from(parent.context).inflate(R.layout.direccion_user_item,parent,false)
-        return  (DireccionHolder(view, parent))
+        return (DireccionHolder(view))
     }
 
     override fun onBindViewHolder(holder: DireccionHolder, position: Int) {
@@ -66,13 +52,8 @@ class DireccionUserAdapter(
 
         holder.setDireccion(direccionAux.calle, direccionAux.numero, direccionAux.piso, direccionAux.departamento)
 
-        holder.getUpdateBtn().setOnClickListener(){
+        holder.getCardView().setOnClickListener(){
             onClick(position)
-        }
-
-        holder.getDeleteBtn().setOnClickListener(){
-            updateDireccionViewModel.actualizarDireccion(direccionAux.alias, direccionAux.nombreCompleto, direccionAux.calle, direccionAux.localidad,
-                direccionAux.numero, direccionAux.piso, direccionAux.departamento, direccionAux.provincia, direccionAux.codigoPostal)
         }
 
     }
