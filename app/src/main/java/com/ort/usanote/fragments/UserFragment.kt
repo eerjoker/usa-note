@@ -51,9 +51,9 @@ class UserFragment : Fragment() {
     lateinit var recDireccion: RecyclerView
     lateinit var direccionUserAdapter: DireccionUserAdapter
     lateinit var direcciones: ArrayList<Direccion>
+    lateinit var idsDirecciones: MutableList<String>
 
     private val viewModelUser: UserViewModel by viewModels()
-    private val viewModelUpdateDireccion: UpdateDireccionViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = UserFragment()
@@ -102,12 +102,10 @@ class UserFragment : Fragment() {
         super.onStart()
 
         direcciones = ArrayList()
+        idsDirecciones = mutableListOf()
+
         recDireccion.layoutManager = LinearLayoutManager(requireContext())
         recDireccion.setHasFixedSize(true)
-        direccionUserAdapter = DireccionUserAdapter(direcciones, requireContext(), { item ->
-            onItemClick(item, direcciones)
-        }, viewModelUpdateDireccion)
-        recDireccion.adapter = direccionUserAdapter
 
         viewModelUser.getUser()
         viewModelUser.getDirecciones()
@@ -124,13 +122,19 @@ class UserFragment : Fragment() {
         viewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
                 if(it.size > 0){
-                    recDireccion.layoutManager = LinearLayoutManager(requireContext())
-                    recDireccion.setHasFixedSize(true)
-                    direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext(), { item ->
-                        onItemClick(item, it)
-                    }, viewModelUpdateDireccion)
+                    direcciones = it as ArrayList<Direccion>
+                    direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
+                        onItemClick(item)
+                    }
                     recDireccion.adapter = direccionUserAdapter
+                    direccionUserAdapter.notifyDataSetChanged()
                 }
+            }
+        })
+
+        viewModel.idDireccionesUser.observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                idsDirecciones = it
             }
         })
 
@@ -191,21 +195,15 @@ class UserFragment : Fragment() {
 
     }
 
-    fun onItemClick (pos: Int, direccionesP: ArrayList<Direccion>){
-        var aux = direccionesP
-        var nombreCompleto = aux[pos].nombreCompleto
-        var alias = aux[pos].alias
-        var calle = aux[pos].calle
-        var codigoPostal = aux[pos].codigoPostal
-        var departamento = aux[pos].departamento
-        var localidad = aux[pos].localidad
-        var numero = aux[pos].numero
-        var piso = aux[pos].piso
-        var provincia = aux[pos].provincia
+    // agregar id("kotlin-parcelize") al gradle
+    // ajustar a 2.4.0-alpha10 el navigation
+    fun onItemClick (pos: Int){
 
-        // val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(nombreCompleto, alias, calle, codigoPostal, departamento, localidad, numero, piso, provincia)
-        //  v.findNavController().navigate(action)
+        var direccionAux = direcciones[pos]
+        var idsDirecciones = idsDirecciones[pos]
 
+        val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(direccionAux, idsDirecciones)
+        v.findNavController().navigate(action)
 
     }
 }

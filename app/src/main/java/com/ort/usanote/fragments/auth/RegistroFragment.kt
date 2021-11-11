@@ -81,10 +81,7 @@ class RegistroFragment : Fragment() {
                 Snackbar.make(rootLayout, "Registro Exitoso", Snackbar.LENGTH_LONG)
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                         Color.parseColor("#4CAF50")).show()
-                //Preguntar si sumamos action o no
-                //val action = RegistroFragmentDirections.actionRegistroFragment2ToLoginFragment2()
-                //v.findNavController().navigate(action)
-                //v.findNavController().backQueue
+
                 v.findNavController().popBackStack()
             }else{
                 progressBar.setVisibility(View.GONE)

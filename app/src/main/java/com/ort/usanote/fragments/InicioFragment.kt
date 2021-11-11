@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.auth.FirebaseAuth
 import com.ort.usanote.R
 import com.ort.usanote.adapters.CategoryInicioAdapter
 import com.ort.usanote.adapters.ProductAdapter
@@ -39,6 +41,8 @@ class InicioFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var categoryList: MutableList<CategoriaInicio> = mutableListOf()
 
+    lateinit var logOut: Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +52,7 @@ class InicioFragment : Fragment() {
         itemSliderView()
         itemsCategory()
         recyclerView(rootView,requireContext())
+        logOut = rootView.findViewById(R.id.logout)
         return rootView
     }
 
@@ -141,4 +146,13 @@ class InicioFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+
+    override fun onStart() {
+        super.onStart()
+
+        val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        logOut.setOnClickListener(){
+            auth.signOut()
+        }
+    }
 }
