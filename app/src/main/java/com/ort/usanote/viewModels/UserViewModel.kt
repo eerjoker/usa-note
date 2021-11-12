@@ -15,21 +15,28 @@ import com.ort.usanote.entities.Usuario
 class UserViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    var direccionesUser = MutableLiveData<List<Direccion>??>()
+    var direccionesUser = MutableLiveData<MutableList<Direccion>??>()
+    var idDireccionesUser = MutableLiveData<MutableList<String>>()
     var userDb = MutableLiveData<Usuario?>()
 
     fun getDirecciones(){
 
-        db.collection("direcciones")
-            .whereEqualTo("userId", auth.uid!!)
-            .get().addOnSuccessListener{ snapshot ->
-                if(snapshot != null){
-                    direccionesUser.value =  snapshot.toObjects()
+        db.collection("direcciones").get().addOnCompleteListener(){
+            if (it.isSuccessful){
+                var auxCollection = mutableListOf<Direccion>()
+                var auxIds = mutableListOf<String>()
+                for (document in it.result!!.documents){
+                    if (document["userId"] == auth.uid){
+                        var dirAux: Direccion
+                        dirAux = document.toObject()!!
+                        auxCollection.add(dirAux)
+                        auxIds.add(document.id)
+                    }
                 }
+                direccionesUser.value = auxCollection.toMutableList()
+                idDireccionesUser.value = auxIds
             }
-            .addOnFailureListener(){
-                direccionesUser.value = null
-            }
+        }
 
     }
 
@@ -48,5 +55,9 @@ class UserViewModel : ViewModel() {
 
         db.collection("usuarios").document(auth.currentUser!!.uid).update(field, value).addOnSuccessListener {
         }
+    }
+
+    fun updateEmail(newEmail: String){
+        auth.currentUser?.updateEmail(newEmail)
     }
 }

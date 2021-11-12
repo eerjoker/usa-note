@@ -3,6 +3,7 @@ package com.ort.usanote.fragments
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +42,8 @@ class UpdateDireccionFragment : Fragment() {
     lateinit var provinciaDireccionLayout: TextInputLayout
     lateinit var codigoPostalDireccion: TextInputEditText
     lateinit var codigoPostalDireccionLayout: TextInputLayout
-    lateinit var btnDireccion: Button
+    lateinit var btnActualizarDireccion: Button
+    lateinit var btnEliminarDireccion: Button
     lateinit var rootLayout: ConstraintLayout
     lateinit var progressBar: ProgressBar
     private val viewModelDireccion: UpdateDireccionViewModel by viewModels()
@@ -76,8 +78,9 @@ class UpdateDireccionFragment : Fragment() {
         provinciaDireccionLayout = v.findViewById(R.id.provinciaTextInputLayOutTxt)
         codigoPostalDireccion = v.findViewById(R.id.cpTxt)
         codigoPostalDireccionLayout = v.findViewById(R.id.cpInputLayOutTxt)
-        btnDireccion = v.findViewById(R.id.btnDireccion)
-        rootLayout = v.findViewById(R.id.frameLayout3)
+        btnActualizarDireccion = v.findViewById(R.id.btnActualizarDireccion)
+        btnEliminarDireccion = v.findViewById(R.id.btnEliminarDireccion)
+        rootLayout = v.findViewById(R.id.frameLayout7)
         progressBar = v.findViewById(R.id.progressBar2)
 
         return v
@@ -94,7 +97,22 @@ class UpdateDireccionFragment : Fragment() {
 
         progressBar.setVisibility(View.GONE)
 
-        viewModelDireccion.direccionExitosa.observe(viewLifecycleOwner, Observer { result ->
+        var direccionAux = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).direccion
+        var idDireccion = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).id
+
+        Log.d("ID Direccion",idDireccion)
+
+        aliasDireccion.setText(direccionAux.alias)
+        nombreDireccion.setText(direccionAux.nombreCompleto)
+        calleDireccion.setText(direccionAux.calle)
+        localidadDireccion.setText(direccionAux.localidad)
+        nroDireccion.setText(direccionAux.numero)
+        pisoDireccion.setText(direccionAux.piso)
+        deptoDireccion.setText(direccionAux.departamento)
+        provinciaDireccion.setText(direccionAux.provincia)
+        codigoPostalDireccion.setText(direccionAux.codigoPostal)
+
+        viewModelDireccion.actualizacionExitosa.observe(viewLifecycleOwner, Observer { result ->
             if (result){
                 progressBar.setVisibility(View.GONE)
                 Snackbar.make(rootLayout, "Dirección actualizada", Snackbar.LENGTH_LONG)
@@ -111,8 +129,28 @@ class UpdateDireccionFragment : Fragment() {
             }
         })
 
-        btnDireccion.setOnClickListener(){
+        viewModelDireccion.eliminacionExitosa.observe(viewLifecycleOwner, Observer {
+            if (it){
+                progressBar.setVisibility(View.GONE)
+                Snackbar.make(rootLayout, "Dirección eliminada con éxito", Snackbar.LENGTH_LONG)
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
+                        Color.parseColor("#4CAF50")).show()
 
+                v.findNavController().popBackStack()
+            }else{
+                progressBar.setVisibility(View.GONE)
+                Snackbar.make(rootLayout, "Ocurrio un error. Verifique sus datos e inténtelo nuevamente", Snackbar.LENGTH_LONG)
+                    .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
+                        Color.parseColor("#E91E3C")).show()
+            }
+
+        })
+
+        btnEliminarDireccion.setOnClickListener(){
+            viewModelDireccion.eliminarDireccion(idDireccion)
+        }
+
+        btnActualizarDireccion.setOnClickListener(){
 
             var alias: String = aliasDireccion.text.toString()
             var nombre: String = nombreDireccion.text.toString()
@@ -125,7 +163,7 @@ class UpdateDireccionFragment : Fragment() {
             var codigoPostal: String = codigoPostalDireccion.text.toString()
 
             var aliasValido: Boolean = viewModelDireccion.validateGenerales(alias)
-            var nombreValido: Boolean = viewModelDireccion.validateGenerales(nombre)
+            var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)
             var calleValido: Boolean = viewModelDireccion.validateGenerales(calle)
             var localidadValido: Boolean = viewModelDireccion.validateGenerales(localidad)
             var nroValido: Boolean = viewModelDireccion.validateGenerales(nro)
@@ -138,7 +176,7 @@ class UpdateDireccionFragment : Fragment() {
 
             if (viewModelDireccion.validateForm(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)){
                 progressBar.setVisibility(View.VISIBLE)
-                viewModelDireccion.actualizarDireccion(alias, nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
+                viewModelDireccion.actualizarDireccion(idDireccion, alias, nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
             }else{
                 asignarErrores(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)
                 Snackbar.make(rootLayout, "Campos invalidos. Verifique sus datos", Snackbar.LENGTH_LONG).setAnimationMode(

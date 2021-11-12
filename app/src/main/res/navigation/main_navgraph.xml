@@ -87,6 +87,9 @@
         <argument
             android:name="marca"
             app:argType="string" />
+        <argument
+            android:name="cantidadVisitas"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/carritoFragment"
@@ -151,7 +154,14 @@
         android:id="@+id/updateDireccionFragment"
         android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
         android:label="update_direccion_fragment"
-        tools:layout="@layout/update_direccion_fragment" />
+        tools:layout="@layout/update_direccion_fragment" >
+        <argument
+            android:name="direccion"
+            app:argType="com.ort.usanote.entities.Direccion" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ort.usanote.fragments.auth.LoginFragment"
@@ -173,4 +183,42 @@
             android:id="@+id/action_registroFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/estadisticasFragment"
+        android:name="com.ort.usanote.fragments.EstadisticasFragment"
+        android:label="estadisticas_fragment"
+        tools:layout="@layout/estadisticas_fragment" >
+        <action
+            android:id="@+id/action_estadisticasFragment_to_productosMasVistosFragment"
+            app:destination="@id/productosMasVistosFragment" />
+        <action
+            android:id="@+id/action_estadisticasFragment_to_cantidadUsuariosRegistFragment"
+            app:destination="@id/cantidadUsuariosRegistFragment" />
+        <action
+            android:id="@+id/action_estadisticasFragment_to_productosMasCompradosFragment"
+            app:destination="@id/productosMasCompradosFragment" />
+        <action
+            android:id="@+id/action_estadisticasFragment_to_comprasFragment"
+            app:destination="@id/comprasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productosMasVistosFragment"
+        android:name="com.ort.usanote.fragments.ProductosMasVistosFragment"
+        android:label="productos_mas_vistos_fragment"
+        tools:layout="@layout/productos_mas_vistos_fragment" />
+    <fragment
+        android:id="@+id/cantidadUsuariosRegistFragment"
+        android:name="com.ort.usanote.fragments.CantidadUsuariosRegistFragment"
+        android:label="cantidad_usuarios_regist_fragment"
+        tools:layout="@layout/cantidad_usuarios_regist_fragment" />
+    <fragment
+        android:id="@+id/productosMasCompradosFragment"
+        android:name="com.ort.usanote.fragments.ProductosMasCompradosFragment"
+        android:label="productos_mas_comprados_fragment"
+        tools:layout="@layout/productos_mas_comprados_fragment" />
+    <fragment
+        android:id="@+id/comprasFragment"
+        android:name="com.ort.usanote.fragments.ComprasFragment"
+        android:label="compras_fragment"
+        tools:layout="@layout/compras_fragment" />
 </navigation>

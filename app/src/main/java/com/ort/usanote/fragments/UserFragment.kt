@@ -51,15 +51,13 @@ class UserFragment : Fragment() {
     lateinit var recDireccion: RecyclerView
     lateinit var direccionUserAdapter: DireccionUserAdapter
     lateinit var direcciones: ArrayList<Direccion>
+    lateinit var idsDirecciones: MutableList<String>
 
     private val viewModelUser: UserViewModel by viewModels()
-    private val viewModelUpdateDireccion: UpdateDireccionViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = UserFragment()
     }
-
-    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,25 +92,22 @@ class UserFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
     override fun onStart() {
         super.onStart()
 
         direcciones = ArrayList()
+        idsDirecciones = mutableListOf()
+
         recDireccion.layoutManager = LinearLayoutManager(requireContext())
         recDireccion.setHasFixedSize(true)
-        direccionUserAdapter = DireccionUserAdapter(direcciones, requireContext(), { item ->
-            onItemClick(item, direcciones)
-        }, viewModelUpdateDireccion)
-        recDireccion.adapter = direccionUserAdapter
 
         viewModelUser.getUser()
         viewModelUser.getDirecciones()
 
-        viewModel.userDb.observe(viewLifecycleOwner, Observer {
+        viewModelUser.userDb.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 nombreText.setText("${it.nombre}")
                 apellidoText.setText("${it.apellido}")
@@ -121,16 +116,22 @@ class UserFragment : Fragment() {
             }
         })
 
-        viewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
+        viewModelUser.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
                 if(it.size > 0){
-                    recDireccion.layoutManager = LinearLayoutManager(requireContext())
-                    recDireccion.setHasFixedSize(true)
-                    direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext(), { item ->
-                        onItemClick(item, it)
-                    }, viewModelUpdateDireccion)
+                    direcciones = it as ArrayList<Direccion>
+                    direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
+                        onItemClick(item)
+                    }
                     recDireccion.adapter = direccionUserAdapter
+                    direccionUserAdapter.notifyDataSetChanged()
                 }
+            }
+        })
+
+        viewModelUser.idDireccionesUser.observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                idsDirecciones = it
             }
         })
 
@@ -140,7 +141,7 @@ class UserFragment : Fragment() {
 
             nombreText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("nombre", nombreText.text.toString())
+                    viewModelUser.updateUser("nombre", nombreText.text.toString())
                     nombreLayout.isEnabled = false
                 }
             }
@@ -151,7 +152,7 @@ class UserFragment : Fragment() {
 
             apellidoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("apellido", apellidoText.text.toString())
+                    viewModelUser.updateUser("apellido", apellidoText.text.toString())
                     apellidoLayout.isEnabled = false
                 }
             }
@@ -159,10 +160,10 @@ class UserFragment : Fragment() {
 
         btnEmail.setOnClickListener() {
             emailLayout.isEnabled = true
-
             emailText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateEmail(emailText.text.toString())
                     emailLayout.isEnabled = false
                 }
             }
@@ -173,7 +174,7 @@ class UserFragment : Fragment() {
 
             telefonoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("telefono", telefonoText.text.toString())
+                    viewModelUser.updateUser("telefono", telefonoText.text.toString())
                     telefonoLayout.isEnabled = false
                 }
             }
@@ -191,21 +192,15 @@ class UserFragment : Fragment() {
 
     }
 
-    fun onItemClick (pos: Int, direccionesP: ArrayList<Direccion>){
-        var aux = direccionesP
-        var nombreCompleto = aux[pos].nombreCompleto
-        var alias = aux[pos].alias
-        var calle = aux[pos].calle
-        var codigoPostal = aux[pos].codigoPostal
-        var departamento = aux[pos].departamento
-        var localidad = aux[pos].localidad
-        var numero = aux[pos].numero
-        var piso = aux[pos].piso
-        var provincia = aux[pos].provincia
+    // agregar id("kotlin-parcelize") al gradle
+    // ajustar a 2.4.0-alpha10 el navigation
+    fun onItemClick (pos: Int){
 
-        // val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(nombreCompleto, alias, calle, codigoPostal, departamento, localidad, numero, piso, provincia)
-        //  v.findNavController().navigate(action)
+        var direccionAux = direcciones[pos]
+        var idsDirecciones = idsDirecciones[pos]
 
+        val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(direccionAux, idsDirecciones)
+        v.findNavController().navigate(action)
 
     }
 }
