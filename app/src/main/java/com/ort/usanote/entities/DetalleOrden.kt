@@ -1,6 +1,7 @@
 package com.ort.usanote.entities
 
-class ProductItem (
+class DetalleOrden (
+    var idOrden : String,
     var product : Product,
     var quantity : Int
 ) {

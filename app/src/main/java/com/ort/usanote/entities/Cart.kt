@@ -4,38 +4,38 @@ import android.util.Log
 import com.google.firebase.firestore.*
 
 class Cart (
-    private var productItemList : MutableList<ProductItem>,
+    private var detalleOrdenList : MutableList<DetalleOrden>,
     var onChange : (Double, Int) -> Unit
 ) {
     private lateinit var db : FirebaseFirestore
 
-    fun getProductItems () : MutableList<ProductItem> {
-        return productItemList
+    fun getProductItems () : MutableList<DetalleOrden> {
+        return detalleOrdenList
     }
 
     fun notifyChange() {
-        onChange(calculateSubtotal(), productItemList?.size)
+        onChange(calculateSubtotal(), detalleOrdenList?.size)
     }
 
-    fun addProductItem(productItem: ProductItem) {
-        productItemList.add(productItem)
+    fun addProductItem(detalleOrden: DetalleOrden) {
+        detalleOrdenList.add(detalleOrden)
         notifyChange()
     }
 
     fun deleteProductItem(pos: Int) {
         db = FirebaseFirestore.getInstance()
-        val productoActualizar = db.collection("productos").document(productItemList[pos].product.idProducto)
-        val nuevoStock = productItemList[pos].quantity.toDouble()
+        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].product.idProducto)
+        val nuevoStock = detalleOrdenList[pos].quantity.toDouble()
         productoActualizar.update("stock",FieldValue.increment(nuevoStock))
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
-        productItemList.removeAt(pos)
+        detalleOrdenList.removeAt(pos)
         notifyChange()
     }
 
     fun incrementProductQuantity(pos: Int, quantity: Int) {
         db = FirebaseFirestore.getInstance()
-        val productoActualizar = db.collection("productos").document(productItemList[pos].product.idProducto)
+        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].product.idProducto)
         productoActualizar.update("stock", FieldValue.increment(-quantity.toDouble()))
         notifyChange()
     }
@@ -43,14 +43,14 @@ class Cart (
     fun calculateSubtotal() : Double {
         var subtotal = 0.0
 
-        for (productItem in productItemList ) {
+        for (productItem in detalleOrdenList ) {
             subtotal += productItem.calculateSubtotal()
         }
         return subtotal
     }
 
     fun clear() {
-        for(i in (productItemList.size - 1) downTo 0) {
+        for(i in (detalleOrdenList.size - 1) downTo 0) {
             deleteProductItem(i)
         }
     }

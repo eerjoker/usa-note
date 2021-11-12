@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
-import com.ort.usanote.entities.ProductItem
+import com.ort.usanote.entities.DetalleOrden
 import com.ort.usanote.entities.ProductItemRepository
 
 class CheckoutAdapter (
@@ -50,10 +50,10 @@ class CheckoutAdapter (
     }
 
     override fun onBindViewHolder(holder: CheckoutHolder, position: Int) {
-        val productItemList : MutableList<ProductItem> = productItems.getProductItems()
+        val detalleOrdenList : MutableList<DetalleOrden> = productItems.getProductItems()
 
-        holder.setTitle(productItemList[position].product.nombre)
-        holder.setPrice(productItemList[position].product.price)
+        holder.setTitle(detalleOrdenList[position].product.nombre)
+        holder.setPrice(detalleOrdenList[position].product.price)
     }
 
     override fun getItemCount(): Int {
