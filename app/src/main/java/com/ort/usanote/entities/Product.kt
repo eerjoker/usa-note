@@ -12,6 +12,7 @@ class Product (
     categoria:String,
     marca:String,
     imageUrl : String,
+    cantidadVisitas: Int
 ) {
     lateinit var idProducto:String
     lateinit var nombre : String
@@ -21,9 +22,11 @@ class Product (
     lateinit var categoria:String
     lateinit var marca:String
     lateinit var imageUrl : String
+    var cantidadVisitas:Int = 0
     @ServerTimestamp
     var created_at: Date? = null
-    constructor():this("","","",0.0,0,"","","")
+
+    constructor():this("","","",0.0,0,"","","",0)
     init {
         this.idProducto = idProducto!!
         this.nombre = nombre!!
