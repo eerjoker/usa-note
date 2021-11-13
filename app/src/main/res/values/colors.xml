@@ -13,4 +13,6 @@
     <color name="naranja_stock">#F58A00</color>
     <color name="alert_danger">#EA4F4F</color>
     <color name="placeholder_bg">#BFBABA</color>
+    <color name="gris">#1C201E</color>
+    <color name="secundario">#95AFF1</color>
 </resources>
