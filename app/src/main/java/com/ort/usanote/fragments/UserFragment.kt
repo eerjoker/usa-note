@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -47,6 +48,7 @@ class UserFragment : Fragment() {
 
     lateinit var btnDireccion: Button
     lateinit var btnSecundarioDireccion: FloatingActionButton
+    lateinit var progressBar: ProgressBar
 
     lateinit var recDireccion: RecyclerView
     lateinit var direccionUserAdapter: DireccionUserAdapter
@@ -87,6 +89,8 @@ class UserFragment : Fragment() {
         telefonoText = v.findViewById(R.id.telefonoUserTxt)
         btnTelefono = v.findViewById(R.id.cambiarTelefono)
 
+        progressBar = v.findViewById(R.id.progressBar3)
+
         return v
     }
 
@@ -97,6 +101,8 @@ class UserFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        progressBar.setVisibility(View.VISIBLE)
 
         direcciones = ArrayList()
         idsDirecciones = mutableListOf()
@@ -118,7 +124,8 @@ class UserFragment : Fragment() {
 
         viewModelUser.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
-                if(it.size > 0){
+                progressBar.setVisibility(View.GONE)
+                if(it.size >= 0){
                     direcciones = it as ArrayList<Direccion>
                     direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
                         onItemClick(item)
@@ -196,8 +203,8 @@ class UserFragment : Fragment() {
     // ajustar a 2.4.0-alpha10 el navigation
     fun onItemClick (pos: Int){
 
-        var direccionAux = direcciones[pos]
-        var idsDirecciones = idsDirecciones[pos]
+            var direccionAux = direcciones[pos]
+            var idsDirecciones = idsDirecciones[pos]
 
         val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(direccionAux, idsDirecciones)
         v.findNavController().navigate(action)

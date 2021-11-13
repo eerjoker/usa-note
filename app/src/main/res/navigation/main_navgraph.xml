@@ -173,6 +173,9 @@
         <action
             android:id="@+id/action_loginFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registroFragment"
@@ -221,4 +224,9 @@
         android:name="com.ort.usanote.fragments.ComprasFragment"
         android:label="compras_fragment"
         tools:layout="@layout/compras_fragment" />
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="com.ort.usanote.fragments.UpdatePasswordFragment"
+        android:label="update_password_fragment"
+        tools:layout="@layout/update_password_fragment" />
 </navigation>

@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
@@ -30,6 +29,7 @@ class LoginFragment : Fragment() {
     lateinit var password2TextInputEdit: TextInputEditText
     lateinit var loginButton: Button
     lateinit var irARegistro: Button
+    lateinit var updatePassword: Button
     lateinit var rootLayout: ConstraintLayout
     lateinit var progressBar: ProgressBar
     private val viewModelLogin: LoginViewModel by viewModels()
@@ -51,8 +51,9 @@ class LoginFragment : Fragment() {
         email2TextInputEdit = v.findViewById(R.id.emailRegistroTxt)
         password2TxtLayout = v.findViewById(R.id.passInputLayOutTxt)
         password2TextInputEdit = v.findViewById(R.id.passRegistroTxt)
-        loginButton = v.findViewById(R.id.loginButton)
+        loginButton = v.findViewById(R.id.updateButton2)
         irARegistro = v.findViewById(R.id.segundo_text_registro)
+        updatePassword = v.findViewById(R.id.recovery_password)
         progressBar = v.findViewById(R.id.progressBar)
         rootLayout = v.findViewById(R.id.frameLayout2)
 
@@ -111,6 +112,11 @@ class LoginFragment : Fragment() {
 
         irARegistro.setOnClickListener(){
            val action = LoginFragmentDirections.actionLoginFragmentToRegistroFragment()
+            v.findNavController().navigate(action)
+        }
+
+        updatePassword.setOnClickListener(){
+            val action = LoginFragmentDirections.actionLoginFragmentToUpdatePasswordFragment()
             v.findNavController().navigate(action)
         }
     }

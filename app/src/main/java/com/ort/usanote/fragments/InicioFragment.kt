@@ -41,7 +41,6 @@ class InicioFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var categoryList: MutableList<CategoriaInicio> = mutableListOf()
 
-    lateinit var logOut: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +51,6 @@ class InicioFragment : Fragment() {
         itemSliderView()
         itemsCategory()
         recyclerView(rootView,requireContext())
-        logOut = rootView.findViewById(R.id.logout)
         return rootView
     }
 
@@ -151,8 +149,5 @@ class InicioFragment : Fragment() {
         super.onStart()
 
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
-        logOut.setOnClickListener(){
-            auth.signOut()
-        }
     }
 }

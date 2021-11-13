@@ -100,8 +100,6 @@ class UpdateDireccionFragment : Fragment() {
         var direccionAux = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).direccion
         var idDireccion = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).id
 
-        Log.d("ID Direccion",idDireccion)
-
         aliasDireccion.setText(direccionAux.alias)
         nombreDireccion.setText(direccionAux.nombreCompleto)
         calleDireccion.setText(direccionAux.calle)
@@ -147,6 +145,7 @@ class UpdateDireccionFragment : Fragment() {
         })
 
         btnEliminarDireccion.setOnClickListener(){
+            progressBar.setVisibility(View.VISIBLE)
             viewModelDireccion.eliminarDireccion(idDireccion)
         }
 
@@ -188,7 +187,7 @@ class UpdateDireccionFragment : Fragment() {
 
     fun asignarErrores (alias: Boolean, nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean){
         if (!alias) aliasDireccionLayout.error = viewModelDireccion.msgErrorGeneral
-        if (!nombre) nombreDireccionLayout.error = viewModelDireccion.msgErrorGeneral
+        if (!nombre) nombreDireccionLayout.error = viewModelDireccion.msgErrorNombreApellido
         if (!calle) calleDireccionLayout.error = viewModelDireccion.msgErrorGeneral
         if (!localidad) localidadDireccionLayout.error = viewModelDireccion.msgErrorGeneral
         if (!nro) nroDireccionLayout.error = viewModelDireccion.msgErrorGeneral
