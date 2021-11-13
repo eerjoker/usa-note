@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItemRepository
@@ -18,6 +23,7 @@ import com.ort.usanote.entities.ProductItemRepository
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var constraintLayout: ConstraintLayout
     private lateinit var bottomNavigationView : BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
@@ -27,25 +33,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        constraintLayout = findViewById(R.id.constraint_layout_activity)
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         bottomNavigationView = findViewById(R.id.bottom_bar)
-        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem) = item.onNavDestinationSelected(navController)
-            || super.onOptionsItemSelected(item)
-
-    override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration)
-    */
-    /*override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, drawerLayout)
-    }*/
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the toolbar if it is present.
         menuInflater.inflate(R.menu.toolbar, menu)
         /*val searchView_item = menu.findItem(R.id.action_search_offline)
         val searchView:SearchView
@@ -77,13 +75,48 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        val id = when(item.itemId) {
+        when(item.itemId) {
 
-            //R.id.action_login_logout ->
+            R.id.action_search_offline -> {
+                val searchView : SearchView = item.actionView as SearchView
+                searchView.queryHint = "Ingrese el nombre del producto a buscar"
+                searchView.setOnQueryTextListener(object :
+                    SearchView.OnQueryTextListener {
 
-            //R.id.action_carrito ->
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        return false
+                    }
 
-            else -> ""
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        val bundle = bundleOf("searchQuery" to query,
+                            "categoria" to "busqueda")
+                        val action = NavDeepLinkBuilder(this@MainActivity)
+                            .setGraph(R.navigation.main_navgraph)
+                            .addDestination(R.id.productosFragment,bundle)
+                            .createPendingIntent()
+                        action.send()
+                        return false
+                    }
+                })
+            }
+
+            R.id.action_login_logout -> {
+                val action = NavDeepLinkBuilder(this@MainActivity)
+                .setGraph(R.navigation.main_navgraph)
+                .addDestination(R.id.loginFragment)
+                .createPendingIntent()
+                action.send()
+            }
+
+            R.id.action_carrito -> {
+                val action = NavDeepLinkBuilder(this@MainActivity)
+                    .setGraph(R.navigation.main_navgraph)
+                    .addDestination(R.id.carritoFragment)
+                    .createPendingIntent()
+                action.send()
+            }
+
+            else -> Snackbar.make(constraintLayout, "Acción no reconocida", Snackbar.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }
