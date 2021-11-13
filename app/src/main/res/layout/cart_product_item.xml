@@ -79,6 +79,7 @@
             android:drawableLeft="@android:drawable/arrow_down_float"
             android:drawableRight="@android:drawable/arrow_up_float"
             android:ems="10"
+            android:enabled="false"
             android:inputType="number|textPersonName"
             android:padding="0dp"
             android:shadowColor="#505050"

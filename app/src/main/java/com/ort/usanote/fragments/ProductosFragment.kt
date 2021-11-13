@@ -204,7 +204,8 @@ class ProductosFragment : Fragment() {
         var cant = productList[pos].stock
         var categoria = productList[pos].categoria
         var marca = productList[pos].marca
-        val action = ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(title,description,price,image,cant,idProducto, categoria, marca)
+        var cantidadVisitas = productList[pos].cantidadVisitas
+        val action = ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(title,description,price,image,cant,idProducto, categoria, marca, cantidadVisitas)
         rootView.findNavController().navigate(action)
 
     }

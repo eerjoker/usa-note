@@ -36,5 +36,6 @@ class Product (
         this.categoria = categoria!!
         this.marca = marca!!
         this.imageUrl = imageUrl!!
+        this.cantidadVisitas = cantidadVisitas!!
     }
 }

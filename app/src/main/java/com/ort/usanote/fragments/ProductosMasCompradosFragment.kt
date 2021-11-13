@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.adapters.MasCompradosAdapter
+import com.ort.usanote.entities.DetalleOrden
 import com.ort.usanote.entities.Product
-import com.ort.usanote.entities.ProductItem
 import com.ort.usanote.viewModels.ProductosMasVistosViewModel
 
 class ProductosMasCompradosFragment : Fragment() {
@@ -27,9 +27,9 @@ class ProductosMasCompradosFragment : Fragment() {
     private lateinit var v: View
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: MasCompradosAdapter
-    private var productosList: MutableList<ProductItem> = mutableListOf()
+    private var productosList: MutableList<DetalleOrden> = mutableListOf()
     private lateinit var db : FirebaseFirestore
-    private lateinit var productoItem: ProductItem
+    private lateinit var productoItem: DetalleOrden
     private lateinit var product: Product
     private lateinit var btn:Button
     private var vendidas:Int = 0
@@ -63,7 +63,7 @@ class ProductosMasCompradosFragment : Fragment() {
                     }
                     for(dc: DocumentChange in value?.documentChanges!!){
                         if(dc.type == DocumentChange.Type.ADDED){
-                            productoItem= dc.document.toObject(ProductItem::class.java)
+                            productoItem= dc.document.toObject(DetalleOrden::class.java)
                             if(productosList.size == 0){
                                 productosList.add(productoItem)
                             }else{
@@ -78,7 +78,7 @@ class ProductosMasCompradosFragment : Fragment() {
                     }
                     productosList.sortByDescending { it.quantity }
                     i = 0
-                    var aux = mutableListOf<ProductItem>()
+                    var aux = mutableListOf<DetalleOrden>()
                     while (i < 3 && i < productosList.size){
                         aux.add(productosList[i])
                         i++

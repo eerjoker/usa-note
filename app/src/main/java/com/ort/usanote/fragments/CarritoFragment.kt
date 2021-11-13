@@ -40,6 +40,7 @@ class CarritoFragment : Fragment() {
     private lateinit var checkoutButton : Button
     private lateinit var cstrLayoutGoToCheckout : ConstraintLayout
     private lateinit var itemsCarrito : ProductItemRepository
+    private lateinit var btnToMisCompras : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +52,7 @@ class CarritoFragment : Fragment() {
         txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
         checkoutButton = v.findViewById(R.id.btnCheckout)
         cstrLayoutGoToCheckout = v.findViewById(R.id.constraintLayoutGoToCheckout)
+        btnToMisCompras = v.findViewById(R.id.btnToMisCompras)
         return v
     }
 
@@ -81,6 +83,11 @@ class CarritoFragment : Fragment() {
             }
         } else {
             clearCart()
+        }
+
+        btnToMisCompras.setOnClickListener {
+            val action = CarritoFragmentDirections.actionCarritoFragmentToMisComprasFragment()
+            v.findNavController().navigate(action)
         }
     }
 

@@ -110,7 +110,8 @@ class ProductDescriptionFragment : Fragment() {
         val stock = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidad
         val categoria = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).categoria
         val marca = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).marca
-        return Product(idProducto,title,desc,price,stock,categoria,marca,image)
+        val cantidadVisitas = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).cantidadVisitas
+        return Product(idProducto,title,desc,price,stock,categoria,marca,image, cantidadVisitas)
     }
 
     override fun onStart() {

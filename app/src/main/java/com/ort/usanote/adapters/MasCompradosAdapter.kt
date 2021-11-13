@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.Product
-import com.ort.usanote.entities.ProductItem
+import com.ort.usanote.entities.DetalleOrden
 
 class MasCompradosAdapter(
-    val productList: MutableList<ProductItem>,
+    val productList: MutableList<DetalleOrden>,
     val context: Context,
     val compras: Int
 ): RecyclerView.Adapter<MasCompradosAdapter.ViewHolder>() {
