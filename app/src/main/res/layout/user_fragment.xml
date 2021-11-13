@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.UserFragment">
+    tools:context=".fragments.user.UserFragment">
 
     <TextView
         android:id="@+id/userTitle"
@@ -41,8 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/apellidoUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userTitle"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">>
+        app:layout_constraintTop_toBottomOf="@+id/userTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nombreUserTxt"
@@ -72,8 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/emailUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/nombreUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/apellidoUserTxt"
@@ -105,8 +103,7 @@
         app:layout_constraintBottom_toTopOf="@+id/telefonoUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apellidoUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/apellidoUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailUserTxt"
@@ -138,8 +135,7 @@
         app:layout_constraintBottom_toTopOf="@+id/agregaDireccionbtn"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/emailUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/telefonoUserTxt"
@@ -280,5 +276,17 @@
         app:pressedTranslationZ="6dp"
         app:useCompatPadding="false"
         tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="83dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

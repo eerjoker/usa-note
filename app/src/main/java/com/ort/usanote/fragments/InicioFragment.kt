@@ -35,7 +35,6 @@ class InicioFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val viewModelInicio:InicioViewModel by viewModels()
 
-    lateinit var logOut: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +43,6 @@ class InicioFragment : Fragment() {
         rootView = inflater.inflate(R.layout.inicio_fragment, container, false)
         sliderItems(rootView)
         recyclerView(rootView,requireContext())
-        logOut = rootView.findViewById(R.id.logout)
         return rootView
     }
 
@@ -111,8 +109,5 @@ class InicioFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
-        logOut.setOnClickListener(){
-            auth.signOut()
-        }
     }
 }
