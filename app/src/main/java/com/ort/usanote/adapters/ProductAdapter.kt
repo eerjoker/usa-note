@@ -14,11 +14,10 @@ import com.ort.usanote.R
 import com.ort.usanote.entities.Product
 
 class ProductAdapter(
-    private var productList : MutableList<Product>,
     private val context: Context,
     val onClick:(Int)->Unit):RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
-
+    var productList = mutableListOf<Product>()
         inner class ViewHolder(itemView: View, parentView:ViewGroup):RecyclerView.ViewHolder(itemView){
 
             private var view : View
@@ -42,7 +41,9 @@ class ProductAdapter(
                     .into(imgProductItem)
             }
         }
-
+    fun setListData(data:MutableList<Product>){
+        productList = data
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.product_card_in_list_products,parent,false)
         return ViewHolder(view,parent)
