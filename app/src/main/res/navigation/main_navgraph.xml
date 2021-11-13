@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.ort.usanote.fragments.UserFragment"
+        android:name="com.ort.usanote.fragments.user.UserFragment"
         android:label="user_fragment"
         tools:layout="@layout/user_fragment" >
         <action
@@ -147,12 +147,12 @@
     </fragment>
     <fragment
         android:id="@+id/direccionFragment"
-        android:name="com.ort.usanote.fragments.DireccionFragment"
+        android:name="com.ort.usanote.fragments.direccion.DireccionFragment"
         android:label="direccion_fragment"
         tools:layout="@layout/direccion_fragment" />
     <fragment
         android:id="@+id/updateDireccionFragment"
-        android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
+        android:name="com.ort.usanote.fragments.direccion.UpdateDireccionFragment"
         android:label="update_direccion_fragment"
         tools:layout="@layout/update_direccion_fragment" >
         <argument
@@ -226,7 +226,7 @@
         tools:layout="@layout/compras_fragment" />
     <fragment
         android:id="@+id/updatePasswordFragment"
-        android:name="com.ort.usanote.fragments.UpdatePasswordFragment"
+        android:name="com.ort.usanote.fragments.auth.UpdatePasswordFragment"
         android:label="update_password_fragment"
         tools:layout="@layout/update_password_fragment" />
 </navigation>

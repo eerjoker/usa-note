@@ -1,9 +1,8 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.direccion
 
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
-import com.ort.usanote.viewModels.UpdateDireccionViewModel
+import com.ort.usanote.viewModels.direccion.UpdateDireccionViewModel
 
 class UpdateDireccionFragment : Fragment() {
 

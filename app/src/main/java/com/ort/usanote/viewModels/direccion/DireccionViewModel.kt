@@ -1,4 +1,4 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.direccion
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
