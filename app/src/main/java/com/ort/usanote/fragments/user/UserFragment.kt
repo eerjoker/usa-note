@@ -1,14 +1,13 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.user
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -20,8 +19,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
 import com.ort.usanote.adapters.DireccionUserAdapter
 import com.ort.usanote.entities.Direccion
-import com.ort.usanote.viewModels.UpdateDireccionViewModel
-import com.ort.usanote.viewModels.UserViewModel
+import com.ort.usanote.viewModels.user.UserViewModel
 
 class UserFragment : Fragment() {
 
@@ -47,6 +45,7 @@ class UserFragment : Fragment() {
 
     lateinit var btnDireccion: Button
     lateinit var btnSecundarioDireccion: FloatingActionButton
+    lateinit var progressBar: ProgressBar
 
     lateinit var recDireccion: RecyclerView
     lateinit var direccionUserAdapter: DireccionUserAdapter
@@ -58,8 +57,6 @@ class UserFragment : Fragment() {
     companion object {
         fun newInstance() = UserFragment()
     }
-
-    private lateinit var viewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,17 +86,20 @@ class UserFragment : Fragment() {
         telefonoText = v.findViewById(R.id.telefonoUserTxt)
         btnTelefono = v.findViewById(R.id.cambiarTelefono)
 
+        progressBar = v.findViewById(R.id.progressBar3)
+
         return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
     override fun onStart() {
         super.onStart()
+
+        progressBar.setVisibility(View.VISIBLE)
 
         direcciones = ArrayList()
         idsDirecciones = mutableListOf()
@@ -110,7 +110,7 @@ class UserFragment : Fragment() {
         viewModelUser.getUser()
         viewModelUser.getDirecciones()
 
-        viewModel.userDb.observe(viewLifecycleOwner, Observer {
+        viewModelUser.userDb.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 nombreText.setText("${it.nombre}")
                 apellidoText.setText("${it.apellido}")
@@ -119,9 +119,10 @@ class UserFragment : Fragment() {
             }
         })
 
-        viewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
+        viewModelUser.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
-                if(it.size > 0){
+                progressBar.setVisibility(View.GONE)
+                if(it.size >= 0){
                     direcciones = it as ArrayList<Direccion>
                     direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
                         onItemClick(item)
@@ -132,7 +133,7 @@ class UserFragment : Fragment() {
             }
         })
 
-        viewModel.idDireccionesUser.observe(viewLifecycleOwner, Observer {
+        viewModelUser.idDireccionesUser.observe(viewLifecycleOwner, Observer {
             if (it != null){
                 idsDirecciones = it
             }
@@ -144,7 +145,7 @@ class UserFragment : Fragment() {
 
             nombreText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("nombre", nombreText.text.toString())
+                    viewModelUser.updateUser("nombre", nombreText.text.toString())
                     nombreLayout.isEnabled = false
                 }
             }
@@ -155,7 +156,7 @@ class UserFragment : Fragment() {
 
             apellidoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("apellido", apellidoText.text.toString())
+                    viewModelUser.updateUser("apellido", apellidoText.text.toString())
                     apellidoLayout.isEnabled = false
                 }
             }
@@ -163,10 +164,10 @@ class UserFragment : Fragment() {
 
         btnEmail.setOnClickListener() {
             emailLayout.isEnabled = true
-
             emailText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateUser("email", emailText.text.toString())
+                    viewModelUser.updateEmail(emailText.text.toString())
                     emailLayout.isEnabled = false
                 }
             }
@@ -177,7 +178,7 @@ class UserFragment : Fragment() {
 
             telefonoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModel.updateUser("telefono", telefonoText.text.toString())
+                    viewModelUser.updateUser("telefono", telefonoText.text.toString())
                     telefonoLayout.isEnabled = false
                 }
             }
@@ -199,10 +200,13 @@ class UserFragment : Fragment() {
     // ajustar a 2.4.0-alpha10 el navigation
     fun onItemClick (pos: Int){
 
-        var direccionAux = direcciones[pos]
-        var idsDirecciones = idsDirecciones[pos]
+            var direccionAux = direcciones[pos]
+            var idsDirecciones = idsDirecciones[pos]
 
-        val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(direccionAux, idsDirecciones)
+        val action = UserFragmentDirections.actionUserFragmentToUpdateDireccionFragment(
+                direccionAux,
+                idsDirecciones
+            )
         v.findNavController().navigate(action)
 
     }

@@ -1,14 +1,10 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.user
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
-import com.google.firebase.ktx.Firebase
 import com.ort.usanote.entities.Direccion
 import com.ort.usanote.entities.Usuario
 
@@ -55,5 +51,9 @@ class UserViewModel : ViewModel() {
 
         db.collection("usuarios").document(auth.currentUser!!.uid).update(field, value).addOnSuccessListener {
         }
+    }
+
+    fun updateEmail(newEmail: String){
+        auth.currentUser?.updateEmail(newEmail)
     }
 }

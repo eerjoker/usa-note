@@ -41,12 +41,4 @@
         app:layout_constraintTop_toBottomOf="@+id/viewPagerImgSlider"
         app:layout_constraintVertical_bias="0.387" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="86dp"
-        android:layout_height="34dp"
-        android:text="out"
-        tools:layout_editor_absoluteX="275dp"
-        tools:layout_editor_absoluteY="257dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

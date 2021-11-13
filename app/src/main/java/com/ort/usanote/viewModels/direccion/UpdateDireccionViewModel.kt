@@ -1,13 +1,13 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.direccion
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.usanote.entities.Direccion
+import java.util.regex.Pattern
 
 class UpdateDireccionViewModel : ViewModel() {
     val db = Firebase.firestore
@@ -16,6 +16,7 @@ class UpdateDireccionViewModel : ViewModel() {
     var actualizacionExitosa = MutableLiveData<Boolean>()
     var eliminacionExitosa = MutableLiveData<Boolean>()
     lateinit var msgErrorGeneral: String
+    lateinit var msgErrorNombreApellido: String
 
     fun actualizarDireccion(id: String, alias: String, nombre: String, calle: String, localidad: String, nro: String, piso: String, depto: String, provincia: String, codigoPostal: String){
 
@@ -55,6 +56,20 @@ class UpdateDireccionViewModel : ViewModel() {
             textValido = true
         }
         return textValido
+    }
+
+    fun validateNombreApellido(nombre: String): Boolean{
+        var nombreValido: Boolean = false
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{1,40})" + "$")
+
+        if (nombre.isEmpty()){
+            msgErrorNombreApellido = "debe completar este campo"
+        }else if (!passwordRegex.matcher(nombre).matches()){
+            msgErrorNombreApellido = "Solo se permiten letras"
+        }else{
+            nombreValido = true
+        }
+        return nombreValido
     }
 
     fun validateForm(alias: Boolean, nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean ): Boolean{
