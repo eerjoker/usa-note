@@ -36,6 +36,10 @@ class UserViewModel : ViewModel() {
 
     }
 
+    fun isUserLogged() : Boolean {
+        return auth.currentUser == null
+    }
+
     fun getUser(){
 
         db.collection("usuarios").document(auth.currentUser!!.uid).get().addOnSuccessListener {

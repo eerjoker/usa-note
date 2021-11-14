@@ -31,7 +31,7 @@ class CarritoFragment : Fragment() {
         fun newInstance() = CarritoFragment()
     }
 
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: CarritoViewModel
     private lateinit var v : View
     private lateinit var recProductItem : RecyclerView
@@ -48,6 +48,7 @@ class CarritoFragment : Fragment() {
         v = inflater.inflate(R.layout.carrito_fragment, container, false)
         recProductItem = v.findViewById(R.id.recProductItem)
         itemsCarrito = (activity as MainActivity).itemsCarrito
+        auth = (activity as MainActivity).auth
         txtSubtotalValue = v.findViewById(R.id.txtSubtotalValue)
         checkoutButton = v.findViewById(R.id.btnCheckout)
         cstrLayoutGoToCheckout = v.findViewById(R.id.constraintLayoutGoToCheckout)

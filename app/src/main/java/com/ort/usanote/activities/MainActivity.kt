@@ -1,5 +1,6 @@
 package com.ort.usanote.activities
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,7 +9,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.Navigation
@@ -16,10 +16,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItemRepository
-//import android.content.Intent
 
 
 
@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView : BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var itemsCarrito : ProductItemRepository = ProductItemRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,26 +43,18 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         bottomNavigationView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+        setBottomViewListener()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
     }
-/*
-    override fun onNewIntent(intent: Intent) {
-        val landingPageQuoteOption = intent.getStringExtra(GlobalState.LANDING_PAGE_INTENT_KEY)
-        if (landingPageQuoteOption != null) {
-            Log.i(TAG, "(onNewIntent), quote was not null (GOOD)")
-            showLandingPage(landingPageQuoteOption)
-        } else {
-            Log.i(TAG, "(onNewIntent), quote WAS null (BAD)")
-        }
-    }
-*/
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
-        val searchView_item = menu.findItem(R.id.action_search_offline)
-        val searchView : SearchView = searchView_item.actionView as SearchView
-        searchView.queryHint = "Ingrese el nombre del producto a buscar"
+
+        val searchViewItem = menu.findItem(R.id.action_search_offline)
+        val searchView : SearchView = searchViewItem.actionView as SearchView
+        searchView.queryHint = resources.getString(R.string.search_placeholder)
         searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
 
@@ -88,17 +81,35 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId) {
 
             R.id.loginFragment -> {
-
+                if (auth.currentUser != null) {
+                    auth.signOut()
+                }
                 NavigationUI.onNavDestinationSelected(item, navController)
             }
 
             R.id.carritoFragment -> {
                 NavigationUI.onNavDestinationSelected(item, navController)
             }
-
-            else -> { }
-            //else -> Snackbar.make(constraintLayout, "Acción no reconocida", Snackbar.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBottomViewListener() {
+        // se inicializa vacio asi no entra en el otro listener si ya esta seleccionado el item
+        bottomNavigationView.setOnItemReselectedListener {  }
+
+        bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId) {
+
+                R.id.userFragment -> {
+                    if (auth.currentUser == null) {
+                        Snackbar.make(constraintLayout, R.string.not_logged_in, Snackbar.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false
+                    }
+                }
+            }
+            NavigationUI.onNavDestinationSelected(it, navController)
+            return@setOnItemSelectedListener true
+        }
     }
 }

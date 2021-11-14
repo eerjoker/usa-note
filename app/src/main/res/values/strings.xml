@@ -28,4 +28,5 @@
         <string name="empty_cart">El carrito está vacío! Añade tus productos!</string>
         <string name="not_logged_in">Debe estar logueado para continuar!</string>
         <string name="no_stock">No hay más stock!</string>
+        <string name="search_placeholder">Ingrese el nombre del producto a buscar</string>
 </resources>
