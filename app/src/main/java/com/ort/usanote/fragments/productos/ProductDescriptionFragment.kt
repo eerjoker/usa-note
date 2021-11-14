@@ -1,10 +1,9 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.productos
 
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -13,22 +12,17 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.ModalAdapter
-import com.ort.usanote.viewModels.ProductDescriptionViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
+import com.ort.usanote.viewModels.productos.ProductDescriptionViewModel
 
 
 class ProductDescriptionFragment : Fragment() {
@@ -70,14 +64,21 @@ class ProductDescriptionFragment : Fragment() {
 
 
     fun addToCart(v:View){
-        val producto = viewModelPD.crearProducto(ProductDescriptionFragmentArgs.fromBundle(requireArguments()))
+        val producto = viewModelPD.crearProducto(
+            ProductDescriptionFragmentArgs.fromBundle(
+                requireArguments()
+            )
+        )
         (activity as MainActivity).itemsCarrito.addProductItem(producto, selectedStock)
         current_stock.value = current_stock.value!!.minus(selectedStock)
     }
 
 
     fun observerStock(){
-        viewModelPD.fetchStockFromDb(ProductDescriptionFragmentArgs.fromBundle(requireArguments()).idProducto)
+        viewModelPD.fetchStockFromDb(
+            ProductDescriptionFragmentArgs.fromBundle(
+                requireArguments()
+            ).idProducto)
             .observe(viewLifecycleOwner, Observer {
                 current_stock.value = it
                 stockDB = it
@@ -114,19 +115,30 @@ class ProductDescriptionFragment : Fragment() {
 
     }
     private fun initView(){
-        idProducto = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).idProducto
+        idProducto = ProductDescriptionFragmentArgs.fromBundle(
+            requireArguments()
+        ).idProducto
         var nombre_producto = v.findViewById<TextView>(R.id.item_title)
         var desc = v.findViewById<TextView>(R.id.item_desc)
         var price = v.findViewById<TextView>(R.id.item_price)
         var imgProductItem : ImageView = v.findViewById(R.id.item_image)
         Glide
             .with(requireContext())
-            .load(ProductDescriptionFragmentArgs.fromBundle(requireArguments()).image)
+            .load(
+                ProductDescriptionFragmentArgs.fromBundle(
+                    requireArguments()
+                ).image)
             .centerInside()
             .into(imgProductItem)
-        nombre_producto.text = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).title
-        desc.text = ProductDescriptionFragmentArgs.fromBundle(requireArguments()).description
-        price.text = "$" + ProductDescriptionFragmentArgs.fromBundle(requireArguments()).price
+        nombre_producto.text = ProductDescriptionFragmentArgs.fromBundle(
+            requireArguments()
+        ).title
+        desc.text = ProductDescriptionFragmentArgs.fromBundle(
+            requireArguments()
+        ).description
+        price.text = "$" + ProductDescriptionFragmentArgs.fromBundle(
+            requireArguments()
+        ).price
     }
 
     private fun btnAddCart(v:View){
@@ -139,7 +151,8 @@ class ProductDescriptionFragment : Fragment() {
     private fun btnToCartInit(v:View){
         btnToCart = v.findViewById(R.id.comprar)
         btnToCart.setOnClickListener{
-            val action = ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment()
+            val action =
+                ProductDescriptionFragmentDirections.actionProductDescriptionFragmentToCarritoFragment()
             v.findNavController().navigate(action)
         }
     }

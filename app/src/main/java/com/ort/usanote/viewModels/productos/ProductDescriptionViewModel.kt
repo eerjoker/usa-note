@@ -1,10 +1,12 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.productos
 
+import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.Repo
-import com.ort.usanote.fragments.ProductDescriptionFragmentArgs
+import com.ort.usanote.fragments.productos.ProductDescriptionFragmentArgs
+
 
 class ProductDescriptionViewModel : ViewModel() {
     private var repo = Repo()

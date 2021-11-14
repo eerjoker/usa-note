@@ -1,4 +1,4 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.productos
 
 import android.content.Context
 import android.os.Bundle
@@ -20,7 +20,7 @@ import com.ort.usanote.R
 import com.ort.usanote.adapters.CategoryAdapter
 import com.ort.usanote.adapters.ProductAdapter
 import com.ort.usanote.entities.*
-import com.ort.usanote.viewModels.ProductosViewModel
+import com.ort.usanote.viewModels.productos.ProductosViewModel
 class ProductosFragment : Fragment() {
 
     companion object {
@@ -31,7 +31,6 @@ class ProductosFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewCategorias: RecyclerView
     private lateinit var myAdapter: ProductAdapter
-
     private var productList: MutableList<Product> = mutableListOf()
     private lateinit var swipeRefreshView: SwipeRefreshLayout
     private lateinit var btnFiltro: Button
@@ -47,10 +46,18 @@ class ProductosFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.productos_fragment, container, false)
         if(ProductosFragmentArgs.fromBundle(requireArguments()).searchQuery!!.lowercase() != "null"){
-            viewModelProductos.setQuery(ProductosFragmentArgs.fromBundle(requireArguments()).searchQuery!!.replaceFirstChar {it.uppercase()})
+            viewModelProductos.setQuery(
+                ProductosFragmentArgs.fromBundle(
+                    requireArguments()
+                ).searchQuery!!.replaceFirstChar {it.uppercase()})
         }
-        if(ProductosFragmentArgs.fromBundle(requireArguments()).categoria != "null" && ProductosFragmentArgs.fromBundle(requireArguments()).categoria != "busqueda" ){
-            viewModelProductos.setCategoryBy(ProductosFragmentArgs.fromBundle(requireArguments()).categoria!!)
+        if(ProductosFragmentArgs.fromBundle(requireArguments()).categoria != "null" && ProductosFragmentArgs.fromBundle(
+                requireArguments()
+            ).categoria != "busqueda" ){
+            viewModelProductos.setCategoryBy(
+                ProductosFragmentArgs.fromBundle(
+                    requireArguments()
+                ).categoria!!)
         }
         shimmer  = rootView.findViewById(R.id.shimmer_view_container)
         recyclerView(rootView, requireContext())
@@ -85,9 +92,11 @@ class ProductosFragment : Fragment() {
         recyclerViewCategorias = rootView.findViewById(R.id.categorias)
         recyclerViewCategorias.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         recyclerViewCategorias.adapter = CategoryAdapter(viewModelProductos.getListCategorias()) {
             onCategoryClick(it)
         }
+
     }
 
     private fun observerProducts() {
@@ -129,8 +138,8 @@ class ProductosFragment : Fragment() {
     }
     private fun onItemClick(pos: Int) {
         viewModelProductos.updateVisitas(productList[pos].idProducto)
-        val action = ProductosFragmentDirections
-            .actionProductosFragmentToProductDescriptionFragment(
+        val action =
+            ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(
                 productList[pos].nombre,
                 productList[pos].description,
                 productList[pos].price,
