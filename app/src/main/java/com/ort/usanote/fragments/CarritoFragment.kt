@@ -105,7 +105,7 @@ class CarritoFragment : Fragment() {
         recProductItem.removeAllViews()
         cstrLayoutGoToCheckout.removeAllViews()
 
-        val simpleTextColor = ContextCompat.getColor(requireContext(), R.color.design_default_color_on_secondary)
+        val simpleTextColor = getColor(requireContext(), R.color.design_default_color_on_secondary)
         val txtEmptyCart = TextView(requireContext())
         val constraintSet = ConstraintSet()
         txtEmptyCart.id = ViewCompat.generateViewId()

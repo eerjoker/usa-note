@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
+import com.ort.usanote.entities.Orden
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItemRepository
 

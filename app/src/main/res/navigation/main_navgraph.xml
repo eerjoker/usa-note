@@ -23,7 +23,11 @@
         android:id="@+id/misComprasFragment"
         android:name="com.ort.usanote.fragments.MisComprasFragment"
         android:label="mis_compras_fragment"
-        tools:layout="@layout/mis_compras_fragment" />
+        tools:layout="@layout/mis_compras_fragment" >
+        <action
+            android:id="@+id/action_misComprasFragment_to_misComprasDetalleOrdenFragment"
+            app:destination="@id/misComprasDetalleOrdenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productosFragment"
         android:name="com.ort.usanote.fragments.ProductosFragment"
@@ -224,4 +228,13 @@
         android:name="com.ort.usanote.fragments.ComprasFragment"
         android:label="compras_fragment"
         tools:layout="@layout/compras_fragment" />
+    <fragment
+        android:id="@+id/misComprasDetalleOrdenFragment"
+        android:name="com.ort.usanote.fragments.MisComprasDetalleOrdenFragment"
+        android:label="mis_compras_detalle_orden_fragment"
+        tools:layout="@layout/mis_compras_detalle_orden_fragment" >
+        <argument
+            android:name="idOrden"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -2,32 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout4"
+    android:id="@+id/frameLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MisComprasFragment">
+    android:paddingTop="20dp"
+    tools:context=".fragments.MisComprasDetalleOrdenFragment">
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingVertical="20dp"
-        android:text="@string/mis_compras_title"
+        android:id="@+id/txtTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mis_compras_detalle_orden_title"
         android:textAlignment="center"
         android:textColor="@color/font_soft_grey"
-        app:layout_constraintBottom_toTopOf="@+id/cardOrdenItem"
+        app:layout_constraintBottom_toTopOf="@+id/recMisComprasDetalleOrden"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cardOrdenItem"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:id="@+id/recMisComprasDetalleOrden"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/txtTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,4 +29,5 @@
         <string name="not_logged_in">Debe estar logueado para continuar!</string>
         <string name="no_stock">No hay más stock!</string>
         <string name="mis_compras_title">Órdenes realizadas</string>
+        <string name="mis_compras_detalle_orden_title">Detalles de la orden</string>
 </resources>

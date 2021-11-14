@@ -15,8 +15,8 @@ class Orden(
     var idUsuario: String):Serializable {
     @ServerTimestamp
     var fecha: Date? = null
-    constructor():this(0,0,0.0,0.0, "", null,
+    constructor():this( 0,0,0.0,0.0, "", null,
     "", ""){
     }
-    private lateinit var idOrden: String
+    lateinit var idOrden : String
 }

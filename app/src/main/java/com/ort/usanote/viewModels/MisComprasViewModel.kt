@@ -14,10 +14,10 @@ import kotlinx.coroutines.launch
 class MisComprasViewModel : ViewModel() {
     private val db : FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    suspend fun getOrdenes(idUsuario: String) : MutableList<Orden> {
+    suspend fun getOrdenes(idUsuario: String, cb: (MutableList<Orden>) -> Unit) {
         var ordenList : MutableList<Orden> = mutableListOf()
 
-        viewModelScope.launch {
+        //viewModelScope.launch {
             db.collection("ordenes")
                 .whereEqualTo("idUsuario", idUsuario)
                 .get()
@@ -27,11 +27,14 @@ class MisComprasViewModel : ViewModel() {
                             ordenList.add(orden.toObject(Orden::class.java))
                         }
                     }
+                    cb(ordenList)
                 }
                 .addOnFailureListener { exception ->
-                    Log.d("ERROR", "Couldn't get 'ordenes' list from database. Exception: ${exception.toString()}")
+                    Log.d(
+                        "ERROR",
+                        "Couldn't get 'ordenes' list from database. Exception: ${exception.toString()}"
+                    )
                 }
-        }
-        return ordenList
+        //}
     }
 }
