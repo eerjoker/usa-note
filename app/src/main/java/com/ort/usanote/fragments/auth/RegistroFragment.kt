@@ -91,11 +91,11 @@ class RegistroFragment : Fragment() {
 
         registroButton.setOnClickListener() {
 
-            var nombre: String = nombre2TextInputEdit.text.toString()
-            var apellido: String = apellido2TextInputEdit.text.toString()
-            var telefono: String = telefono2TextInputEdit.text.toString()
-            var email: String = email2TextInputEdit.text.toString()
-            var password: String = password2TextInputEdit.text.toString()
+            var nombre: String = nombre2TextInputEdit.text.toString().trim()
+            var apellido: String = apellido2TextInputEdit.text.toString().trim()
+            var telefono: String = telefono2TextInputEdit.text.toString().trim()
+            var email: String = email2TextInputEdit.text.toString().trim()
+            var password: String = password2TextInputEdit.text.toString().trim()
 
             var nombreValido = viewModelRegistro.validateNombreApellido(nombre)
             var apellidoValido = viewModelRegistro.validateNombreApellido(apellido)
