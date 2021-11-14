@@ -113,15 +113,15 @@ class DireccionFragment : Fragment() {
 
         btnDireccion.setOnClickListener(){
 
-            var alias: String = aliasDireccion.text.toString()
-            var nombre: String = nombreDireccion.text.toString()
-            var calle: String = calleDireccion.text.toString()
-            var localidad: String = localidadDireccion.text.toString()
-            var nro: String = nroDireccion.text.toString()
-            var piso: String = pisoDireccion.text.toString()
-            var depto: String = deptoDireccion.text.toString()
-            var provincia: String = provinciaDireccion.text.toString()
-            var codigoPostal: String = codigoPostalDireccion.text.toString()
+            var alias: String = aliasDireccion.text.toString().trim()
+            var nombre: String = nombreDireccion.text.toString().trim()
+            var calle: String = calleDireccion.text.toString().trim()
+            var localidad: String = localidadDireccion.text.toString().trim()
+            var nro: String = nroDireccion.text.toString().trim()
+            var piso: String = pisoDireccion.text.toString().trim()
+            var depto: String = deptoDireccion.text.toString().trim()
+            var provincia: String = provinciaDireccion.text.toString().trim()
+            var codigoPostal: String = codigoPostalDireccion.text.toString().trim()
 
             var aliasValido: Boolean = viewModelDireccion.validateGenerales(alias)
             var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)

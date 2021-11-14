@@ -99,15 +99,15 @@ class UpdateDireccionFragment : Fragment() {
         var direccionAux = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).direccion
         var idDireccion = UpdateDireccionFragmentArgs.fromBundle(requireArguments()).id
 
-        aliasDireccion.setText(direccionAux.alias)
-        nombreDireccion.setText(direccionAux.nombreCompleto)
-        calleDireccion.setText(direccionAux.calle)
-        localidadDireccion.setText(direccionAux.localidad)
-        nroDireccion.setText(direccionAux.numero)
-        pisoDireccion.setText(direccionAux.piso)
-        deptoDireccion.setText(direccionAux.departamento)
-        provinciaDireccion.setText(direccionAux.provincia)
-        codigoPostalDireccion.setText(direccionAux.codigoPostal)
+        aliasDireccion.setText(direccionAux.alias.trim())
+        nombreDireccion.setText(direccionAux.nombreCompleto.trim())
+        calleDireccion.setText(direccionAux.calle.trim())
+        localidadDireccion.setText(direccionAux.localidad.trim())
+        nroDireccion.setText(direccionAux.numero.trim())
+        pisoDireccion.setText(direccionAux.piso.trim())
+        deptoDireccion.setText(direccionAux.departamento.trim())
+        provinciaDireccion.setText(direccionAux.provincia.trim())
+        codigoPostalDireccion.setText(direccionAux.codigoPostal.trim())
 
         viewModelDireccion.actualizacionExitosa.observe(viewLifecycleOwner, Observer { result ->
             if (result){
@@ -150,15 +150,15 @@ class UpdateDireccionFragment : Fragment() {
 
         btnActualizarDireccion.setOnClickListener(){
 
-            var alias: String = aliasDireccion.text.toString()
-            var nombre: String = nombreDireccion.text.toString()
-            var calle: String = calleDireccion.text.toString()
-            var localidad: String = localidadDireccion.text.toString()
-            var nro: String = nroDireccion.text.toString()
-            var piso: String = pisoDireccion.text.toString()
-            var depto: String = deptoDireccion.text.toString()
-            var provincia: String = provinciaDireccion.text.toString()
-            var codigoPostal: String = codigoPostalDireccion.text.toString()
+            var alias: String = aliasDireccion.text.toString().trim()
+            var nombre: String = nombreDireccion.text.toString().trim()
+            var calle: String = calleDireccion.text.toString().trim()
+            var localidad: String = localidadDireccion.text.toString().trim()
+            var nro: String = nroDireccion.text.toString().trim()
+            var piso: String = pisoDireccion.text.toString().trim()
+            var depto: String = deptoDireccion.text.toString().trim()
+            var provincia: String = provinciaDireccion.text.toString().trim()
+            var codigoPostal: String = codigoPostalDireccion.text.toString().trim()
 
             var aliasValido: Boolean = viewModelDireccion.validateGenerales(alias)
             var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)

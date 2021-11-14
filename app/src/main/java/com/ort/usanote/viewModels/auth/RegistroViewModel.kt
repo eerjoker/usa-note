@@ -79,9 +79,7 @@ class RegistroViewModel : ViewModel() {
         if (phone.isEmpty()){
             msgErrorPhone = "Debe completar su celular"
         }else if (phone.length < 10 || phone.length > 10){
-            msgErrorPhone = "Debe tener 10 digitos incluyendo el 11"
-        }else if ((!phone[0].equals("1".toCharArray()[0], false)) || !phone[1].equals("1".toCharArray()[0], false)){
-            msgErrorPhone = "Debe empezar con 11"
+            msgErrorPhone = "Debe tener 10 digitos incluyendo el código de área"
         }else{
             phoneValido = true
         }
