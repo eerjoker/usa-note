@@ -112,10 +112,10 @@ class UserFragment : Fragment() {
 
         viewModelUser.userDb.observe(viewLifecycleOwner, Observer {
             if (it != null){
-                nombreText.setText("${it.nombre}")
-                apellidoText.setText("${it.apellido}")
-                emailText.setText("${it.email}")
-                telefonoText.setText("${it.telefono}")
+                nombreText.setText("${it.nombre.trim()}")
+                apellidoText.setText("${it.apellido.trim()}")
+                emailText.setText("${it.email.trim()}")
+                telefonoText.setText("${it.telefono.trim()}")
             }
         })
 
@@ -145,7 +145,7 @@ class UserFragment : Fragment() {
 
             nombreText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModelUser.updateUser("nombre", nombreText.text.toString())
+                    viewModelUser.updateUser("nombre", nombreText.text.toString().trim())
                     nombreLayout.isEnabled = false
                 }
             }
@@ -156,7 +156,7 @@ class UserFragment : Fragment() {
 
             apellidoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModelUser.updateUser("apellido", apellidoText.text.toString())
+                    viewModelUser.updateUser("apellido", apellidoText.text.toString().trim())
                     apellidoLayout.isEnabled = false
                 }
             }
@@ -166,8 +166,8 @@ class UserFragment : Fragment() {
             emailLayout.isEnabled = true
             emailText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModelUser.updateUser("email", emailText.text.toString())
-                    viewModelUser.updateEmail(emailText.text.toString())
+                    viewModelUser.updateUser("email", emailText.text.toString().trim())
+                    viewModelUser.updateEmail(emailText.text.toString().trim())
                     emailLayout.isEnabled = false
                 }
             }
@@ -178,7 +178,7 @@ class UserFragment : Fragment() {
 
             telefonoText.setOnFocusChangeListener {_, hasFocus ->
                 if (!hasFocus){
-                    viewModelUser.updateUser("telefono", telefonoText.text.toString())
+                    viewModelUser.updateUser("telefono", telefonoText.text.toString().trim())
                     telefonoLayout.isEnabled = false
                 }
             }
