@@ -181,52 +181,6 @@
         app:layout_constraintTop_toBottomOf="@+id/agregaDireccionbtn" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cambiarApellido"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="18dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
-        app:layout_constraintTop_toTopOf="@+id/apellidoUserInputLayOutTxt" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cambiarEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="18dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/emailUserInputLayOutTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/emailUserInputLayOutTxt"
-        app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cambiarTelefono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="18dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_edit"
-        app:backgroundTint="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/telefonoUserInputLayOutTxt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/telefonoUserInputLayOutTxt"
-        app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cambiarNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -250,6 +204,145 @@
         app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
         app:maxImageSize="24dp"
         app:pressedTranslationZ="6dp" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarApellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/apellidoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarApellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_editor_absoluteY="241dp"
+        app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/apellidoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_editor_absoluteY="241dp"
+        app:layout_constraintBottom_toBottomOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_edit"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarTelefono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/agredarDireccionMas"
@@ -276,6 +369,8 @@
         app:pressedTranslationZ="6dp"
         app:useCompatPadding="false"
         tools:visibility="visible" />
+
+
 
     <ProgressBar
         android:id="@+id/progressBar3"

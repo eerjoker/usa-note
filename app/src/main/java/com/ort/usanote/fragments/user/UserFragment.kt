@@ -30,18 +30,22 @@ class UserFragment : Fragment() {
     lateinit var nombreLayout: TextInputLayout
     lateinit var nombreText: TextInputEditText
     lateinit var btnNombre: FloatingActionButton
+    lateinit var btnConfirmarNombre: FloatingActionButton
 
     lateinit var apellidoLayout: TextInputLayout
     lateinit var apellidoText: TextInputEditText
     lateinit var btnApellido: FloatingActionButton
+    lateinit var btnConfirmarApellido: FloatingActionButton
 
     lateinit var emailLayout: TextInputLayout
     lateinit var emailText: TextInputEditText
     lateinit var btnEmail: FloatingActionButton
+    lateinit var btnConfirmarEmail: FloatingActionButton
 
     lateinit var telefonoLayout: TextInputLayout
     lateinit var telefonoText: TextInputEditText
     lateinit var btnTelefono: FloatingActionButton
+    lateinit var btnConfirmarTelefono: FloatingActionButton
 
     lateinit var btnDireccion: Button
     lateinit var btnSecundarioDireccion: FloatingActionButton
@@ -73,18 +77,22 @@ class UserFragment : Fragment() {
         nombreLayout = v.findViewById(R.id.nombreUserInputLayOutTxt)
         nombreText = v.findViewById(R.id.nombreUserTxt)
         btnNombre = v.findViewById(R.id.cambiarNombre)
+        btnConfirmarNombre = v.findViewById(R.id.confirmarNombre)
 
         apellidoLayout = v.findViewById(R.id.apellidoUserInputLayOutTxt)
         apellidoText = v.findViewById(R.id.apellidoUserTxt)
         btnApellido = v.findViewById(R.id.cambiarApellido)
+        btnConfirmarApellido = v.findViewById(R.id.confirmarApellido)
 
         emailLayout = v.findViewById(R.id.emailUserInputLayOutTxt)
         emailText = v.findViewById(R.id.emailUserTxt)
         btnEmail = v.findViewById(R.id.cambiarEmail)
+        btnConfirmarEmail = v.findViewById(R.id.confirmarEmail)
 
         telefonoLayout = v.findViewById(R.id.telefonoUserInputLayOutTxt)
         telefonoText = v.findViewById(R.id.telefonoUserTxt)
         btnTelefono = v.findViewById(R.id.cambiarTelefono)
+        btnConfirmarTelefono = v.findViewById(R.id.confirmarTelefono)
 
         progressBar = v.findViewById(R.id.progressBar3)
 
@@ -98,6 +106,11 @@ class UserFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        btnConfirmarNombre.hide()
+        btnConfirmarApellido.hide()
+        btnConfirmarEmail.hide()
+        btnConfirmarTelefono.hide()
 
         progressBar.setVisibility(View.VISIBLE)
 
@@ -141,10 +154,19 @@ class UserFragment : Fragment() {
 
 
         btnNombre.setOnClickListener() {
+            btnNombre.hide()
+            btnConfirmarNombre.show()
+
             nombreLayout.isEnabled = true
 
-            nombreText.setOnFocusChangeListener {_, hasFocus ->
-                if (!hasFocus){
+            btnConfirmarNombre.setOnClickListener(){
+
+                var msgError = viewModelUser.validateNombreApellido(nombreText.text.toString().trim())
+                if (msgError != null){
+                    nombreLayout.error = msgError
+                }else{
+                    btnConfirmarNombre.hide()
+                    btnNombre.show()
                     viewModelUser.updateUser("nombre", nombreText.text.toString().trim())
                     nombreLayout.isEnabled = false
                 }
@@ -152,10 +174,19 @@ class UserFragment : Fragment() {
         }
 
         btnApellido.setOnClickListener() {
+            btnApellido.hide()
+            btnConfirmarApellido.show()
+
             apellidoLayout.isEnabled = true
 
-            apellidoText.setOnFocusChangeListener {_, hasFocus ->
-                if (!hasFocus){
+            btnConfirmarApellido.setOnClickListener(){
+
+                var msgError = viewModelUser.validateNombreApellido(apellidoText.text.toString().trim())
+                if (msgError != null){
+                    apellidoLayout.error = msgError
+                }else{
+                    btnConfirmarApellido.hide()
+                    btnApellido.show()
                     viewModelUser.updateUser("apellido", apellidoText.text.toString().trim())
                     apellidoLayout.isEnabled = false
                 }
@@ -163,9 +194,19 @@ class UserFragment : Fragment() {
         }
 
         btnEmail.setOnClickListener() {
+            btnEmail.hide()
+            btnConfirmarEmail.show()
+
             emailLayout.isEnabled = true
-            emailText.setOnFocusChangeListener {_, hasFocus ->
-                if (!hasFocus){
+
+            btnConfirmarEmail.setOnClickListener(){
+
+                var msgError = viewModelUser.validateEmail(emailText.text.toString().trim())
+                if (msgError != null){
+                    emailLayout.error = msgError
+                }else{
+                    btnConfirmarEmail.hide()
+                    btnEmail.show()
                     viewModelUser.updateUser("email", emailText.text.toString().trim())
                     viewModelUser.updateEmail(emailText.text.toString().trim())
                     emailLayout.isEnabled = false
@@ -174,10 +215,19 @@ class UserFragment : Fragment() {
         }
 
         btnTelefono.setOnClickListener() {
+            btnTelefono.hide()
+            btnConfirmarTelefono.show()
+
             telefonoLayout.isEnabled = true
 
-            telefonoText.setOnFocusChangeListener {_, hasFocus ->
-                if (!hasFocus){
+            btnConfirmarTelefono.setOnClickListener(){
+
+                var msgError = viewModelUser.validateTelefono(telefonoText.text.toString().trim())
+                if (msgError != null){
+                    telefonoLayout.error = msgError
+                }else{
+                    btnConfirmarTelefono.hide()
+                    btnTelefono.show()
                     viewModelUser.updateUser("telefono", telefonoText.text.toString().trim())
                     telefonoLayout.isEnabled = false
                 }
