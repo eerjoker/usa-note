@@ -61,12 +61,12 @@ class DireccionViewModel : ViewModel() {
 
     fun validateNombreApellido(nombre: String): Boolean{
         var nombreValido: Boolean = false
-        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{1,40})" + "$")
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{3,20})" + "$")
 
         if (nombre.isEmpty()){
             msgErrorNombreApellido = "debe completar este campo"
         }else if (!passwordRegex.matcher(nombre).matches()){
-            msgErrorNombreApellido = "Solo se permiten letras"
+            msgErrorNombreApellido = "Solo se permiten letras con un máximo de 3 a 20"
         }else{
             nombreValido = true
         }
@@ -80,7 +80,7 @@ class DireccionViewModel : ViewModel() {
         if (nombre.isEmpty()){
             msgErrorNumeros = "debe completar este campo"
         }else if (!passwordRegex.matcher(nombre).matches()){
-            msgErrorNumeros = "Solo se permiten letras"
+            msgErrorNumeros = "Solo se permiten 10 dígitos incluyendo el código de área"
         }else{
             nombreValido = true
         }

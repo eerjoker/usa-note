@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.usanote.entities.Direccion
@@ -38,14 +39,25 @@ class UpdateDireccionViewModel : ViewModel() {
 
         db.collection("direcciones").document(id).delete().addOnCompleteListener(){
             if (it.isSuccessful){
-                eliminacionExitosa.value = true
-                Log.d("Auth", "Se se ha podido eliminar en la BD de direcciones")
-            }else{
-                eliminacionExitosa.value = false
-                Log.d("Auth", "No se ha podido eliminar en la BD de direcciones")
+                if (user != null) {
+                    Log.d("Auth", "Se se ha podido eliminar en la BD de direcciones")
+                    db.collection("usuarios").document(user.uid).update("direcciones", FieldValue.arrayRemove(
+                        id)).addOnCompleteListener(){
+                            if (it.isSuccessful){
+                                eliminacionExitosa.value = true
+                                Log.d("Auth", "Se se ha podido eliminar en usuarios")
+                            }else{
+                                eliminacionExitosa.value = false
+                                Log.d("Auth", "No se ha podido eliminar en usuarios")
+                            }
+                    }
+                }else{
+                    eliminacionExitosa.value = false
+                    Log.d("Auth", "No se ha podido eliminar de la BD de direcciones")
+                    }
+                }
             }
         }
-    }
 
     fun validateGenerales(texto: String): Boolean {
 
@@ -60,12 +72,12 @@ class UpdateDireccionViewModel : ViewModel() {
 
     fun validateNombreApellido(nombre: String): Boolean{
         var nombreValido: Boolean = false
-        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{1,40})" + "$")
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{3,20})" + "$")
 
         if (nombre.isEmpty()){
             msgErrorNombreApellido = "debe completar este campo"
         }else if (!passwordRegex.matcher(nombre).matches()){
-            msgErrorNombreApellido = "Solo se permiten letras"
+            msgErrorNombreApellido = "Solo se permiten letras con un máximo de 3 a 20"
         }else{
             nombreValido = true
         }

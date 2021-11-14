@@ -87,20 +87,13 @@ class MainActivity : AppCompatActivity() {
 
         when(item.itemId) {
 
-            R.id.action_login_logout -> {
-                val action = NavDeepLinkBuilder(this@MainActivity)
-                .setGraph(R.navigation.main_navgraph)
-                .addDestination(R.id.loginFragment)
-                .createPendingIntent()
-                action.send()
+            R.id.loginFragment -> {
+
+                NavigationUI.onNavDestinationSelected(item, navController)
             }
 
-            R.id.action_carrito -> {
-                val action = NavDeepLinkBuilder(this@MainActivity)
-                    .setGraph(R.navigation.main_navgraph)
-                    .addDestination(R.id.carritoFragment)
-                    .createPendingIntent()
-                action.send()
+            R.id.carritoFragment -> {
+                NavigationUI.onNavDestinationSelected(item, navController)
             }
 
             else -> { }
