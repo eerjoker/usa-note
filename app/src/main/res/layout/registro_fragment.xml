@@ -107,7 +107,7 @@
         app:errorEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="10"
-        app:helperText="Debe ser un celular empezando con 11"
+        app:helperText="Debe ser un celular empezando con 10 dígitos incluyendo el código de área"
         app:layout_constraintBottom_toTopOf="@+id/emailInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
