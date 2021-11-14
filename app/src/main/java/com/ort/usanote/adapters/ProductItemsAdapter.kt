@@ -111,8 +111,9 @@ class ProductItemsAdapter(
                         .addOnSuccessListener { documentSnapshot ->
                             val product = documentSnapshot.toObject<Product>()
                             if (product != null && product.stock > 0) {
-                                cart.incrementProductQuantity(position, 1)
                                 updateValues(holder, productItemList[position], 1)
+                                cart.incrementProductQuantity(position, 1)
+
                             } else {
                                 val rootLayout = holder.getCardView()
                                 Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
@@ -125,8 +126,8 @@ class ProductItemsAdapter(
                         }
                 } else if(isLeftDrawable(productItemQuantity, event.rawX)) {
                     if (productItemList[position].quantity > 1) {
-                        cart.incrementProductQuantity(position, -1)
                         updateValues(holder, productItemList[position], -1)
+                        cart.incrementProductQuantity(position, -1)
                     }
                 }
                 return@OnTouchListener true
