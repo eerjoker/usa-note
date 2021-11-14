@@ -69,7 +69,7 @@ class Repo {
                      return@addSnapshotListener
                 }
                 if(value !=null){
-                   productFromDB = value.toObject(Product::class.java)!!
+                    productFromDB = value.toObject(Product::class.java)!!
                     stockFromDB = productFromDB.stock
                     mutableDataRepo.value = stockFromDB
                 }
