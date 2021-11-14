@@ -31,6 +31,9 @@ class ProductDescriptionViewModel : ViewModel() {
         return  mutableLiveData
     }
 
+    fun decrementStock(idProducto: String,amount:Double){
+        repo.decrementStock(idProducto,amount)
+    }
 
 
 }
