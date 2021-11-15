@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -23,6 +24,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.ModalAdapter
+import com.ort.usanote.viewModels.auth.LoginViewModel
 import com.ort.usanote.viewModels.productos.ProductDescriptionViewModel
 
 
@@ -32,6 +34,7 @@ class ProductDescriptionFragment : Fragment() {
         fun newInstance() = ProductDescriptionFragment()
     }
     private val viewModelPD: ProductDescriptionViewModel by viewModels()
+    private val viewModelLogin: LoginViewModel by activityViewModels()
     private lateinit var btnToCart:Button
     private lateinit var btnAddCart: Button
     private lateinit var idProducto: String
@@ -56,11 +59,6 @@ class ProductDescriptionFragment : Fragment() {
         btnStock(v)
 
         return v
-    }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
 
@@ -107,11 +105,20 @@ class ProductDescriptionFragment : Fragment() {
         })
     }
 
+    fun observeIsClient() {
+        viewModelLogin.esCliente.observe(viewLifecycleOwner, Observer {
+            if(!it){
+                btnAddCart.visibility = View.GONE
+                btnToCart.visibility = View.GONE
+            }
+        })
+    }
 
     override fun onStart() {
         super.onStart()
         observerStock()
         observeCurrentStock()
+        observeIsClient()
         initView()
 
 

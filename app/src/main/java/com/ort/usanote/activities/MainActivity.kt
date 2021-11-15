@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             }
             NavigationUI.onNavDestinationSelected(it, navController)
             return@setOnItemSelectedListener true
-        }
+            }
     }
 
     private fun updateContextOnLogout() {
