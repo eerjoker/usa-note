@@ -12,7 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +29,7 @@ import com.ort.usanote.entities.DetalleOrden
 import com.ort.usanote.entities.Envio
 import com.ort.usanote.entities.Orden
 import com.ort.usanote.entities.ProductItemRepository
+import com.ort.usanote.fragments.direccion.DireccionFragmentDirections
 import com.ort.usanote.viewModels.PurchaseConfirmationViewModel
 
 class PurchaseConfirmationFragment : Fragment() {
@@ -93,7 +98,7 @@ class PurchaseConfirmationFragment : Fragment() {
         return v
     }
 
-    private fun updateDB () {
+    private fun updateDB (cb: (Boolean) -> Unit) {
         val user = auth.currentUser
         val cantProductos = calculateCantProductos(itemsCarrito)
         val subtotal = calculateSubtotalItemsCarrito(itemsCarrito)
@@ -109,65 +114,72 @@ class PurchaseConfirmationFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     entregadoA = document.data!!["email"] as String // Obteniendo mail
-                    idDireccionEntrega = (document.data!!["direcciones"] as ArrayList<String>).get(0) //Obteniendo primer id en array de idsDirecciones
-                    val envio = this.envio //Objeto Envio de momento hardcodeado, deberia ser recibido por parametro segun lo elegido en shipmentFragment
-                    val direcRef = db.collection("direcciones").document(idDireccionEntrega)
-                    if (direcRef != null) {
-                        direcRef.get()
-                            .addOnSuccessListener { document ->
-                                if (document != null) {
-                                    direccionEntregaCompleta = document.data!!["calle"].toString() + document.data!!["numero"].toString() //Direccion concatenando campos segun idDirecciones
-                                    val ordenesRef = db.collection("ordenes")
-                                    val numeroOrdenMayor = ordenesRef.orderBy("numeroOrden", Query.Direction.DESCENDING).limit(1)
-                                    numeroOrdenMayor.get()
-                                        .addOnSuccessListener { document ->
-                                            if (document != null) {
-                                                val numeroDeOrden = (document.documents.get(0).get("numeroOrden") as Long).toInt() + 1 //Numero de orden mayor en tabla Orden + 1
-                                                Log.d("Numero de Orden = ", "Este: " +  document.documents.get(0).get("numeroOrden"))
-                                                val dbOrder: Orden = Orden(
-                                                    numeroDeOrden,
-                                                    cantProductos,
-                                                    subtotal,
-                                                    total,
-                                                    entregadoA,
-                                                    envio,
-                                                    direccionEntregaCompleta,
-                                                    user.uid
-                                                )
-                                                db.collection("ordenes").add(dbOrder).addOnCompleteListener() {
-                                                    if (it.isSuccessful) {
-                                                        Log.d("Orden", "Se pudo guardar en la BD de ordenes")
-                                                        val idDetalleOrden = it.result?.id.toString()
-                                                        itemsCarrito.getProductItems().forEach {
-                                                            val detalleOrden = DetalleOrden(
-                                                                idDetalleOrden,
-                                                                it.producto,
-                                                                it.quantity
+                    val direcciones = document.data!!["direcciones"] as ArrayList<String>
+                    if (direcciones.size == 0) {
+                        cb(true)
+                    } else {
+                        idDireccionEntrega = direcciones.get(0) //Obteniendo primer id en array de idsDirecciones
+                        val envio = this.envio //Objeto Envio de momento hardcodeado, deberia ser recibido por parametro segun lo elegido en shipmentFragment
+                        val direcRef = db.collection("direcciones").document(idDireccionEntrega)
+                        if (direcRef != null) {
+                            direcRef.get()
+                                .addOnSuccessListener { document ->
+                                    if (document != null) {
+                                        direccionEntregaCompleta = document.data!!["calle"].toString() + document.data!!["numero"].toString() //Direccion concatenando campos segun idDirecciones
+                                        val ordenesRef = db.collection("ordenes")
+                                        val numeroOrdenMayor = ordenesRef.orderBy("numeroOrden", Query.Direction.DESCENDING).limit(1)
+                                        numeroOrdenMayor.get()
+                                            .addOnSuccessListener { document ->
+                                                if (document != null) {
+                                                    val numeroDeOrden = (document.documents.get(0).get("numeroOrden") as Long).toInt() + 1 //Numero de orden mayor en tabla Orden + 1
+                                                    Log.d("Numero de Orden = ", "Este: " +  document.documents.get(0).get("numeroOrden"))
+                                                    val dbOrder: Orden = Orden(
+                                                        numeroDeOrden,
+                                                        cantProductos,
+                                                        subtotal,
+                                                        total,
+                                                        entregadoA,
+                                                        envio,
+                                                        direccionEntregaCompleta,
+                                                        user.uid
+                                                    )
+                                                    db.collection("ordenes").add(dbOrder).addOnCompleteListener() {
+                                                        if (it.isSuccessful) {
+                                                            Log.d("Orden", "Se pudo guardar en la BD de ordenes")
+                                                            val idDetalleOrden = it.result?.id.toString()
+                                                            itemsCarrito.getProductItems().forEach {
+                                                                val detalleOrden = DetalleOrden(
+                                                                    idDetalleOrden,
+                                                                    it.producto,
+                                                                    it.quantity
                                                                 )
-                                                            db.collection("detalleDeOrdenes").add(detalleOrden)
+                                                                db.collection("detalleDeOrdenes").add(detalleOrden)
+                                                                    .addOnSuccessListener {
+                                                                        cb(false)
+                                                                    }
+                                                            }
+                                                        } else {
+                                                            Log.d(
+                                                                "Orden",
+                                                                "No se ha podido guardar en la BD de ordenes"
+                                                            )
                                                         }
                                                         db.collection("envios").add(this.envio)
-                                                    } else {
-                                                        Log.d(
-                                                            "Orden",
-                                                            "No se ha podido guardar en la BD de ordenes"
-                                                        )
                                                     }
                                                 }
                                             }
-                                        }
-                                } else {
-                                    Log.d(TAG, "No existe determinado document")
+                                    } else {
+                                        Log.d(TAG, "No existe determinado document")
+                                    }
                                 }
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.d(TAG, "get failed with ", exception)
-                            }
+                                .addOnFailureListener { exception ->
+                                    Log.d(TAG, "get failed with ", exception)
+                                }
 
-                    } else {
-                        Log.d(TAG, "No such document")
+                        } else {
+                            Log.d(TAG, "No such document")
+                        }
                     }
-
                 }
             }
     }
@@ -213,9 +225,19 @@ class PurchaseConfirmationFragment : Fragment() {
         productItems = itemsCarrito
         recyclerView(v, requireContext())
         btnContinue.setOnClickListener {
-            updateDB()
-            val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
-            v.findNavController().navigate(action)
+            updateDB() { goToDireccion ->
+                if (goToDireccion) {
+                    var mainActivity = (activity as MainActivity)
+                    mainActivity.actionForRedirection = DireccionFragmentDirections.actionDireccionFragmentToPurchaseConfirmationFragment(envio)
+                    mainActivity.alertDangerMessage = getString(R.string.direccion_missing)
+                    val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToDireccionFragment()
+                    v.findNavController().navigate(action)
+                } else {
+                    val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
+                    var navController = v.findNavController()
+                    navController.navigate(action)
+                }
+            }
         }
     }
 

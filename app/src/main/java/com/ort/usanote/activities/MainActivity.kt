@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar : Toolbar
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var itemsCarrito : ProductItemRepository = ProductItemRepository()
+    var actionForRedirection : NavDirections? = null
+    var alertDangerMessage = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,5 +115,10 @@ class MainActivity : AppCompatActivity() {
     private fun updateContextOnLogout() {
         // bottombar - remueve item de estadisticas si lo hay
         bottomNavigationView.menu.removeItem(R.id.estadisticasFragment)
+    }
+
+    fun redirectDone() {
+        actionForRedirection = null
+        alertDangerMessage = ""
     }
 }

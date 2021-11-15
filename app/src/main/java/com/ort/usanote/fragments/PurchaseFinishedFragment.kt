@@ -40,14 +40,11 @@ class PurchaseFinishedFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        val itemsCarrito = (activity as MainActivity).itemsCarrito
+        itemsCarrito.dropList()
         btnBackToHome.setOnClickListener {
-            val itemsCarrito = (activity as MainActivity).itemsCarrito
-            print(itemsCarrito)
-            itemsCarrito.dropList()
-            print(itemsCarrito)
             val action = PurchaseFinishedFragmentDirections.actionPurchaseFinishedFragmentToInicioFragment()
             v.findNavController().navigate(action)
-
         }
     }
 
