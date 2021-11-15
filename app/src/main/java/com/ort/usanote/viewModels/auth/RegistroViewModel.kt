@@ -60,11 +60,11 @@ class RegistroViewModel : ViewModel() {
 
     fun validateNombreApellido(nombre: String): Boolean{
         var nombreValido: Boolean = false
-        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{3,20})" + "$")
+        val nombredRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ]{3,20})" + "$")
 
         if (nombre.isEmpty()){
             msgErrorNombreApellido = "debe completar este campo"
-        }else if (!passwordRegex.matcher(nombre).matches()){
+        }else if (!nombredRegex.matcher(nombre).matches()){
             msgErrorNombreApellido = "Solo se permiten letras con un máximo de 3 a 20"
         }else{
             nombreValido = true

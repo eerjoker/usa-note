@@ -12,8 +12,7 @@
         <string name="apellido">Apellido</string>
         <string name="telefono">Teléfono</string>
         <string name="recovery_password">Olvide mi contraseña</string>
-        <string name="primer_text_registro">¿Aún no estas registrado? Hace click</string>
-        <string name="segundo_text_registro">Aqui</string>
+        <string name="segundo_text_registro">¿Aún no estas registrado? Hace click aquí</string>
         <string name="title_check_email">Verificación de Email</string>
         <string name="subtitle_check_email">Para completar su registro verifique su correo.</string>
         <string name="continue_check_email">Continuar</string>
