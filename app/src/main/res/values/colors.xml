@@ -15,4 +15,6 @@
     <color name="placeholder_bg">#BFBABA</color>
     <color name="gris">#1C201E</color>
     <color name="secundario">#95AFF1</color>
+    <color name="verde_confirm">#4CAF50</color>
+    <color name="rojo_denied">#E91E3C</color>
 </resources>
