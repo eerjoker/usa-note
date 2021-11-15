@@ -12,8 +12,4 @@
         android:id="@+id/userFragment"
         android:icon="@drawable/round_account_circle_white_24dp"
         android:title="Usuario" />
-    <item
-        android:id="@+id/contactoFragment"
-        android:icon="@drawable/ic_lock"
-        android:title="Contacto" />
 </menu>

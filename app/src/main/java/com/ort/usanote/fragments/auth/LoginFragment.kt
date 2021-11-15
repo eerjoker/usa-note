@@ -1,7 +1,6 @@
 package com.ort.usanote.fragments.auth
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,7 +11,6 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -88,6 +86,7 @@ class LoginFragment : Fragment() {
                 progressBar.setVisibility(View.GONE)
 
                 updateContextOnLogin()
+
                 val action = LoginFragmentDirections.actionLoginFragmentToInicioFragment()
                 v.findNavController().navigate(action)
             } else {
@@ -98,6 +97,17 @@ class LoginFragment : Fragment() {
                     .show()
             }
         })
+
+
+        viewModel.esCliente.observe(viewLifecycleOwner, Observer {
+            if(!it){
+                bottomNavigationView.menu.add(Menu.NONE, R.id.estadisticasFragment, Menu.NONE
+                    , "Estadísticas")
+                bottomNavigationView.menu.findItem(R.id.estadisticasFragment)
+                    .setIcon(R.drawable.baseline_equalizer_white_24dp)
+            }
+        })
+
 
         loginButton.setOnClickListener(){
 
@@ -148,7 +158,5 @@ class LoginFragment : Fragment() {
         val loginItem = toolbar.menu.findItem(R.id.loginFragment)
         loginItem.icon = resources.getDrawable(R.drawable.baseline_logout_white_24dp, theme)
 
-        // bottombar - ve si agrega item para estadisticas
-        viewModel.changeToAdminMenu(bottomNavigationView.menu)
     }
 }
