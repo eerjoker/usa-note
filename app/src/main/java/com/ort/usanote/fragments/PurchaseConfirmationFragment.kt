@@ -21,6 +21,7 @@ import com.google.firebase.firestore.Query
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.CheckoutAdapter
+import com.ort.usanote.entities.DetalleOrden
 import com.ort.usanote.entities.Envio
 import com.ort.usanote.entities.Orden
 import com.ort.usanote.entities.ProductItemRepository
@@ -111,6 +112,15 @@ class PurchaseConfirmationFragment : Fragment() {
                                                 db.collection("ordenes").add(dbOrder).addOnCompleteListener() {
                                                     if (it.isSuccessful) {
                                                         Log.d("Orden", "Se pudo guardar en la BD de ordenes")
+                                                        val idDetalleOrden = it.result?.id.toString()
+                                                        itemsCarrito.getProductItems().forEach {
+                                                            val detalleOrden: DetalleOrden = DetalleOrden(
+                                                                idDetalleOrden,
+                                                                it.product,
+                                                                it.quantity
+                                                                )
+                                                            db.collection("detalleDeOrdenes").add(detalleOrden)
+                                                        }
                                                     } else {
                                                         Log.d(
                                                             "Orden",

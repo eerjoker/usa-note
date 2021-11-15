@@ -19,6 +19,7 @@ import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.entities.Product
 import com.ort.usanote.entities.ProductItemRepository
+import com.ort.usanote.fragments.productos.ProductDescriptionFragmentArgs
 import com.ort.usanote.viewModels.ProductDescriptionViewModel
 
 class ProductDescriptionFragment : Fragment() {

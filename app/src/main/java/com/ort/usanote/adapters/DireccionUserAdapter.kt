@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ort.usanote.R
 import com.ort.usanote.entities.Direccion
-import com.ort.usanote.fragments.UserFragment
-import com.ort.usanote.viewModels.UpdateDireccionViewModel
 
 
 class DireccionUserAdapter(

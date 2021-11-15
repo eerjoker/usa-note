@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.UserFragment">
+    tools:context=".fragments.user.UserFragment">
 
     <TextView
         android:id="@+id/userTitle"
@@ -14,6 +14,7 @@
         android:layout_marginStart="176dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="177dp"
+        android:layout_marginBottom="16dp"
         android:text="Datos Personales"
         android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/nombreUserInputLayOutTxt"
@@ -27,7 +28,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
         android:enabled="false"
         android:hint="Nombre"
         app:boxBackgroundMode="outline"
@@ -41,8 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/apellidoUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userTitle"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">>
+        app:layout_constraintTop_toBottomOf="@+id/userTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nombreUserTxt"
@@ -72,8 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/emailUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/nombreUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/apellidoUserTxt"
@@ -105,8 +103,7 @@
         app:layout_constraintBottom_toTopOf="@+id/telefonoUserInputLayOutTxt"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apellidoUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/apellidoUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailUserTxt"
@@ -135,11 +132,12 @@
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
         app:layout_constraintBottom_toTopOf="@+id/agregaDireccionbtn"
         app:layout_constraintEnd_toStartOf="@+id/cambiarNombre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailUserInputLayOutTxt"
-        app:startIconDrawable="@drawable/ic_pencil_action_name">
+        app:layout_constraintTop_toBottomOf="@+id/emailUserInputLayOutTxt">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/telefonoUserTxt"
@@ -185,6 +183,53 @@
         app:layout_constraintTop_toBottomOf="@+id/agregaDireccionbtn" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cambiarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nombreUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
+        app:maxImageSize="24dp"
+        app:pressedTranslationZ="6dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cambiarApellido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -195,6 +240,29 @@
         android:src="@android:drawable/ic_menu_edit"
         app:backgroundTint="@android:color/transparent"
         app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/apellidoUserInputLayOutTxt" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarApellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_editor_absoluteY="241dp"
         app:layout_constraintBottom_toBottomOf="@+id/apellidoUserInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/apellidoUserInputLayOutTxt"
@@ -216,6 +284,29 @@
         app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/confirmarEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="18dp"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:nestedScrollingEnabled="false"
+        android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        android:scrollbarFadeDuration="250"
+        android:scrollbarSize="4dp"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ic_confirm"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_editor_absoluteY="241dp"
+        app:layout_constraintBottom_toBottomOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emailUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/emailUserInputLayOutTxt"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cambiarTelefono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -231,7 +322,7 @@
         app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cambiarNombre"
+        android:id="@+id/confirmarTelefono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -240,20 +331,18 @@
         android:clickable="true"
         android:nestedScrollingEnabled="false"
         android:outlineProvider="none"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
         android:scrollbarFadeDuration="250"
         android:scrollbarSize="4dp"
         android:soundEffectsEnabled="false"
-        android:src="@android:drawable/ic_menu_edit"
-        app:backgroundTint="@android:color/transparent"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:hoveredFocusedTranslationZ="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/nombreUserInputLayOutTxt"
+        android:src="@drawable/ic_confirm"
+        app:layout_constraintBottom_toBottomOf="@+id/telefonoUserInputLayOutTxt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/nombreUserInputLayOutTxt"
-        app:layout_constraintTop_toTopOf="@+id/nombreUserInputLayOutTxt"
-        app:maxImageSize="24dp"
-        app:pressedTranslationZ="6dp" />
+        app:layout_constraintStart_toEndOf="@+id/telefonoUserInputLayOutTxt"
+        app:layout_constraintTop_toTopOf="@+id/telefonoUserInputLayOutTxt" />
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/agredarDireccionMas"
@@ -280,5 +369,19 @@
         app:pressedTranslationZ="6dp"
         app:useCompatPadding="false"
         tools:visibility="visible" />
+
+
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="83dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

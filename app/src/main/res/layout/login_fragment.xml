@@ -92,7 +92,7 @@
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintBottom_toTopOf="@+id/updateButton2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputLayOutTxt"
@@ -109,16 +109,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginButton"
+        android:id="@+id/updateButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="54dp"
         android:background="@drawable/ic_button"
         android:hint="@string/login"
         android:text="@string/login"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/recovery_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,18 +130,21 @@
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toBottomOf="@+id/passwordLoginTxt" />
 
-    <TextView
+    <Button
         android:id="@+id/recovery_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="250dp"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="280dp"
+        android:layout_marginEnd="32dp"
+        android:background="#00FFFFFF"
+        android:textColor="#3F51B5"
+        android:textColorHint="#7C7878"
         android:text="@string/recovery_password"
         app:layout_constraintBottom_toTopOf="@+id/segundo_text_registro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/updateButton2"
         tools:layout_constraintEnd_toStartOf="@+id/primer_text_registro"
         tools:layout_constraintHorizontal_bias="0.0"
         tools:layout_constraintStart_toStartOf="parent"
@@ -149,7 +154,7 @@
         android:id="@+id/primer_text_registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="180dp"
         android:text="@string/primer_text_registro"
@@ -162,15 +167,16 @@
         android:id="@+id/segundo_text_registro"
         android:layout_width="67dp"
         android:layout_height="49dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="164dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="150dp"
         android:background="#00FFFFFF"
         android:text="@string/segundo_text_registro"
         android:textColor="#3F51B5"
         android:textColorHint="#7C7878"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/primer_text_registro" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

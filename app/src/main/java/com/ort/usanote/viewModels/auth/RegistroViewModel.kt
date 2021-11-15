@@ -61,12 +61,12 @@ class RegistroViewModel : ViewModel() {
 
     fun validateNombreApellido(nombre: String): Boolean{
         var nombreValido: Boolean = false
-        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{1,40})" + "$")
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{3,20})" + "$")
 
         if (nombre.isEmpty()){
             msgErrorNombreApellido = "debe completar este campo"
         }else if (!passwordRegex.matcher(nombre).matches()){
-            msgErrorNombreApellido = "Solo se permiten letras"
+            msgErrorNombreApellido = "Solo se permiten letras con un máximo de 3 a 20"
         }else{
             nombreValido = true
         }
@@ -78,10 +78,8 @@ class RegistroViewModel : ViewModel() {
 
         if (phone.isEmpty()){
             msgErrorPhone = "Debe completar su celular"
-        }else if (phone.length < 10 || phone.length > 10){
-            msgErrorPhone = "Debe tener 10 digitos incluyendo el 11"
-        }else if ((!phone[0].equals("1".toCharArray()[0], false)) || !phone[1].equals("1".toCharArray()[0], false)){
-            msgErrorPhone = "Debe empezar con 11"
+        }else if (phone.length != 10){
+            msgErrorPhone = "Debe tener 10 dígitos incluyendo el código de área"
         }else{
             phoneValido = true
         }

@@ -93,8 +93,8 @@ class ProductItemsAdapter(
     override fun onBindViewHolder(holder: ProductItemHolder, position: Int) {
         val detalleOrdenList : MutableList<DetalleOrden> = cart.getProductItems()
 
-        holder.setTitle(detalleOrdenList[position].product.nombre)
-        holder.setImage(context, detalleOrdenList[position].product.imageUrl)
+        holder.setTitle(detalleOrdenList[position].producto.nombre)
+        holder.setImage(context, detalleOrdenList[position].producto.imageUrl)
         holder.setQuantity(detalleOrdenList[position].quantity)
         holder.setSubtotal(detalleOrdenList[position].calculateSubtotal())
 
@@ -106,13 +106,13 @@ class ProductItemsAdapter(
         productItemQuantity.setOnTouchListener(OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (isRightDrawable(productItemQuantity, event.rawX)) {
-                    val productoRef = db.collection("productos").document(detalleOrdenList[position].product.idProducto)
+                    val productoRef = db.collection("productos").document(detalleOrdenList[position].producto.idProducto)
                     productoRef.get()
                         .addOnSuccessListener { documentSnapshot ->
                             val product = documentSnapshot.toObject<Product>()
                             if (product != null && product.stock > 0) {
-                                cart.incrementProductQuantity(position, 1)
                                 updateValues(holder, detalleOrdenList[position], 1)
+                                cart.incrementProductQuantity(position, 1)
                             } else {
                                 val rootLayout = holder.getCardView()
                                 Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
@@ -125,8 +125,8 @@ class ProductItemsAdapter(
                         }
                 } else if(isLeftDrawable(productItemQuantity, event.rawX)) {
                     if (detalleOrdenList[position].quantity > 1) {
-                        cart.incrementProductQuantity(position, -1)
                         updateValues(holder, detalleOrdenList[position], -1)
+                        cart.incrementProductQuantity(position, -1)
                     }
                 }
                 return@OnTouchListener true
@@ -146,7 +146,7 @@ class ProductItemsAdapter(
 
     fun updateValues(holder: ProductItemHolder, detalleOrden : DetalleOrden, quantity: Int) {
         detalleOrden.quantity += quantity
-        detalleOrden.product.stock -= quantity
+        detalleOrden.producto.stock -= quantity
         holder.setQuantity(detalleOrden.quantity)
         holder.setSubtotal(detalleOrden.calculateSubtotal())
     }

@@ -9,14 +9,14 @@
         android:id="@+id/inicioFragment"
         android:name="com.ort.usanote.fragments.InicioFragment"
         android:label="inicio_fragment"
-        tools:layout="@layout/inicio_fragment" >
+        tools:layout="@layout/inicio_fragment">
         <action
             android:id="@+id/action_inicioFragment_to_productosFragment"
             app:destination="@id/productosFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactoFragment"
-        android:name="com.ort.usanote.fragments.ContactoFragment"
+        android:name="com.ort.usanote.fragments.contacto.ContactoFragment"
         android:label="contacto_fragment"
         tools:layout="@layout/contacto_fragment" />
     <fragment
@@ -30,28 +30,28 @@
     </fragment>
     <fragment
         android:id="@+id/productosFragment"
-        android:name="com.ort.usanote.fragments.ProductosFragment"
+        android:name="com.ort.usanote.fragments.productos.ProductosFragment"
         android:label="productos_fragment"
-        tools:layout="@layout/productos_fragment" >
+        tools:layout="@layout/productos_fragment">
         <action
             android:id="@+id/action_productosFragment_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment" />
         <argument
             android:name="categoria"
+            android:defaultValue="null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null" />
+            app:nullable="true" />
         <argument
             android:name="searchQuery"
+            android:defaultValue="null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.ort.usanote.fragments.UserFragment"
+        android:name="com.ort.usanote.fragments.user.UserFragment"
         android:label="user_fragment"
-        tools:layout="@layout/user_fragment" >
+        tools:layout="@layout/user_fragment">
         <action
             android:id="@+id/action_userFragment_to_direccionFragment"
             app:destination="@id/direccionFragment" />
@@ -61,9 +61,9 @@
     </fragment>
     <fragment
         android:id="@+id/productDescriptionFragment"
-        android:name="com.ort.usanote.fragments.ProductDescriptionFragment"
+        android:name="com.ort.usanote.fragments.productos.ProductDescriptionFragment"
         android:label="product_description_fragment"
-        tools:layout="@layout/product_description_fragment" >
+        tools:layout="@layout/product_description_fragment">
         <argument
             android:name="title"
             app:argType="string" />
@@ -99,7 +99,7 @@
         android:id="@+id/carritoFragment"
         android:name="com.ort.usanote.fragments.CarritoFragment"
         android:label="carrito_fragment"
-        tools:layout="@layout/carrito_fragment" >
+        tools:layout="@layout/carrito_fragment">
         <action
             android:id="@+id/action_carritoFragment_to_shipmentMethodFragment"
             app:destination="@id/shipmentMethodFragment" />
@@ -111,7 +111,7 @@
         android:id="@+id/shipmentMethodFragment"
         android:name="com.ort.usanote.fragments.ShipmentMethodFragment"
         android:label="shipment_method_fragment"
-        tools:layout="@layout/shipment_method_fragment" >
+        tools:layout="@layout/shipment_method_fragment">
         <action
             android:id="@+id/action_shipmentMethodFragment_to_checkAddressFragment"
             app:destination="@id/checkAddressFragment" />
@@ -120,7 +120,7 @@
         android:id="@+id/checkAddressFragment"
         android:name="com.ort.usanote.fragments.CheckAddressFragment"
         android:label="check_address_fragment"
-        tools:layout="@layout/check_address_fragment" >
+        tools:layout="@layout/check_address_fragment">
         <action
             android:id="@+id/action_checkAddressFragment_to_paymentMethodFragment"
             app:destination="@id/paymentMethodFragment" />
@@ -129,7 +129,7 @@
         android:id="@+id/paymentMethodFragment"
         android:name="com.ort.usanote.fragments.PaymentMethodFragment"
         android:label="payment_method_fragment"
-        tools:layout="@layout/payment_method_fragment" >
+        tools:layout="@layout/payment_method_fragment">
         <action
             android:id="@+id/action_paymentMethodFragment_to_purchaseConfirmationFragment"
             app:destination="@id/purchaseConfirmationFragment" />
@@ -138,7 +138,7 @@
         android:id="@+id/purchaseConfirmationFragment"
         android:name="com.ort.usanote.fragments.PurchaseConfirmationFragment"
         android:label="purchase_confirmation_fragment"
-        tools:layout="@layout/purchase_confirmation_fragment" >
+        tools:layout="@layout/purchase_confirmation_fragment">
         <action
             android:id="@+id/action_purchaseConfirmationFragment_to_purchaseFinishedFragment"
             app:destination="@id/purchaseFinishedFragment" />
@@ -147,21 +147,21 @@
         android:id="@+id/purchaseFinishedFragment"
         android:name="com.ort.usanote.fragments.PurchaseFinishedFragment"
         android:label="purchase_finished_fragment"
-        tools:layout="@layout/purchase_finished_fragment" >
+        tools:layout="@layout/purchase_finished_fragment">
         <action
             android:id="@+id/action_purchaseFinishedFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
     </fragment>
     <fragment
         android:id="@+id/direccionFragment"
-        android:name="com.ort.usanote.fragments.DireccionFragment"
+        android:name="com.ort.usanote.fragments.direccion.DireccionFragment"
         android:label="direccion_fragment"
         tools:layout="@layout/direccion_fragment" />
     <fragment
         android:id="@+id/updateDireccionFragment"
-        android:name="com.ort.usanote.fragments.UpdateDireccionFragment"
+        android:name="com.ort.usanote.fragments.direccion.UpdateDireccionFragment"
         android:label="update_direccion_fragment"
-        tools:layout="@layout/update_direccion_fragment" >
+        tools:layout="@layout/update_direccion_fragment">
         <argument
             android:name="direccion"
             app:argType="com.ort.usanote.entities.Direccion" />
@@ -173,19 +173,22 @@
         android:id="@+id/loginFragment"
         android:name="com.ort.usanote.fragments.auth.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" >
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_registroFragment"
             app:destination="@id/registroFragment" />
         <action
             android:id="@+id/action_loginFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registroFragment"
         android:name="com.ort.usanote.fragments.auth.RegistroFragment"
         android:label="registro_fragment"
-        tools:layout="@layout/registro_fragment" >
+        tools:layout="@layout/registro_fragment">
         <action
             android:id="@+id/action_registroFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -194,7 +197,7 @@
         android:id="@+id/estadisticasFragment"
         android:name="com.ort.usanote.fragments.EstadisticasFragment"
         android:label="estadisticas_fragment"
-        tools:layout="@layout/estadisticas_fragment" >
+        tools:layout="@layout/estadisticas_fragment">
         <action
             android:id="@+id/action_estadisticasFragment_to_productosMasVistosFragment"
             app:destination="@id/productosMasVistosFragment" />
@@ -237,4 +240,9 @@
             android:name="idOrden"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="com.ort.usanote.fragments.auth.UpdatePasswordFragment"
+        android:label="update_password_fragment"
+        tools:layout="@layout/update_password_fragment" />
 </navigation>

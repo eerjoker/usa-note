@@ -1,4 +1,4 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.contacto
 
 import androidx.lifecycle.ViewModel
 

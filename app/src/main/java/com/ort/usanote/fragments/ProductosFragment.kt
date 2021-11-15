@@ -21,7 +21,9 @@ import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.adapters.CategoryAdapter
 import com.ort.usanote.adapters.ProductAdapter
 import com.ort.usanote.entities.*
-import com.ort.usanote.viewModels.ProductosViewModel
+import com.ort.usanote.fragments.productos.ProductosFragmentArgs
+import com.ort.usanote.fragments.productos.ProductosFragmentDirections
+import com.ort.usanote.viewModels.productos.ProductosViewModel
 
 class ProductosFragment : Fragment() {
 
@@ -207,8 +209,8 @@ class ProductosFragment : Fragment() {
         var cantidadVisitas = productList[pos].cantidadVisitas
         val action = ProductosFragmentDirections.actionProductosFragmentToProductDescriptionFragment(title,description,price,image,cant,idProducto, categoria, marca, cantidadVisitas)
         rootView.findNavController().navigate(action)
-
     }
+
     private fun onCategoryClick(pos:Int){
         productList.clear()
         categoryFilterOn = true
@@ -231,7 +233,7 @@ class ProductosFragment : Fragment() {
                     }
 
                 })
-        }else{
+        } else {
             db.collection("productos").whereEqualTo("categoria",listCategorias[pos]).whereGreaterThanOrEqualTo("nombre",queryS).whereLessThan("nombre",queryS+'z')
                 .addSnapshotListener(object: EventListener<QuerySnapshot>{
                     override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {

@@ -14,7 +14,7 @@ class LoginViewModel : ViewModel() {
     lateinit var msgErrorPassword: String
 
     fun ingresar (email: String, password: String){
-
+        
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(){
                 if (it.isSuccessful){
