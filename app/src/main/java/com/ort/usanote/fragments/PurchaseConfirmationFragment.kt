@@ -230,7 +230,7 @@ class PurchaseConfirmationFragment : Fragment() {
             updateDB() { goToDireccion ->
                 if (goToDireccion) {
                     var mainActivity = (activity as MainActivity)
-                    mainActivity.actionForRedirection = DireccionFragmentDirections.actionDireccionFragmentToPurchaseConfirmationFragment()
+                    mainActivity.actionForRedirection = DireccionFragmentDirections.actionDireccionFragmentToPurchaseConfirmationFragment(envio)
                     mainActivity.alertDangerMessage = getString(R.string.direccion_missing)
                     val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToDireccionFragment()
                     v.findNavController().navigate(action)
