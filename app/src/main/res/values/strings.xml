@@ -30,7 +30,7 @@
         <string name="not_logged_in">Debe estar logueado para continuar!</string>
         <string name="no_stock">No hay más stock!</string>
         <string name="mis_compras_title">Órdenes realizadas</string>
-        <string name="mis_compras_detalle_orden_title">Detalles de la orden</string>
+        <string name="mis_compras_detalle_orden_title">Detalle de la orden</string>
         <string name="search_placeholder">Ingrese el nombre del producto a buscar</string>
         <string name="contactoTitulo">Contacto</string>
         <string name="btnContacto">Enviar consulta</string>

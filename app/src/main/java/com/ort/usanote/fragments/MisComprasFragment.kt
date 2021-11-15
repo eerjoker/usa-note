@@ -46,7 +46,7 @@ class MisComprasFragment : Fragment() {
         val parentJob = Job()
         val scope = CoroutineScope(Dispatchers.Default + parentJob)
         scope.launch {
-            var ordenes = viewModel.getOrdenes("V6px2DSH8wOPaETZX8dtsSCQgOG3") { ordenes ->
+            viewModel.getOrdenes("V6px2DSH8wOPaETZX8dtsSCQgOG3") { ordenes ->
                 recMisComprasOrdenes.adapter = OrdenAdapter(ordenes) { ordenId ->
                     onOrdenClick(ordenId)
                 }

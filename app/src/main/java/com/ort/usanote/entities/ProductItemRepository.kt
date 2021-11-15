@@ -21,21 +21,21 @@ class ProductItemRepository() : Parcelable {
         print(detalleOrdenList)
     }
 
-    fun addProductItem(product:Product,cant:Int){
+    fun addProductItem(producto:Product, cant:Int){
         var i = detalleOrdenList.size - 1
         var found = false
 
         while(!found && i >= 0) {
             var currentProductItem = detalleOrdenList[i]
-            found = currentProductItem.product.idProducto == product.idProducto
+            found = currentProductItem.producto.idProducto == producto.idProducto
             if (found) {
                 currentProductItem.quantity += cant
-                currentProductItem.product.stock -= cant
+                currentProductItem.producto.stock -= cant
             }
             i--
         }
         if (!found) {
-            detalleOrdenList.add(DetalleOrden(product,cant))
+            detalleOrdenList.add(DetalleOrden("", producto, cant))
         }
     }
 

@@ -114,9 +114,9 @@ class PurchaseConfirmationFragment : Fragment() {
                                                         Log.d("Orden", "Se pudo guardar en la BD de ordenes")
                                                         val idDetalleOrden = it.result?.id.toString()
                                                         itemsCarrito.getProductItems().forEach {
-                                                            val detalleOrden: DetalleOrden = DetalleOrden(
+                                                            val detalleOrden = DetalleOrden(
                                                                 idDetalleOrden,
-                                                                it.product,
+                                                                it.producto,
                                                                 it.quantity
                                                                 )
                                                             db.collection("detalleDeOrdenes").add(detalleOrden)

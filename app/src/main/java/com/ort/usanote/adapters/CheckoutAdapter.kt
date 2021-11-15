@@ -52,8 +52,8 @@ class CheckoutAdapter (
     override fun onBindViewHolder(holder: CheckoutHolder, position: Int) {
         val detalleOrdenList : MutableList<DetalleOrden> = productItems.getProductItems()
 
-        holder.setTitle(detalleOrdenList[position].product.nombre)
-        holder.setPrice(detalleOrdenList[position].product.price)
+        holder.setTitle(detalleOrdenList[position].producto.nombre)
+        holder.setPrice(detalleOrdenList[position].producto.price)
     }
 
     override fun getItemCount(): Int {

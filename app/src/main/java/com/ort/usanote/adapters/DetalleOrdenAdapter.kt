@@ -1,15 +1,19 @@
 package com.ort.usanote.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.DetalleOrden
 
 class DetalleOrdenAdapter (
     private val detalleOrdenList: MutableList<DetalleOrden>,
+    private val context: Context
 ) : RecyclerView.Adapter<DetalleOrdenAdapter.DetalleOrdenHolder>() {
 
     class DetalleOrdenHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -33,6 +37,15 @@ class DetalleOrdenAdapter (
             val txtCantidad : TextView = view.findViewById(R.id.txtCantidadValue)
             txtCantidad.text = cantidad.toString()
         }
+
+        fun setImage(context: Context, imageUrl: String) {
+            val imgProductItem : ImageView = view.findViewById(R.id.imgDetalleOrden)
+            Glide
+                .with(context)
+                .load(imageUrl)
+                .centerInside()
+                .into(imgProductItem)
+        }
     }
 
     override fun onCreateViewHolder(
@@ -45,9 +58,10 @@ class DetalleOrdenAdapter (
 
     override fun onBindViewHolder(holder: DetalleOrdenHolder, position: Int) {
         val detalleOrdenActual = detalleOrdenList[position]
-        holder.setTitle(detalleOrdenActual.product.nombre)
+        holder.setTitle(detalleOrdenActual.producto.nombre)
         holder.setPrecio(detalleOrdenActual.calculateSubtotal())
         holder.setCantidad(detalleOrdenActual.quantity)
+        holder.setImage(context, detalleOrdenActual.producto.imageUrl)
     }
 
     override fun getItemCount(): Int {

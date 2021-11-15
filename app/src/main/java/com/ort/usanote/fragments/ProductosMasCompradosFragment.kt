@@ -67,7 +67,7 @@ class ProductosMasCompradosFragment : Fragment() {
                             if(productosList.size == 0){
                                 productosList.add(productoItem)
                             }else{
-                                if(productosList[i].product.nombre == productoItem.product.nombre){
+                                if(productosList[i].producto.nombre == productoItem.producto.nombre){
                                     productosList[i].quantity = productosList[i].quantity + productoItem.quantity
                                 }else{
                                     i++

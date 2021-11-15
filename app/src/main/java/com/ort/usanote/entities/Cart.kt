@@ -24,7 +24,7 @@ class Cart (
 
     fun deleteProductItem(pos: Int) {
         db = FirebaseFirestore.getInstance()
-        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].product.idProducto)
+        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].producto.idProducto)
         val nuevoStock = detalleOrdenList[pos].quantity.toDouble()
         productoActualizar.update("stock",FieldValue.increment(nuevoStock))
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
@@ -35,7 +35,7 @@ class Cart (
 
     fun incrementProductQuantity(pos: Int, quantity: Int) {
         db = FirebaseFirestore.getInstance()
-        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].product.idProducto)
+        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].producto.idProducto)
         productoActualizar.update("stock", -quantity)
         notifyChange()
     }

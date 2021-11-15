@@ -47,10 +47,10 @@ class MasCompradosAdapter(
     }
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.item_stock.text = ""
-        holder.itemTItle.text = productList[i].product.nombre
-        holder.itemDetail.text = productList[i].product.description
+        holder.itemTItle.text = productList[i].producto.nombre
+        holder.itemDetail.text = productList[i].producto.description
         holder.itemPrice.text = "Comprados: " + productList[i].quantity
-        holder.setImage(context,productList[i].product.imageUrl)
+        holder.setImage(context,productList[i].producto.imageUrl)
     }
     override fun getItemCount(): Int {
         return productList.size

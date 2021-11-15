@@ -46,10 +46,10 @@ class MisComprasDetalleOrdenFragment : Fragment() {
         val parentJob = Job()
         val scope = CoroutineScope(Dispatchers.Default + parentJob)
         scope.launch {
-            var detalleOrdenList = viewModel.getDetallesOrden(idOrden) { detallesOrden ->
+            viewModel.getDetallesOrden(idOrden) { detallesOrden ->
                 recMisComprasDetalleOrden.setHasFixedSize(true)
                 recMisComprasDetalleOrden.layoutManager = LinearLayoutManager(context)
-                recMisComprasDetalleOrden.adapter = DetalleOrdenAdapter(detallesOrden)
+                recMisComprasDetalleOrden.adapter = DetalleOrdenAdapter(detallesOrden, requireContext())
             }
         }
     }
