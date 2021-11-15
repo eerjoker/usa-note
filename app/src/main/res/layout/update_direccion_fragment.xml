@@ -181,6 +181,8 @@
             android:layout_weight="30"
             android:ems="10"
             android:hint="Nro"
+            app:counterEnabled="true"
+            app:counterMaxLength="5"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -212,6 +214,8 @@
             android:layout_weight="30"
             android:ems="10"
             android:hint="Piso"
+            app:counterEnabled="true"
+            app:counterMaxLength="5"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -243,6 +247,8 @@
             android:layout_weight="30"
             android:ems="10"
             android:hint="Depto"
+            app:counterEnabled="true"
+            app:counterMaxLength="5"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -308,7 +314,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="28dp"
         android:hint="Código Postal"
         app:boxBackgroundColor="@color/white"
         app:boxBackgroundMode="outline"
@@ -316,10 +321,12 @@
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="4"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@null"
-        app:layout_constraintBottom_toTopOf="@+id/btnEliminarDireccion"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/provinciaTextInputLayOutTxt">
@@ -336,37 +343,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
-        android:id="@+id/btnActualizarDireccion"
-        android:layout_width="164dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Actualizar"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnEliminarDireccion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cpInputLayOutTxt"
-        app:rippleColor="#4CAF50" />
-
-    <Button
-        android:id="@+id/btnEliminarDireccion"
-        android:layout_width="164dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#E91E63"
-        android:text="Eliminar"
-        app:cornerRadius="20dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cpInputLayOutTxt"
-        app:rippleColor="#E91E63" />
-
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyle"
@@ -376,5 +352,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutBtn"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cpInputLayOutTxt">
+
+        <Button
+            android:id="@+id/btnActualizarDireccion"
+            android:layout_width="164dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="19dp"
+            android:layout_weight="50"
+            android:backgroundTint="#4CAF50"
+            android:text="Actualizar"
+            app:cornerRadius="20dp"
+            app:rippleColor="#4CAF50" />
+
+        <Button
+            android:id="@+id/btnEliminarDireccion"
+            android:layout_width="164dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="30dp"
+            android:layout_weight="50"
+            android:backgroundTint="#E91E63"
+            android:text="Eliminar"
+            app:cornerRadius="20dp"
+            app:rippleColor="#E91E63" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

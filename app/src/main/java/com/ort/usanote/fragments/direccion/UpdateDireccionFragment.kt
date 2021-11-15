@@ -164,11 +164,11 @@ class UpdateDireccionFragment : Fragment() {
             var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)
             var calleValido: Boolean = viewModelDireccion.validateGenerales(calle)
             var localidadValido: Boolean = viewModelDireccion.validateGenerales(localidad)
-            var nroValido: Boolean = viewModelDireccion.validateGenerales(nro)
-            var pisoValido: Boolean = viewModelDireccion.validateGenerales(piso)
-            var deptoValido: Boolean = viewModelDireccion.validateGenerales(depto)
+            var nroValido: Boolean = viewModelDireccion.validateNumeros(nro)
+            var pisoValido: Boolean = viewModelDireccion.validateGeneralesChicos(piso)
+            var deptoValido: Boolean = viewModelDireccion.validateGeneralesChicos(depto)
             var provinciaValido: Boolean = viewModelDireccion.validateGenerales(provincia)
-            var codigoPostalValido: Boolean = viewModelDireccion.validateGenerales(codigoPostal)
+            var codigoPostalValido: Boolean = viewModelDireccion.validateCodigoPostal(codigoPostal)
 
             sacarErrores(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)
 
@@ -189,11 +189,11 @@ class UpdateDireccionFragment : Fragment() {
         if (!nombre) nombreDireccionLayout.error = viewModelDireccion.msgErrorNombreApellido
         if (!calle) calleDireccionLayout.error = viewModelDireccion.msgErrorGeneral
         if (!localidad) localidadDireccionLayout.error = viewModelDireccion.msgErrorGeneral
-        if (!nro) nroDireccionLayout.error = viewModelDireccion.msgErrorGeneral
-        if (!piso) pisoDireccionLayout.error = viewModelDireccion.msgErrorGeneral
-        if (!depto) deptoDireccionLayout.error = viewModelDireccion.msgErrorGeneral
+        if (!nro) nroDireccionLayout.error = viewModelDireccion.msgErrorNumeros
+        if (!piso) pisoDireccionLayout.error = viewModelDireccion.msgErrorGeneralChicos
+        if (!depto) deptoDireccionLayout.error = viewModelDireccion.msgErrorGeneralChicos
         if (!provincia) provinciaDireccionLayout.error = viewModelDireccion.msgErrorGeneral
-        if (!codigoPostal) codigoPostalDireccionLayout.error = viewModelDireccion.msgErrorGeneral
+        if (!codigoPostal) codigoPostalDireccionLayout.error = viewModelDireccion.msgErrorCP
 
     }
 
