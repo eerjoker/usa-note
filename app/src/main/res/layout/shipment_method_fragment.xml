@@ -7,6 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ShipmentMethodFragment" >
 
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="80dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="4dp"
+        android:text="Confirmar"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textView41"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="118dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Metodo de pago"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/textView40"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
     <CheckBox
         android:id="@+id/checkBox2"
         style="@style/Widget.AppCompat.CompoundButton.CheckBox"
@@ -19,13 +41,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <CheckBox
         android:id="@+id/checkBox"
         style="@style/Widget.AppCompat.CompoundButton.CheckBox"
         android:layout_width="354dp"
         android:layout_height="56dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="132dp"
         android:background="#95AFF1"
         android:checked="false"
         android:text="Lo paso a buscar"
@@ -47,4 +70,88 @@
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="67dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/circle_checkout"
+        android:gravity="center"
+        android:text="1"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="67dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/white_circle_checkout"
+        android:gravity="center"
+        android:text="2"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="67dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/white_circle_checkout"
+        android:gravity="center"
+        android:text="3"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="76dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="68dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/textView23"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="#95AFF1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="72dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="68dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/textView27"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="parent">
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="#95AFF1" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="118dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:text="Metodo de envio"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
