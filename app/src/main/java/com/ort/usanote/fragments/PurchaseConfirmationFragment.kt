@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.ort.usanote.R
@@ -158,6 +159,8 @@ class PurchaseConfirmationFragment : Fragment() {
                                                                         cb(false)
                                                                     }
                                                             }
+                                                            val pedidosUserAActualizar = db.collection("usuarios").document(user.uid)
+                                                            pedidosUserAActualizar.update("pedidos", FieldValue.arrayUnion(idDetalleOrden))
                                                         } else {
                                                             Log.d(
                                                                 "Orden",
