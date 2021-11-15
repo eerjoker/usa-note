@@ -79,7 +79,7 @@ class InicioFragment : Fragment() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     sliderHandler.removeCallbacks(sliderRun)
-                    sliderHandler.postDelayed(sliderRun, 2000)
+                    sliderHandler.postDelayed(sliderRun, 4000)
                 }
             })
 
