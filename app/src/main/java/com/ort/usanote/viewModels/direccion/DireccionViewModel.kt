@@ -22,7 +22,8 @@ class DireccionViewModel : ViewModel() {
     fun agregarDireccion(alias: String, nombre: String, calle: String, localidad: String, nro: String, piso: String, depto: String, provincia: String, codigoPostal: String){
 
         val user = auth.currentUser
-        val dbDireccion: Direccion = Direccion(user!!.uid, alias, nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
+
+        val dbDireccion: Direccion = Direccion(user!!.uid, depto, piso, nro, alias, localidad, codigoPostal, provincia, nombre, calle)
 
         db.collection("direcciones").add(dbDireccion)
             .addOnCompleteListener(){
