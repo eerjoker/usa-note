@@ -134,6 +134,9 @@
             android:name="envio"
             app:argType="com.ort.usanote.entities.Envio"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_checkAddressFragment_to_direccionFragment"
+            app:destination="@id/direccionFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"

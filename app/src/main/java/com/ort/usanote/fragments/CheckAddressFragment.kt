@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ort.usanote.R
 import com.ort.usanote.entities.Envio
 import com.ort.usanote.viewModels.CheckAddressViewModel
@@ -22,6 +23,7 @@ class CheckAddressFragment : Fragment() {
     lateinit var checkBoxEnvioPorMoto: CheckBox
     private val RETIRO_EN_LOCAL = "Retira en local"
     private val ENVIO_MOTO = "Envio por moto"
+    lateinit var addAddressBtn : FloatingActionButton
 
     companion object {
         fun newInstance() = CheckAddressFragment()
@@ -39,6 +41,7 @@ class CheckAddressFragment : Fragment() {
         checkBoxLoPasoABuscar.isClickable = false
         checkBoxEnvioPorMoto = v.findViewById(R.id.checkBoxMoto)
         checkBoxEnvioPorMoto.isClickable = false
+        addAddressBtn = v.findViewById(R.id.floatingActionButton)
         return v
     }
 
@@ -62,6 +65,11 @@ class CheckAddressFragment : Fragment() {
             val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToPaymentMethodFragment(envio)
             v.findNavController().navigate(action)
         }
+        addAddressBtn.setOnClickListener {
+            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToDireccionFragment()
+            v.findNavController().navigate(action)
+        }
+
     }
 
 }
