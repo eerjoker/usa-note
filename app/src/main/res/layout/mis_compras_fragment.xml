@@ -2,16 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout4"
+    android:id="@+id/cstrLayoutMisCompras"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".fragments.MisComprasFragment">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtMisComprasTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="20dp"
+        android:paddingBottom="20dp"
         android:text="@string/mis_compras_title"
         android:textAlignment="center"
         android:textColor="@color/font_soft_grey"
@@ -28,6 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMisComprasTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

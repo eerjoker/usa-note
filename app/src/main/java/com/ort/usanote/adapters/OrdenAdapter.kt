@@ -37,7 +37,7 @@ class OrdenAdapter(
 
         fun setTotal(total: Double) {
             val txtTotal : TextView = view.findViewById(R.id.txtTotalValue)
-            txtTotal.text = total.toString()
+            txtTotal.text = "$" + total.toString()
         }
 
         fun setEntregadoA(entregadoA: String?) {

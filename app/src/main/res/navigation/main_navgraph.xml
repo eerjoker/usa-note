@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_userFragment_to_updateDireccionFragment"
             app:destination="@id/updateDireccionFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_misComprasFragment"
+            app:destination="@id/misComprasFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDescriptionFragment"
@@ -103,9 +106,6 @@
         <action
             android:id="@+id/action_carritoFragment_to_shipmentMethodFragment"
             app:destination="@id/shipmentMethodFragment" />
-        <action
-            android:id="@+id/action_carritoFragment_to_misComprasFragment"
-            app:destination="@id/misComprasFragment" />
     </fragment>
     <fragment
         android:id="@+id/shipmentMethodFragment"

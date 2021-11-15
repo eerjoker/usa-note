@@ -36,7 +36,7 @@ class Cart (
     fun incrementProductQuantity(pos: Int, quantity: Int) {
         db = FirebaseFirestore.getInstance()
         val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].producto.idProducto)
-        productoActualizar.update("stock", -quantity)
+        productoActualizar.update("stock", FieldValue.increment(-quantity.toDouble()))
         notifyChange()
     }
 
