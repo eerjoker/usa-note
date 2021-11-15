@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.google.firebase.auth.ktx.actionCodeSettings
 import com.ort.usanote.R
 import com.ort.usanote.entities.CategoriaInicio
 import com.ort.usanote.entities.SliderItem
@@ -35,6 +36,23 @@ class InicioViewModel : ViewModel() {
         sliderItemList.add(SliderItem(R.drawable.contacto,"contacto"))
 
     }
+
+
+
+    fun NavigateToAction(pos:Int,v:View){
+
+        if(getSliderItem(pos).nombre == "productos"){
+            val action = InicioFragmentDirections.actionInicioFragmentToProductosFragment()
+            v.findNavController().navigate(action)
+        }else if(getSliderItem(pos).nombre == "regristro"){
+            val action = InicioFragmentDirections.actionInicioFragmentToRegistroFragment()
+            v.findNavController().navigate(action)
+        }else{
+            val action = InicioFragmentDirections.actionInicioFragmentToContactoFragment()
+            v.findNavController().navigate(action)
+        }
+    }
+
     fun getCompositePageTransformer():CompositePageTransformer{
         val ret = CompositePageTransformer()
         ret.addTransformer(MarginPageTransformer(40))
