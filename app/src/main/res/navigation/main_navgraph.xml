@@ -130,6 +130,10 @@
         <action
             android:id="@+id/action_checkAddressFragment_to_paymentMethodFragment"
             app:destination="@id/paymentMethodFragment" />
+        <argument
+            android:name="envio"
+            app:argType="com.ort.usanote.entities.Envio"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
