@@ -58,7 +58,7 @@ class ShipmentMethodFragment : Fragment() {
         super.onStart()
 
         checkBoxLoPasoABuscar.setOnClickListener {
-            this.envio = Envio(120, "Retira en local", 0.00)
+            this.envio = Envio(0, "Retira en local", 0.00)
         }
 
         checkBoxEnvioPorMoto.setOnClickListener {
