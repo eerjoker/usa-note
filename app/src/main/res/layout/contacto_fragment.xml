@@ -14,62 +14,90 @@
         android:layout_marginStart="177dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="177dp"
-        android:layout_marginBottom="32dp"
         android:text="@string/contacto_titulo"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/asuntoContacto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
-        android:id="@+id/asuntoContacto"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textoConctacto"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="101dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:hint="Asunto"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textContacto"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/detalleContacto"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contactoTitle" />
 
-    <EditText
-        android:id="@+id/textContacto"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="32dp"
-        android:elegantTextHeight="false"
-        android:ems="10"
-        android:hint="Ingrese su consulta"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/btnContacto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <LinearLayout
+        android:id="@+id/emailLayout"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="400dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/celularLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/asuntoContacto" />
+        app:layout_constraintTop_toBottomOf="@+id/textoConctacto">
 
-    <Button
-        android:id="@+id/btnContacto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="100dp"
-        android:backgroundTint="#4CAF50"
-        android:text="@string/btn_contacto"
-        app:cornerRadius="20dp"
+        <TextView
+            android:id="@+id/emailTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:padding="5dp"
+            android:text="info@usanote.com.ar" />
+
+        <Button
+            android:id="@+id/btnContacto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:backgroundTint="#2196F3"
+            android:text="@string/btn_contacto"
+            app:cornerRadius="20dp"
+            app:rippleColor="#2196F3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/celularLayout"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="400dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textContacto"
-        app:rippleColor="#4CAF50" />
+        app:layout_constraintStart_toEndOf="@+id/emailLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textoConctacto">
+
+        <TextView
+            android:id="@+id/textView57"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:padding="5dp"
+            android:text="@string/celularTexto" />
+
+        <Button
+            android:id="@+id/btnWP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:backgroundTint="#4CAF50"
+            android:text="@string/whatsappBtn"
+            app:cornerRadius="20dp"
+            app:rippleColor="#4CAF50" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
