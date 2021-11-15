@@ -42,7 +42,8 @@
         <string name="no_se_selecciono_metodo_envio">No se ha seleccionado un metodo de envio. Porfavor elija uno.</string>
         <string name="btn_perfil_go_to_mis_compras">Ir a mis compras</string>
         <string name="mis_compras_sin_ordenes">Todavía no realizó ninguna compra!</string>
+        <string name="direccion_missing">Debe crear una nueva dirección!</string>
         <string name="celularTexto">+549-11-2345-6798</string>
         <string name="whatsappBtn">Enviar Whatsapp</string>
-    <string name="detalleContacto">Estos son nuestros datos para que puedas contactarte:</string>
+        <string name="detalleContacto">Estos son nuestros datos para que puedas contactarte:</string>
 </resources>

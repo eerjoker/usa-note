@@ -155,6 +155,9 @@
         <action
             android:id="@+id/action_purchaseConfirmationFragment_to_purchaseFinishedFragment"
             app:destination="@id/purchaseFinishedFragment" />
+        <action
+            android:id="@+id/action_purchaseConfirmationFragment_to_direccionFragment"
+            app:destination="@id/direccionFragment" />
         <argument
             android:name="envio"
             app:argType="com.ort.usanote.entities.Envio"
@@ -173,7 +176,11 @@
         android:id="@+id/direccionFragment"
         android:name="com.ort.usanote.fragments.direccion.DireccionFragment"
         android:label="direccion_fragment"
-        tools:layout="@layout/direccion_fragment" />
+        tools:layout="@layout/direccion_fragment">
+        <action
+            android:id="@+id/action_direccionFragment_to_purchaseConfirmationFragment"
+            app:destination="@id/purchaseConfirmationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updateDireccionFragment"
         android:name="com.ort.usanote.fragments.direccion.UpdateDireccionFragment"

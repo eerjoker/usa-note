@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.viewModels.direccion.DireccionViewModel
 
 class DireccionFragment : Fragment() {
@@ -94,6 +95,12 @@ class DireccionFragment : Fragment() {
 
         progressBar.setVisibility(View.GONE)
 
+        val mainActivity = (activity as MainActivity)
+        if (mainActivity.alertDangerMessage != "") {
+            Snackbar.make(v, mainActivity.alertDangerMessage, Snackbar.LENGTH_SHORT).show()
+            mainActivity.alertDangerMessage = ""
+        }
+
         viewModelDireccion.direccionExitosa.observe(viewLifecycleOwner, Observer { result ->
             if (result){
                 progressBar.setVisibility(View.GONE)
@@ -101,7 +108,13 @@ class DireccionFragment : Fragment() {
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                         Color.parseColor("#4CAF50")).show()
 
-                v.findNavController().popBackStack()
+                val redirectAction = mainActivity.actionForRedirection
+                if (redirectAction != null) {
+                    v.findNavController().navigate(redirectAction)
+                    mainActivity.redirectDone()
+                } else {
+                    v.findNavController().popBackStack()
+                }
 
             }else{
                 progressBar.setVisibility(View.GONE)
