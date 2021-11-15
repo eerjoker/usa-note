@@ -143,6 +143,9 @@
         <action
             android:id="@+id/action_paymentMethodFragment_to_purchaseConfirmationFragment"
             app:destination="@id/purchaseConfirmationFragment" />
+        <argument
+            android:name="envio"
+            app:argType="com.ort.usanote.entities.Envio" />
     </fragment>
     <fragment
         android:id="@+id/purchaseConfirmationFragment"

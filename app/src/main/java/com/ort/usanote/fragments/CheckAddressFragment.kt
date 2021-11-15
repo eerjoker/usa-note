@@ -7,14 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import androidx.navigation.findNavController
 import com.ort.usanote.R
+import com.ort.usanote.entities.Envio
 import com.ort.usanote.viewModels.CheckAddressViewModel
 
 class CheckAddressFragment : Fragment() {
 
     lateinit var btnContinue : Button
     lateinit var v: View
+    lateinit var envio: Envio
+    lateinit var checkBoxLoPasoABuscar: CheckBox
+    lateinit var checkBoxEnvioPorMoto: CheckBox
+    private val RETIRO_EN_LOCAL = "Retira en local"
+    private val ENVIO_MOTO = "Envio por moto"
 
     companion object {
         fun newInstance() = CheckAddressFragment()
@@ -28,7 +35,10 @@ class CheckAddressFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.check_address_fragment, container, false)
         btnContinue = v.findViewById(R.id.buttonContinue)
-
+        checkBoxLoPasoABuscar = v.findViewById(R.id.checkBoxPasoBuscar)
+        checkBoxLoPasoABuscar.isClickable = false
+        checkBoxEnvioPorMoto = v.findViewById(R.id.checkBoxMoto)
+        checkBoxEnvioPorMoto.isClickable = false
         return v
     }
 
@@ -40,10 +50,16 @@ class CheckAddressFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        envio = CheckAddressFragmentArgs.fromBundle(requireArguments()).envio!!
+        if (envio.tipoEnvio == RETIRO_EN_LOCAL) {
+            checkBoxLoPasoABuscar.isChecked = true
+        }
+        if (envio.tipoEnvio == ENVIO_MOTO) {
+            checkBoxEnvioPorMoto.isChecked = true
+        }
 
         btnContinue.setOnClickListener {
-            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToPaymentMethodFragment()
+            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToPaymentMethodFragment(envio)
             v.findNavController().navigate(action)
         }
     }
