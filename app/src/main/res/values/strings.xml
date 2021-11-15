@@ -32,7 +32,7 @@
         <string name="no_stock">No hay más stock!</string>
         <string name="mis_compras_title">Órdenes realizadas</string>
         <string name="mis_compras_detalle_orden_title">Detalle de la orden</string>
-        <string name="search_placeholder">Ingrese el nombre del producto a buscar</string>
+        <string name="search_placeholder">Buscar productos</string>
         <string name="contacto_titulo">Contacto</string>
         <string name="btn_contacto">Enviar email</string>
         <string name="estadisticas">Estadísticas</string>

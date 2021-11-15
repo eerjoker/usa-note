@@ -15,7 +15,7 @@
     <color name="font_soft_grey">#373D39</color>
     <color name="placeholder_bg">#BFBABA</color>
     <color name="gris">#1C201E</color>
-    <color name="secundario">#95AFF1</color>
+    <color name="gris_claro">#5F6E67</color>
     <color name="verde_confirm">#4CAF50</color>
     <color name="rojo_denied">#E91E3C</color>
 </resources>
