@@ -58,11 +58,21 @@ class ShipmentMethodFragment : Fragment() {
         super.onStart()
 
         checkBoxLoPasoABuscar.setOnClickListener {
-            this.envio = Envio(0, "Retira en local", 0.00)
+            if (checkBoxLoPasoABuscar.isChecked) {
+                this.envio = Envio(0, "Retira en local", 0.00)
+                checkBoxEnvioPorMoto.isChecked = false
+            } else {
+                this.envio = null
+            }
         }
 
         checkBoxEnvioPorMoto.setOnClickListener {
-            this.envio = Envio(120, "Envio por moto", COSTO_ENVIO)
+            if (checkBoxEnvioPorMoto.isChecked) {
+                this.envio = Envio(120, "Envio por moto", COSTO_ENVIO)
+                checkBoxLoPasoABuscar.isChecked = false
+            } else {
+                this.envio = null
+            }
         }
 
         btnContinue.setOnClickListener {
