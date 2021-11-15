@@ -3,11 +3,14 @@ package com.ort.usanote.fragments.user
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -19,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.ort.usanote.R
 import com.ort.usanote.adapters.DireccionUserAdapter
 import com.ort.usanote.entities.Direccion
+import com.ort.usanote.viewModels.auth.LoginViewModel
 import com.ort.usanote.viewModels.user.UserViewModel
 
 class UserFragment : Fragment() {
@@ -59,6 +63,7 @@ class UserFragment : Fragment() {
     private lateinit var btnToMisCompras : Button
 
     private val viewModelUser: UserViewModel by viewModels()
+    private val viewModelLogin: LoginViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = UserFragment()
@@ -101,11 +106,6 @@ class UserFragment : Fragment() {
         btnToMisCompras = v.findViewById(R.id.btnToMisCompras)
 
         return v
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
     }
 
     override fun onStart() {
@@ -156,6 +156,11 @@ class UserFragment : Fragment() {
             }
         })
 
+        viewModelLogin.esCliente.observe(viewLifecycleOwner, Observer {
+            if(!it){
+                btnToMisCompras.visibility = View.GONE
+            }
+        })
 
         btnNombre.setOnClickListener() {
             btnNombre.hide()
