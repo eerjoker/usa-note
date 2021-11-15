@@ -39,6 +39,7 @@
         <string name="campos_invalidos">Campos invalidos. Verifique sus datos</string>
         <string name="ingreso_exitoso">Ingreso Exitoso</string>
         <string name="ingreso_no_exitoso">El ingreso no fue exitoso. Verifique sus datos</string>
+        <string name="no_se_selecciono_metodo_envio">No se ha seleccionado un metodo de envio. Porfavor elija uno.</string>
         <string name="btn_perfil_go_to_mis_compras">Ir a mis compras</string>
         <string name="mis_compras_sin_ordenes">Todavía no realizó ninguna compra!</string>
         <string name="celularTexto">+549-11-2345-6798</string>
