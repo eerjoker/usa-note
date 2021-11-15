@@ -1,4 +1,4 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.inicio
 
 import android.view.View
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.actionCodeSettings
 import com.ort.usanote.R
 import com.ort.usanote.entities.CategoriaInicio
 import com.ort.usanote.entities.SliderItem
-import com.ort.usanote.fragments.InicioFragmentDirections
+import com.ort.usanote.fragments.inicio.InicioFragmentDirections
 import kotlin.math.abs
 
 class InicioViewModel : ViewModel() {
