@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragments.CantidadUsuariosRegistFragment">
+    tools:context=".fragments.estadistica.CantidadUsuariosRegistFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/inicioFragment"
-        android:name="com.ort.usanote.fragments.InicioFragment"
+        android:name="com.ort.usanote.fragments.inicio.InicioFragment"
         android:label="inicio_fragment"
         tools:layout="@layout/inicio_fragment">
         <action
@@ -201,7 +201,7 @@
     </fragment>
     <fragment
         android:id="@+id/estadisticasFragment"
-        android:name="com.ort.usanote.fragments.EstadisticasFragment"
+        android:name="com.ort.usanote.fragments.estadistica.EstadisticasFragment"
         android:label="estadisticas_fragment"
         tools:layout="@layout/estadisticas_fragment">
         <action
@@ -219,17 +219,17 @@
     </fragment>
     <fragment
         android:id="@+id/productosMasVistosFragment"
-        android:name="com.ort.usanote.fragments.ProductosMasVistosFragment"
+        android:name="com.ort.usanote.fragments.estadistica.ProductosMasVistosFragment"
         android:label="productos_mas_vistos_fragment"
         tools:layout="@layout/productos_mas_vistos_fragment" />
     <fragment
         android:id="@+id/cantidadUsuariosRegistFragment"
-        android:name="com.ort.usanote.fragments.CantidadUsuariosRegistFragment"
+        android:name="com.ort.usanote.fragments.estadistica.CantidadUsuariosRegistFragment"
         android:label="cantidad_usuarios_regist_fragment"
         tools:layout="@layout/cantidad_usuarios_regist_fragment" />
     <fragment
         android:id="@+id/productosMasCompradosFragment"
-        android:name="com.ort.usanote.fragments.ProductosMasCompradosFragment"
+        android:name="com.ort.usanote.fragments.estadistica.ProductosMasCompradosFragment"
         android:label="productos_mas_comprados_fragment"
         tools:layout="@layout/productos_mas_comprados_fragment" />
     <fragment
