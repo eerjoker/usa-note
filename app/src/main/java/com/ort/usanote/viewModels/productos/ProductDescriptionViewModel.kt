@@ -3,7 +3,9 @@ package com.ort.usanote.viewModels.productos
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ort.usanote.activities.MainActivity
 import com.ort.usanote.entities.Product
+import com.ort.usanote.entities.ProductItemRepository
 import com.ort.usanote.entities.Repo
 import com.ort.usanote.fragments.productos.ProductDescriptionFragmentArgs
 
@@ -35,5 +37,12 @@ class ProductDescriptionViewModel : ViewModel() {
         repo.decrementStock(idProducto,amount)
     }
 
-
+    fun agregarItemsCarrito(producto:Product,selectedStock:Int,carrito:ProductItemRepository,totalStock:Int):Int{
+        carrito.addProductItem(producto, selectedStock)
+        var ret = totalStock.minus(selectedStock)
+        if( ret < 0 ){
+            ret = 0
+        }
+        return ret
+    }
 }

@@ -42,6 +42,7 @@ class ProductDescriptionFragment : Fragment() {
     private var selectedStock = 1
     private var nuevo_stock:Int  = 0
     private var stockDB = 0
+    private var test  = 0
     private lateinit var adapterStock: ModalAdapter
     private lateinit var bottom: Dialog
     private var estaComprandoStock = false
@@ -66,13 +67,74 @@ class ProductDescriptionFragment : Fragment() {
 
     fun addToCart(v:View){
         val producto = viewModelPD.crearProducto(
-            ProductDescriptionFragmentArgs.fromBundle(
+        ProductDescriptionFragmentArgs.fromBundle(
                 requireArguments()
             )
         )
-        (activity as MainActivity).itemsCarrito.addProductItem(producto, selectedStock)
-        current_stock.value = current_stock.value!!.minus(selectedStock)
-        viewModelPD.decrementStock(producto.idProducto, selectedStock.toDouble())
+        val carrito = (activity as MainActivity).itemsCarrito
+        if(carrito.size() > 0){
+             val productoCarrito = carrito.getProductItem(idProducto)
+            if(productoCarrito != null){
+                //test = stockDB
+                if( test - (productoCarrito.quantity + selectedStock) <= 0){
+                    //bloquearBtnYModal()
+                    if(test - (productoCarrito.quantity + selectedStock) != 0){
+                        makeSnackError("No puede agregar mas este producto por falta de stock")
+                        //estaComprandoStock = true
+                        if(stockDB.minus(productoCarrito.quantity) < 0){
+                            stockDB = 0
+                            selectedStock = 1
+                            current_stock.value  = 0
+                        }else{
+                            stockDB = stockDB.minus(productoCarrito.quantity)
+                            selectedStock = 1
+                            current_stock.value =  stockDB
+                        }
+
+
+                    }else{
+                        viewModelPD.agregarItemsCarrito(producto,selectedStock,carrito,0)
+                        estaComprandoStock = true
+                        stockDB = 0
+                        selectedStock = 1
+                        current_stock.value = 0
+                    }
+
+
+
+                }else{
+                    var nuevoStock = viewModelPD.agregarItemsCarrito(producto,selectedStock,carrito,stockDB)
+                    if(nuevoStock == 0){
+                        estaComprandoStock = true
+                        stockDB = stockDB.minus(nuevoStock)
+                        if(stockDB < 0){
+                            stockDB = 0
+                        }
+                    }
+                    stockDB = nuevoStock
+                    selectedStock = 1
+                    current_stock.value = nuevoStock
+                }
+            }else{
+                var nuevoStock = viewModelPD.agregarItemsCarrito(producto,selectedStock,carrito,stockDB)
+                if(nuevoStock == 0){
+                    estaComprandoStock = true
+                }
+                stockDB = nuevoStock
+                selectedStock = 1
+                current_stock.value = nuevoStock
+            }
+        }else{
+            var nuevoStock = viewModelPD.agregarItemsCarrito(producto,selectedStock,carrito,stockDB)
+            if(nuevoStock == 0){
+                estaComprandoStock = true
+            }
+            stockDB = nuevoStock
+            selectedStock = 1
+            current_stock.value = nuevoStock
+
+        }
+
     }
 
 
@@ -84,25 +146,33 @@ class ProductDescriptionFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer {
                 current_stock.value = it
                 stockDB = it
+                test = it
             })
     }
     fun observeCurrentStock(){
         current_stock.observe(this,Observer{
-            val array = MutableList(stockDB){index -> index + 1}
+            val array = MutableList(test){index -> index + 1}
             val aux = array.filter { it < 8 }.toMutableList()
             adapterStock = ModalAdapter(aux){
                 onClickStock(it)
             }
             adapterStock.notifyDataSetChanged()
             nuevo_stock = it
-
+            if(nuevo_stock <= 0){
+                nuevo_stock = 0
+            }
             if(nuevo_stock > 0){
                 habilitarBtnYModal()
             }else if(nuevo_stock == 0){
-                if(!estaComprandoStock){
+                if(estaComprandoStock){
                     bloquearBtnYModal()
+                }else{
+                    habilitarBtnYModal()
                 }
-                habilitarBtnYModal()
+
+            }
+            if(nuevo_stock == test && stockDB == 0 &&  test == stockDB){
+                bloquearBtnYModal()
             }
         })
     }
@@ -207,9 +277,9 @@ class ProductDescriptionFragment : Fragment() {
                     if(Integer.parseInt(stockModal.editText?.text.toString()) <= stockDB){
                         selectedStock = Integer.parseInt(stockModal.editText?.text.toString())
                         //current_stock.value = stockDB
-                        if(stockDB == selectedStock){
-                            estaComprandoStock = true
-                        }
+//                        if(stockDB == selectedStock){
+//                            estaComprandoStock = true
+//                        }
                         current_stock.value = stockDB.minus(selectedStock)
                     }else{
                         dialog.dismiss()

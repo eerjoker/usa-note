@@ -227,6 +227,7 @@ class PurchaseConfirmationFragment : Fragment() {
         envio = PurchaseConfirmationFragmentArgs.fromBundle(requireArguments()).envio!!
         productItems = itemsCarrito
         recyclerView(v, requireContext())
+        var navController = v.findNavController()
         btnContinue.setOnClickListener {
             updateDB() { goToDireccion ->
                 if (goToDireccion) {
@@ -237,7 +238,7 @@ class PurchaseConfirmationFragment : Fragment() {
                     v.findNavController().navigate(action)
                 } else {
                     val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
-                    var navController = v.findNavController()
+
                     navController.navigate(action)
                 }
             }

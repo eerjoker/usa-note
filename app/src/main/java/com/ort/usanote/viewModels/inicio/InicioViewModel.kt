@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import com.google.firebase.auth.ktx.actionCodeSettings
 import com.ort.usanote.R
 import com.ort.usanote.entities.CategoriaInicio
 import com.ort.usanote.entities.SliderItem

@@ -20,6 +20,10 @@ class ProductItemRepository() : Parcelable {
         detalleOrdenList.clear()
         print(detalleOrdenList)
     }
+    fun getProductItem(id:String):DetalleOrden?{
+        return detalleOrdenList.find { productItem -> productItem.producto.idProducto == id }
+    }
+
 
     fun addProductItem(producto:Product, cant:Int){
         var i = detalleOrdenList.size - 1
