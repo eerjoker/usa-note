@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.*
 
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -87,7 +86,7 @@ class InicioFragment : Fragment() {
     }
 
     private fun onItemClick(pos: Int){
-        var imagen = viewModelInicio.getSliderItem(pos).imagen
+        viewModelInicio.NavigateToAction(pos,rootView)
     }
 
     override fun onPause() {

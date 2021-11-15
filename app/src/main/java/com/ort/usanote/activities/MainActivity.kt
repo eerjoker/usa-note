@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
@@ -49,33 +46,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
-
-        if (auth.currentUser != null) {
-            val loginLogoutItem = menu.findItem(R.id.loginFragment)
-            loginLogoutItem.icon = resources.getDrawable(R.drawable.baseline_logout_white_24dp, theme)
-        }
-
-        val searchViewItem = menu.findItem(R.id.action_search_offline)
-        val searchView : SearchView = searchViewItem.actionView as SearchView
-        searchView.queryHint = resources.getString(R.string.search_placeholder)
-        searchView.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                val bundle = bundleOf("searchQuery" to query,
-                    "categoria" to "busqueda")
-                val action = NavDeepLinkBuilder(this@MainActivity)
-                    .setGraph(R.navigation.main_navgraph)
-                    .addDestination(R.id.productosFragment,bundle)
-                    .createPendingIntent()
-                action.send()
-                return false
-            }
-        })
         return true
     }
 
@@ -94,6 +64,29 @@ class MainActivity : AppCompatActivity() {
 
             R.id.carritoFragment -> {
                 NavigationUI.onNavDestinationSelected(item, navController)
+            }
+            R.id.productosFragment ->{
+                val searchViewItem = item
+                val searchView : SearchView = searchViewItem.actionView as SearchView
+                searchView.queryHint = resources.getString(R.string.search_placeholder)
+                searchView.setOnQueryTextListener(object :
+                    SearchView.OnQueryTextListener {
+
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        return false
+                    }
+
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        val bundle = bundleOf("searchQuery" to query,
+                            "categoria" to "busqueda")
+                            NavHostFragment.findNavController(navHostFragment).navigate(R.id.productosFragment,bundle)
+
+
+                        return false
+                    }
+                })
+
+
             }
         }
         return super.onOptionsItemSelected(item)
