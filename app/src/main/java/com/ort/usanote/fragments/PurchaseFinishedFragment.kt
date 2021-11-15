@@ -10,6 +10,7 @@ import android.widget.Button
 import androidx.navigation.findNavController
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
+import com.ort.usanote.entities.Repo
 import com.ort.usanote.viewModels.PurchaseFinishedViewModel
 
 class PurchaseFinishedFragment : Fragment() {
@@ -41,6 +42,8 @@ class PurchaseFinishedFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val itemsCarrito = (activity as MainActivity).itemsCarrito
+        val repo = Repo()
+        repo.updateStock(itemsCarrito)
         itemsCarrito.dropList()
         btnBackToHome.setOnClickListener {
             val action = PurchaseFinishedFragmentDirections.actionPurchaseFinishedFragmentToInicioFragment()

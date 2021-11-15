@@ -9,7 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categorias"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnFiltrar"

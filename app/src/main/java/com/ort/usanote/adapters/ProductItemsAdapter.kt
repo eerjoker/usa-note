@@ -111,8 +111,15 @@ class ProductItemsAdapter(
                         .addOnSuccessListener { documentSnapshot ->
                             val product = documentSnapshot.toObject<Product>()
                             if (product != null && product.stock > 0) {
-                                updateValues(holder, detalleOrdenList[position], 1)
-                                cart.incrementProductQuantity(position, 1)
+                                if((detalleOrdenList[position].quantity + 1) <= product.stock){
+                                    updateValues(holder, detalleOrdenList[position], 1)
+                                    cart.incrementProductQuantity(position, 1)
+                                }else{
+                                    val rootLayout = holder.getCardView()
+                                    Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
+                                        .setBackgroundTint(getColor(context, R.color.alert_danger))
+                                        .show()
+                                }
                             } else {
                                 val rootLayout = holder.getCardView()
                                 Snackbar.make(rootLayout, R.string.no_stock, Snackbar.LENGTH_SHORT)
@@ -125,8 +132,10 @@ class ProductItemsAdapter(
                         }
                 } else if(isLeftDrawable(productItemQuantity, event.rawX)) {
                     if (detalleOrdenList[position].quantity > 1) {
+
                         updateValues(holder, detalleOrdenList[position], -1)
                         cart.incrementProductQuantity(position, -1)
+
                     }
                 }
                 return@OnTouchListener true

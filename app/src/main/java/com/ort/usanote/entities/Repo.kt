@@ -85,6 +85,17 @@ class Repo {
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
     }
+    fun updateStock(itemsCarrito: ProductItemRepository){
+        for(pedido in itemsCarrito.getProductItems()){
+            db.collection("productos").document(pedido.producto.idProducto)
+                .update("stock",FieldValue.increment(-(pedido.quantity.toDouble())))
+                .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
+        }
+    }
+
+
+
     private fun porCategoria(productsFromDB:MutableList<Product>,categoria: String):MutableList<Product>{
 
         if(categoria.lowercase() != "null" && categoria != "busqueda"){
