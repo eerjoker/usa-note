@@ -115,8 +115,9 @@ class PurchaseConfirmationFragment : Fragment() {
                 if (document != null) {
                     entregadoA = document.data!!["email"] as String // Obteniendo mail
                     val direcciones = document.data!!["direcciones"] as ArrayList<String>
-                    if (direcciones.size > 0) {
-
+                    if (direcciones.size == 0) {
+                        cb(true)
+                    } else {
                         idDireccionEntrega = direcciones.get(0) //Obteniendo primer id en array de idsDirecciones
                         val envio = this.envio //Objeto Envio de momento hardcodeado, deberia ser recibido por parametro segun lo elegido en shipmentFragment
                         val direcRef = db.collection("direcciones").document(idDireccionEntrega)
@@ -178,9 +179,6 @@ class PurchaseConfirmationFragment : Fragment() {
                         } else {
                             Log.d(TAG, "No such document")
                         }
-
-                    } else {
-                        cb(true)
                     }
                 }
             }
