@@ -16,7 +16,6 @@ class RegistroViewModel : ViewModel() {
     var registroExitoso = MutableLiveData<Boolean>()
     lateinit var msgErrorEmail: String
     lateinit var msgErrorPassword: String
-    lateinit var msgErrorGeneral: String
     lateinit var msgErrorPhone: String
     lateinit var msgErrorNombreApellido: String
 
