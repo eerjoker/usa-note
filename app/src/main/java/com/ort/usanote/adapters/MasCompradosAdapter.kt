@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.usanote.R
 import com.ort.usanote.entities.Product
-import com.ort.usanote.entities.ProductItem
+import com.ort.usanote.entities.DetalleOrden
 
 class MasCompradosAdapter(
-    val productList: MutableList<ProductItem>,
+    val productList: MutableList<DetalleOrden>,
     val context: Context,
     val compras: Int
 ): RecyclerView.Adapter<MasCompradosAdapter.ViewHolder>() {
@@ -47,10 +47,10 @@ class MasCompradosAdapter(
     }
     override fun onBindViewHolder(holder: ViewHolder, i: Int) {
         holder.item_stock.text = ""
-        holder.itemTItle.text = productList[i].product.nombre
-        holder.itemDetail.text = productList[i].product.description
+        holder.itemTItle.text = productList[i].producto.nombre
+        holder.itemDetail.text = productList[i].producto.description
         holder.itemPrice.text = "Comprados: " + productList[i].quantity
-        holder.setImage(context,productList[i].product.imageUrl)
+        holder.setImage(context,productList[i].producto.imageUrl)
     }
     override fun getItemCount(): Int {
         return productList.size

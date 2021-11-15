@@ -2,11 +2,11 @@ package com.ort.usanote.entities
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.android.gms.common.internal.FallbackServiceBroker
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Parcelize
 class ProductItemRepository() : Parcelable {
-    private var productItemList : MutableList<ProductItem> = mutableListOf()
+    private var detalleOrdenList : MutableList<DetalleOrden> = mutableListOf()
 
     constructor(parcel: Parcel) : this() {
 
@@ -17,34 +17,34 @@ class ProductItemRepository() : Parcelable {
     }
 
     fun dropList(){
-        productItemList.clear()
-        print(productItemList)
+        detalleOrdenList.clear()
+        print(detalleOrdenList)
     }
 
-    fun addProductItem(product:Product,cant:Int){
-        var i = productItemList.size - 1
+    fun addProductItem(producto:Product, cant:Int){
+        var i = detalleOrdenList.size - 1
         var found = false
 
         while(!found && i >= 0) {
-            var currentProductItem = productItemList[i]
-            found = currentProductItem.product.idProducto == product.idProducto
+            var currentProductItem = detalleOrdenList[i]
+            found = currentProductItem.producto.idProducto == producto.idProducto
             if (found) {
                 currentProductItem.quantity += cant
-                currentProductItem.product.stock -= cant
+                currentProductItem.producto.stock -= cant
             }
             i--
         }
         if (!found) {
-            productItemList.add(ProductItem(product,cant))
+            detalleOrdenList.add(DetalleOrden("", producto, cant))
         }
     }
 
     fun size():Int{
-        return productItemList.size
+        return detalleOrdenList.size
     }
 
-    fun getProductItems () : MutableList<ProductItem> {
-        return productItemList
+    fun getProductItems () : MutableList<DetalleOrden> {
+        return detalleOrdenList
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

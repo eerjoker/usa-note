@@ -56,6 +56,8 @@ class UserFragment : Fragment() {
     lateinit var direcciones: ArrayList<Direccion>
     lateinit var idsDirecciones: MutableList<String>
 
+    private lateinit var btnToMisCompras : Button
+
     private val viewModelUser: UserViewModel by viewModels()
 
     companion object {
@@ -95,6 +97,8 @@ class UserFragment : Fragment() {
         btnConfirmarTelefono = v.findViewById(R.id.confirmarTelefono)
 
         progressBar = v.findViewById(R.id.progressBar3)
+
+        btnToMisCompras = v.findViewById(R.id.btnToMisCompras)
 
         return v
     }
@@ -244,6 +248,10 @@ class UserFragment : Fragment() {
             v.findNavController().navigate(action)
         }
 
+        btnToMisCompras.setOnClickListener {
+            val action = UserFragmentDirections.actionUserFragmentToMisComprasFragment()
+            v.findNavController().navigate(action)
+        }
     }
 
     // agregar id("kotlin-parcelize") al gradle
