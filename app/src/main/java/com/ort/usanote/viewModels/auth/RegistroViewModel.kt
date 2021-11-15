@@ -111,17 +111,6 @@ class RegistroViewModel : ViewModel() {
         return passwordValida
     }
 
-    fun validateGenerales(texto: String): Boolean {
-
-        var textValido: Boolean = false
-        if (texto.isEmpty()){
-            msgErrorGeneral = "Debe completar este campo"
-        }else{
-            textValido = true
-        }
-        return textValido
-    }
-
     fun validateForm(nombre: Boolean, apellido: Boolean, telefono: Boolean,email: Boolean, password: Boolean ): Boolean{
         val result = arrayOf(nombre, apellido, telefono, email, password)
 
