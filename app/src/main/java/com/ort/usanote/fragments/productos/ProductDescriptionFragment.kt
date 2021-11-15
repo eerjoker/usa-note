@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -71,6 +72,7 @@ class ProductDescriptionFragment : Fragment() {
         )
         (activity as MainActivity).itemsCarrito.addProductItem(producto, selectedStock)
         current_stock.value = current_stock.value!!.minus(selectedStock)
+        viewModelPD.decrementStock(producto.idProducto, selectedStock.toDouble())
     }
 
 
@@ -180,7 +182,6 @@ class ProductDescriptionFragment : Fragment() {
         bottom.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
         bottom.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         bottom.window!!.setGravity(Gravity.BOTTOM)
-
     }
 
     private fun onClickStock(it:Int){
@@ -202,19 +203,24 @@ class ProductDescriptionFragment : Fragment() {
             .setTitle("Elegí cantidad")
             .setMessage("$stockDB disponibles")
             .setPositiveButton("Aplicar"){ dialog,_ ->
-                if(Integer.parseInt(stockModal.editText?.text.toString()) <= stockDB){
-                    selectedStock = Integer.parseInt(stockModal.editText?.text.toString())
-                    //current_stock.value = stockDB
-                    if(stockDB == selectedStock){
-                        estaComprandoStock = true
+                try{
+                    if(Integer.parseInt(stockModal.editText?.text.toString()) <= stockDB){
+                        selectedStock = Integer.parseInt(stockModal.editText?.text.toString())
+                        //current_stock.value = stockDB
+                        if(stockDB == selectedStock){
+                            estaComprandoStock = true
+                        }
+                        current_stock.value = stockDB.minus(selectedStock)
+                    }else{
+                        dialog.dismiss()
+                        makeSnackError("No puede ingresar mas de la cantidad disponible")
+
                     }
-                    current_stock.value = stockDB.minus(selectedStock)
-                }else{
-                    dialog.dismiss()
-                    Snackbar.make(v,"No puede ingresar mas de la cantidad disponible",Snackbar.LENGTH_SHORT)
-                        .setBackgroundTint(getColor(requireContext(), R.color.alert_danger))
-                        .show()
+                }catch(e:Exception){
+                    Log.d("Error","Error valor ingresado")
+                    makeSnackError("Stock invalido")
                 }
+
             }
             .show()
     }
@@ -240,6 +246,16 @@ class ProductDescriptionFragment : Fragment() {
         btnStock.isClickable = true
         btnStock.text = "Cantidad: ${selectedStock.toString()}  (${current_stock.value} disponibles)"
 
+    }
+
+    fun makeSnackError(error:String){
+        Snackbar.make(
+            v,
+            "$error",
+            Snackbar.LENGTH_SHORT
+        )
+            .setBackgroundTint(getColor(requireContext(), R.color.alert_danger))
+            .show()
     }
 
 }

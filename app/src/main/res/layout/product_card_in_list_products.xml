@@ -33,26 +33,26 @@
             android:layout_toRightOf="@id/item_image"
             android:text="Product Name"
             android:textSize="30sp" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/item_desc"
-            android:text="Description"
-            android:layout_toEndOf="@+id/item_image"
-            android:layout_toRightOf="@id/item_image"
-            android:layout_below="@+id/item_title"
-            android:textSize="20sp"
-            />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="price"
-            android:id="@+id/item_price"
+            android:layout_below="@+id/item_title"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
+            android:text="Description"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/item_desc"
-            android:textSize="20sp"
-            />
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:text="price"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/item_stock"
