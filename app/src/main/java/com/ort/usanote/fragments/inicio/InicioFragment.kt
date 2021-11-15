@@ -1,4 +1,4 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.inicio
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.ort.usanote.R
 import com.ort.usanote.adapters.CategoryInicioAdapter
 import com.ort.usanote.adapters.SliderAdapter
-import com.ort.usanote.viewModels.InicioViewModel
+import com.ort.usanote.viewModels.inicio.InicioViewModel
 
 
 class InicioFragment : Fragment() {
@@ -31,7 +31,7 @@ class InicioFragment : Fragment() {
     private lateinit var sliderHandler: Handler
     private lateinit var sliderRun: Runnable
     private lateinit var recyclerView: RecyclerView
-    private val viewModelInicio:InicioViewModel by viewModels()
+    private val viewModelInicio: InicioViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -79,7 +79,7 @@ class InicioFragment : Fragment() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     sliderHandler.removeCallbacks(sliderRun)
-                    sliderHandler.postDelayed(sliderRun, 2000)
+                    sliderHandler.postDelayed(sliderRun, 4000)
                 }
             })
 

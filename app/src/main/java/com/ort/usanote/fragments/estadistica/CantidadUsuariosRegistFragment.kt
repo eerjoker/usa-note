@@ -1,4 +1,4 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.estadistica
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -10,8 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ort.usanote.R
-import com.ort.usanote.entities.Product
-import com.ort.usanote.viewModels.CantidadUsuariosRegistViewModel
+import com.ort.usanote.viewModels.estadistica.CantidadUsuariosRegistViewModel
 
 class CantidadUsuariosRegistFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.ort.usanote.fragments
+package com.ort.usanote.fragments.estadistica
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ort.usanote.R
 import com.ort.usanote.adapters.EstadisticasAdapter
 import com.ort.usanote.entities.Estadistica
-import com.ort.usanote.viewModels.EstadisticasViewModel
+import com.ort.usanote.viewModels.estadistica.EstadisticasViewModel
 
 class EstadisticasFragment : Fragment() {
 
@@ -37,7 +37,6 @@ class EstadisticasFragment : Fragment() {
         estadisticasList.clear()
         estadisticasList.add(Estadistica("Productos mas vistos", "#F58A00"))
         estadisticasList.add(Estadistica("Usuarios registrados", "#F58A00"))
-        estadisticasList.add(Estadistica("Ultimas compras", "#F58A00"))
         estadisticasList.add(Estadistica("Productos mas comprados", "#F58A00"))
     }
     private fun recyclerview(rootView:View){
@@ -45,13 +44,16 @@ class EstadisticasFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(rootView.context)
         recyclerView.adapter = EstadisticasAdapter(estadisticasList){
             if(estadisticasList[it].nombre == "Productos mas vistos"){
-                val action = EstadisticasFragmentDirections.actionEstadisticasFragmentToProductosMasVistosFragment()
+                val action =
+                    EstadisticasFragmentDirections.actionEstadisticasFragmentToProductosMasVistosFragment()
                 rootView.findNavController().navigate(action)
             }else if(estadisticasList[it].nombre == "Usuarios registrados"){
-                val action = EstadisticasFragmentDirections.actionEstadisticasFragmentToCantidadUsuariosRegistFragment()
+                val action =
+                    EstadisticasFragmentDirections.actionEstadisticasFragmentToCantidadUsuariosRegistFragment()
                 rootView.findNavController().navigate(action)
             }else if(estadisticasList[it].nombre == "Productos mas comprados"){
-                val action = EstadisticasFragmentDirections.actionEstadisticasFragmentToProductosMasCompradosFragment()
+                val action =
+                    EstadisticasFragmentDirections.actionEstadisticasFragmentToProductosMasCompradosFragment()
                 rootView.findNavController().navigate(action)
             }
 

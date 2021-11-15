@@ -30,6 +30,8 @@
         <string name="empty_cart">El carrito está vacío! Añade tus productos!</string>
         <string name="not_logged_in">Debe estar logueado para continuar!</string>
         <string name="no_stock">No hay más stock!</string>
+        <string name="mis_compras_title">Órdenes realizadas</string>
+        <string name="mis_compras_detalle_orden_title">Detalle de la orden</string>
         <string name="search_placeholder">Ingrese el nombre del producto a buscar</string>
         <string name="contacto_titulo">Contacto</string>
         <string name="btn_contacto">Enviar consulta</string>
@@ -37,4 +39,6 @@
         <string name="campos_invalidos">Campos invalidos. Verifique sus datos</string>
         <string name="ingreso_exitoso">Ingreso Exitoso</string>
         <string name="ingreso_no_exitoso">El ingreso no fue exitoso. Verifique sus datos</string>
+        <string name="btn_perfil_go_to_mis_compras">Ir a mis compras</string>
+        <string name="mis_compras_sin_ordenes">Todavía no realizó ninguna compra!</string>
 </resources>

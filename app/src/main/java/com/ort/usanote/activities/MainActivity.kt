@@ -19,7 +19,6 @@ import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItemRepository
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var constraintLayout: ConstraintLayout

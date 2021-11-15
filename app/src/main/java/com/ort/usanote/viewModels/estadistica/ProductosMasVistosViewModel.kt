@@ -1,4 +1,4 @@
-package com.ort.usanote.viewModels
+package com.ort.usanote.viewModels.estadistica
 
 import androidx.lifecycle.ViewModel
 
