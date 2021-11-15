@@ -30,6 +30,10 @@
         <string name="not_logged_in">Debe estar logueado para continuar!</string>
         <string name="no_stock">No hay más stock!</string>
         <string name="search_placeholder">Ingrese el nombre del producto a buscar</string>
-    <string name="contactoTitulo">Contacto</string>
-    <string name="btnContacto">Enviar consulta</string>
+        <string name="contacto_titulo">Contacto</string>
+        <string name="btn_contacto">Enviar consulta</string>
+        <string name="estadisticas">Estadísticas</string>
+        <string name="campos_invalidos">Campos invalidos. Verifique sus datos</string>
+        <string name="ingreso_exitoso">Ingreso Exitoso</string>
+        <string name="ingreso_no_exitoso">El ingreso no fue exitoso. Verifique sus datos</string>
 </resources>

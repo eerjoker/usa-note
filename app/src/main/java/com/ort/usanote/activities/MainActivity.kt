@@ -1,14 +1,15 @@
 package com.ort.usanote.activities
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.Navigation
@@ -22,15 +23,13 @@ import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItemRepository
 
 
-
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var constraintLayout: ConstraintLayout
-    private lateinit var bottomNavigationView : BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    lateinit var bottomNavigationView : BottomNavigationView
+    lateinit var toolbar : Toolbar
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var itemsCarrito : ProductItemRepository = ProductItemRepository()
 
@@ -45,12 +44,17 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         setBottomViewListener()
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
+
+        if (auth.currentUser != null) {
+            val loginLogoutItem = menu.findItem(R.id.loginFragment)
+            loginLogoutItem.icon = resources.getDrawable(R.drawable.baseline_logout_white_24dp, theme)
+        }
 
         val searchViewItem = menu.findItem(R.id.action_search_offline)
         val searchView : SearchView = searchViewItem.actionView as SearchView
@@ -83,6 +87,8 @@ class MainActivity : AppCompatActivity() {
             R.id.loginFragment -> {
                 if (auth.currentUser != null) {
                     auth.signOut()
+                    item.icon = resources.getDrawable(R.drawable.baseline_login_white_24dp, theme)
+                    updateContextOnLogout()
                 }
                 NavigationUI.onNavDestinationSelected(item, navController)
             }
@@ -95,9 +101,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomViewListener() {
-        // se inicializa vacio asi no entra en el otro listener si ya esta seleccionado el item
-        bottomNavigationView.setOnItemReselectedListener {  }
-
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
 
@@ -111,5 +114,10 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(it, navController)
             return@setOnItemSelectedListener true
         }
+    }
+
+    private fun updateContextOnLogout() {
+        // bottombar - remueve item de estadisticas si lo hay
+        bottomNavigationView.menu.removeItem(R.id.estadisticasFragment)
     }
 }
