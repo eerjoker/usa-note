@@ -120,7 +120,7 @@ class RegistroFragment : Fragment() {
 
     fun asignarErrores (nombre: Boolean, apellido: Boolean, telefono: Boolean,email: Boolean, password: Boolean){
         if (!nombre) nombre2TxtLayout.error = viewModelRegistro.msgErrorNombreApellido
-        if (!apellido) apellido2TxtLayout.error = viewModelRegistro.msgErrorGeneral
+        if (!apellido) apellido2TxtLayout.error = viewModelRegistro.msgErrorNombreApellido
         if (!telefono) telefono2TxtLayout.error = viewModelRegistro.msgErrorPhone
         if (!email) email2TxtLayout.error = viewModelRegistro.msgErrorEmail
         if (!password) password2TxtLayout.error = viewModelRegistro.msgErrorPassword
