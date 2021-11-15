@@ -42,7 +42,7 @@ class PurchaseConfirmationFragment : Fragment() {
     private val COSTO_ENVIO = 300.0
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-    private lateinit var navController : NavController
+    private lateinit var envio: Envio
 
     companion object {
         fun newInstance() = PurchaseConfirmationFragment()
@@ -62,6 +62,26 @@ class PurchaseConfirmationFragment : Fragment() {
         totalAPagarTxt.text = "$$totalAPagar"
     }
 
+    @SuppressLint("SetTextI18n")
+    fun setMetodoEnvio(metodoEnvio: String) {
+        val metodoEnvioTxt : TextView = v.findViewById(R.id.textViewMetodoDeEnvio)
+        metodoEnvioTxt.text = "$metodoEnvio"
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun setTiempoEstimado(tiempoEstimado: Int) {
+        val tiempoEstimadoTxt : TextView = v.findViewById(R.id.textViewTiempoEstimado)
+        tiempoEstimadoTxt.text = "$tiempoEstimado minutos"
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun setCosto(costo: Double) {
+        val costoTxt : TextView = v.findViewById(R.id.textViewCosto)
+        val costoEnvioTxt : TextView = v.findViewById(R.id.textViewEnvio)
+        costoTxt.text = "$$costo"
+        costoEnvioTxt.text = "$$costo"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,9 +90,11 @@ class PurchaseConfirmationFragment : Fragment() {
         btnContinue = v.findViewById(R.id.buttonContinue)
         itemsCarrito = (activity as MainActivity).itemsCarrito
         setSubtotal(calculateSubtotalItemsCarrito(itemsCarrito).toString())
+        envio = PurchaseConfirmationFragmentArgs.fromBundle(requireArguments()).envio!!
         setTotalAPagar(calculateTotalAPagar().toString())
-        //navController = v.findNavController()
-        navController = findNavController()
+        setMetodoEnvio(this.envio.tipoEnvio)
+        setTiempoEstimado(this.envio.minutosEstimados)
+        setCosto(this.envio.costoEnvio)
         return v
     }
 
@@ -94,8 +116,9 @@ class PurchaseConfirmationFragment : Fragment() {
                     entregadoA = document.data!!["email"] as String // Obteniendo mail
                     val direcciones = document.data!!["direcciones"] as ArrayList<String>
                     if (direcciones.size > 0) {
+
                         idDireccionEntrega = direcciones.get(0) //Obteniendo primer id en array de idsDirecciones
-                        val envio: Envio = Envio(30, "Moto", COSTO_ENVIO) //Objeto Envio de momento hardcodeado, deberia ser recibido por parametro segun lo elegido en shipmentFragment
+                        val envio = this.envio //Objeto Envio de momento hardcodeado, deberia ser recibido por parametro segun lo elegido en shipmentFragment
                         val direcRef = db.collection("direcciones").document(idDireccionEntrega)
                         if (direcRef != null) {
                             direcRef.get()
@@ -140,6 +163,7 @@ class PurchaseConfirmationFragment : Fragment() {
                                                                 "No se ha podido guardar en la BD de ordenes"
                                                             )
                                                         }
+                                                        db.collection("envios").add(this.envio)
                                                     }
                                                 }
                                             }
@@ -154,6 +178,7 @@ class PurchaseConfirmationFragment : Fragment() {
                         } else {
                             Log.d(TAG, "No such document")
                         }
+
                     } else {
                         cb(true)
                     }
@@ -179,7 +204,7 @@ class PurchaseConfirmationFragment : Fragment() {
 
     private fun calculateTotalAPagar() : Double {
         val subtotal = this.calculateSubtotalItemsCarrito(itemsCarrito)
-        val total = subtotal + COSTO_ENVIO
+        val total = subtotal + envio.costoEnvio
         return total
     }
 
@@ -198,7 +223,7 @@ class PurchaseConfirmationFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        envio = PurchaseConfirmationFragmentArgs.fromBundle(requireArguments()).envio!!
         productItems = itemsCarrito
         recyclerView(v, requireContext())
         btnContinue.setOnClickListener {

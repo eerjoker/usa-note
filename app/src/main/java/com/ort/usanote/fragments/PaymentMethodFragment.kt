@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.ort.usanote.R
+import com.ort.usanote.entities.Envio
 import com.ort.usanote.viewModels.PaymentMethodViewModel
 
 class PaymentMethodFragment : Fragment() {
 
     lateinit var btnContinue : Button
     lateinit var v: View
+    lateinit var envio: Envio
+
 
     companion object {
         fun newInstance() = PaymentMethodFragment()
@@ -39,10 +42,9 @@ class PaymentMethodFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-
+        envio = PaymentMethodFragmentArgs.fromBundle(requireArguments()).envio!!
         btnContinue.setOnClickListener {
-            val action = PaymentMethodFragmentDirections.actionPaymentMethodFragmentToPurchaseConfirmationFragment()
+            val action = PaymentMethodFragmentDirections.actionPaymentMethodFragmentToPurchaseConfirmationFragment(envio)
             v.findNavController().navigate(action)
         }
     }

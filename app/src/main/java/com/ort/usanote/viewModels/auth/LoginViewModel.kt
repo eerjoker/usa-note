@@ -8,9 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.ort.usanote.R
-import com.ort.usanote.entities.Usuario
 
 class LoginViewModel : ViewModel() {
 
@@ -19,14 +16,23 @@ class LoginViewModel : ViewModel() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     val loginExitoso = MutableLiveData<Boolean>()
+    var esCliente = MutableLiveData<Boolean>()
+
 
     fun ingresar (email: String, password: String){
         
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(){
                 if (it.isSuccessful){
-                    loginExitoso.value = true
-                    Log.d(ContentValues.TAG, "Login completado")
+
+                    var user = auth.currentUser
+                        db.collection("usuarios").document(user!!.uid).get().addOnCompleteListener(){result ->
+                            if (result.isSuccessful){
+                                esCliente.value = result.result!!.getBoolean("esCliente")
+                                loginExitoso.value = true
+                                Log.d(ContentValues.TAG, "Login completado")
+                            }
+                        }
                 }else{
                     loginExitoso.value = false
                     Log.d(ContentValues.TAG, "No se completo el Login")
@@ -65,15 +71,4 @@ class LoginViewModel : ViewModel() {
         return true
     }
 
-    fun changeToAdminMenu(menu : Menu) {
-        if (auth.currentUser != null) {
-            db.collection("usuarios").document(auth.currentUser!!.uid).get()
-                .addOnSuccessListener {
-                    menu.add(Menu.NONE, R.id.estadisticasFragment, Menu.NONE
-                        , "Estadísticas")
-                    menu.findItem(R.id.estadisticasFragment)
-                        .setIcon(R.drawable.baseline_equalizer_white_24dp)
-                }
-        }
-    }
 }

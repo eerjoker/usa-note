@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             R.id.productosFragment ->{
                 val searchViewItem = item
                 val searchView : SearchView = searchViewItem.actionView as SearchView
+                searchView.setBackgroundColor(getColor(R.color.white))
                 searchView.queryHint = resources.getString(R.string.search_placeholder)
                 searchView.setOnQueryTextListener(object :
                     SearchView.OnQueryTextListener {

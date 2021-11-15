@@ -54,6 +54,7 @@
         android:layout_height="93dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="184dp"
+        android:background="#95AFF1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,7 +89,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/textViewMetodoDeEnvio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="208dp"
@@ -98,7 +99,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/textViewTiempoEstimado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="208dp"
@@ -108,7 +109,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textViewCosto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="208dp"
@@ -133,6 +134,7 @@
         android:layout_height="31dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="312dp"
+        android:background="#95AFF1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -171,6 +173,7 @@
         android:layout_height="87dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="384dp"
+        android:background="#95AFF1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -215,7 +218,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView19" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/textViewEnvio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="244dp"
