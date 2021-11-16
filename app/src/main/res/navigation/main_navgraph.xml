@@ -137,6 +137,9 @@
         <action
             android:id="@+id/action_checkAddressFragment_to_direccionFragment"
             app:destination="@id/direccionFragment" />
+        <argument
+            android:name="direccion"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
