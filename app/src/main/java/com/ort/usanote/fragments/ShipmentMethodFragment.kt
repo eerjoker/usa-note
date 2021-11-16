@@ -34,6 +34,7 @@ class ShipmentMethodFragment : Fragment() {
     private lateinit var theme : Resources.Theme
     private val COSTO_ENVIO = 300.00
     private val ENVIO_MOTO = "Envio por moto"
+    private val RETIRO_LOCAL = "Retira en local"
     private lateinit var direccion: String
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
@@ -134,8 +135,14 @@ class ShipmentMethodFragment : Fragment() {
                     .show()
             }
             else {
-                val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion)
-                v.findNavController().navigate(action)
+                if (this.envio!!.tipoEnvio == ENVIO_MOTO) {
+                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion)
+                    v.findNavController().navigate(action)
+                } else {
+                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToPaymentMethodFragment(envio!!)
+                    v.findNavController().navigate(action)
+                }
+
             }
         }
     }
