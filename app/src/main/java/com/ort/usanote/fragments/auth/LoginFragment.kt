@@ -3,7 +3,6 @@ package com.ort.usanote.fragments.auth
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -11,10 +10,10 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -37,14 +36,12 @@ class LoginFragment : Fragment() {
     lateinit var rootLayout: ConstraintLayout
     lateinit var progressBar: ProgressBar
     private lateinit var toolbar : Toolbar
-    private lateinit var bottomNavigationView : BottomNavigationView
     private lateinit var theme : Resources.Theme
+    private val viewModel: LoginViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = LoginFragment()
     }
-
-    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,15 +58,9 @@ class LoginFragment : Fragment() {
         progressBar = v.findViewById(R.id.progressBar)
         rootLayout = v.findViewById(R.id.frameLayout2)
         toolbar = (activity as MainActivity).toolbar
-        bottomNavigationView = (activity as MainActivity).bottomNavigationView
         theme = (activity as MainActivity).theme
 
         return v
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
     }
 
     override fun onStart() {
@@ -77,6 +68,7 @@ class LoginFragment : Fragment() {
 
         progressBar.setVisibility(View.GONE)
 
+        viewModel.reset()
         viewModel.loginExitoso.observe(viewLifecycleOwner, Observer { result ->
             if (result) {
                 Snackbar.make(rootLayout, getString(R.string.ingreso_exitoso), Snackbar.LENGTH_LONG)
@@ -97,17 +89,6 @@ class LoginFragment : Fragment() {
                     .show()
             }
         })
-
-
-        viewModel.esCliente.observe(viewLifecycleOwner, Observer {
-            if(!it){
-                bottomNavigationView.menu.add(Menu.NONE, R.id.estadisticasFragment, Menu.NONE
-                    , "Estadísticas")
-                bottomNavigationView.menu.findItem(R.id.estadisticasFragment)
-                    .setIcon(R.drawable.baseline_equalizer_white_24dp)
-            }
-        })
-
 
         loginButton.setOnClickListener(){
 

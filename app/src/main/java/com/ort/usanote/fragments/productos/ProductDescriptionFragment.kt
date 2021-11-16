@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isInvisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -175,12 +176,10 @@ class ProductDescriptionFragment : Fragment() {
         })
     }
 
-    fun observeIsClient() {
-        viewModelLogin.esCliente.observe(viewLifecycleOwner, Observer {
-            if(!it){
-                btnAddCart.visibility = View.GONE
-                btnToCart.visibility = View.GONE
-            }
+    fun observeIsAdmin() {
+        viewModelLogin.esAdmin.observe(viewLifecycleOwner, Observer {
+            btnAddCart.isInvisible = it
+            btnToCart.isInvisible = it
         })
     }
 
@@ -188,7 +187,7 @@ class ProductDescriptionFragment : Fragment() {
         super.onStart()
         observerStock()
         observeCurrentStock()
-        observeIsClient()
+        observeIsAdmin()
         initView()
 
 

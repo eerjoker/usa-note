@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -19,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.ort.usanote.R
 import com.ort.usanote.entities.ProductItemRepository
+import com.ort.usanote.viewModels.auth.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     var itemsCarrito : ProductItemRepository = ProductItemRepository()
     var actionForRedirection : NavDirections? = null
     var alertDangerMessage = ""
+    val viewModelLogin: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +45,47 @@ class MainActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         bottomNavigationView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
-        setBottomViewListener()
+        configureBottomView()
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        setObservers()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModelLogin.checkIsAdmin()
+    }
+
+    private fun setObservers() {
+        viewModelLogin.esAdmin.observe(this, Observer {
+            if(it) {
+                // bottombar - item estadisticas
+                bottomNavigationView.menu.add(Menu.NONE, R.id.estadisticasFragment, Menu.NONE
+                    , getString(R.string.estadisticas))
+                bottomNavigationView.menu.findItem(R.id.estadisticasFragment)
+                    .setIcon(R.drawable.baseline_equalizer_white_24dp)
+            }
+            if (!it) {
+                // bottombar - item estadisticas
+                bottomNavigationView.menu.removeItem(R.id.estadisticasFragment)
+            }
+
+            // toolbar - item carrito
+            val itemCarrito = toolbar.menu.findItem(R.id.carritoFragment)
+            if (itemCarrito != null) {
+                itemCarrito.isEnabled = !it
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
+        if (auth.currentUser != null) {
+            val loginItem = menu.findItem(R.id.loginFragment)
+            loginItem.icon = resources.getDrawable(R.drawable.baseline_logout_white_24dp, theme)
+        }
         return true
     }
 
@@ -58,9 +95,8 @@ class MainActivity : AppCompatActivity() {
 
             R.id.loginFragment -> {
                 if (auth.currentUser != null) {
-                    auth.signOut()
+                    viewModelLogin.logOut()
                     item.icon = resources.getDrawable(R.drawable.baseline_login_white_24dp, theme)
-                    updateContextOnLogout()
                 }
                 NavigationUI.onNavDestinationSelected(item, navController)
             }
@@ -96,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setBottomViewListener() {
+    private fun configureBottomView() {
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
 
@@ -110,11 +146,6 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(it, navController)
             return@setOnItemSelectedListener true
             }
-    }
-
-    private fun updateContextOnLogout() {
-        // bottombar - remueve item de estadisticas si lo hay
-        bottomNavigationView.menu.removeItem(R.id.estadisticasFragment)
     }
 
     fun redirectDone() {

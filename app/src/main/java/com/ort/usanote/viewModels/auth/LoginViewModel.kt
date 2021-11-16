@@ -2,7 +2,6 @@ package com.ort.usanote.viewModels.auth
 
 import android.content.ContentValues
 import android.util.Log
-import android.view.Menu
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,8 +14,8 @@ class LoginViewModel : ViewModel() {
     lateinit var msgErrorPassword: String
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-    val loginExitoso = MutableLiveData<Boolean>()
-    var esCliente = MutableLiveData<Boolean>()
+    var loginExitoso = MutableLiveData<Boolean>()
+    var esAdmin = MutableLiveData<Boolean>()
 
 
     fun ingresar (email: String, password: String){
@@ -26,13 +25,16 @@ class LoginViewModel : ViewModel() {
                 if (it.isSuccessful){
 
                     var user = auth.currentUser
-                        db.collection("usuarios").document(user!!.uid).get().addOnCompleteListener(){result ->
-                            if (result.isSuccessful){
-                                esCliente.value = result.result!!.getBoolean("esCliente")
-                                loginExitoso.value = true
-                                Log.d(ContentValues.TAG, "Login completado")
+                    db.collection("usuarios").document(user!!.uid).get().addOnCompleteListener(){result ->
+                        if (result.isSuccessful){
+                            val esCliente = result.result!!.getBoolean("esCliente")
+                            if (esCliente != null){
+                                esAdmin.value = !esCliente!!
                             }
+                            loginExitoso.value = true
+                            Log.d(ContentValues.TAG, "Login completado")
                         }
+                    }
                 }else{
                     loginExitoso.value = false
                     Log.d(ContentValues.TAG, "No se completo el Login")
@@ -71,4 +73,28 @@ class LoginViewModel : ViewModel() {
         return true
     }
 
+    fun logOut() {
+        auth.signOut()
+        esAdmin.value = false
+    }
+
+    fun checkIsAdmin() {
+        if (auth.currentUser == null) {
+            esAdmin.value = false
+        }
+        else {
+            db.collection("usuarios").document(auth.currentUser!!.uid).get().addOnCompleteListener() { result ->
+                if (result.isSuccessful) {
+                    val esCliente = result.result!!.getBoolean("esCliente")
+                    if (esCliente != null){
+                        esAdmin.value = !esCliente!!
+                    }
+                }
+            }
+        }
+    }
+
+    fun reset() {
+        loginExitoso = MutableLiveData<Boolean>()
+    }
 }
