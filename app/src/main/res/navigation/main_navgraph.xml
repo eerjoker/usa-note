@@ -121,6 +121,9 @@
         <action
             android:id="@+id/action_shipmentMethodFragment_to_checkAddressFragment"
             app:destination="@id/checkAddressFragment" />
+        <action
+            android:id="@+id/action_shipmentMethodFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethodFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkAddressFragment"

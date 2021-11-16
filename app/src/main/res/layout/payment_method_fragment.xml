@@ -208,4 +208,14 @@
        app:layout_constraintStart_toEndOf="@+id/textView47"
        app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="70dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/transf_bancaria"
+        app:layout_constraintBottom_toBottomOf="@+id/TransferenciaTextView"
+        app:layout_constraintStart_toStartOf="@+id/TransferenciaTextView"
+        app:layout_constraintTop_toTopOf="@+id/TransferenciaTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
