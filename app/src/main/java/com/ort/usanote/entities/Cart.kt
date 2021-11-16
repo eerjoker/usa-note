@@ -23,12 +23,6 @@ class Cart (
     }
 
     fun deleteProductItem(pos: Int) {
-//        db = FirebaseFirestore.getInstance()
-//        val productoActualizar = db.collection("productos").document(detalleOrdenList[pos].producto.idProducto)
-//        val nuevoStock = detalleOrdenList[pos].quantity.toDouble()
-//        productoActualizar.update("stock",FieldValue.increment(nuevoStock))
-//            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
-//            .addOnFailureListener { e -> Log.d("TAG", "Error updating document", e) }
         detalleOrdenList.removeAt(pos)
         notifyChange()
     }
