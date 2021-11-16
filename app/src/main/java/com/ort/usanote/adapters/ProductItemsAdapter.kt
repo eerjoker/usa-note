@@ -34,13 +34,11 @@ class ProductItemsAdapter(
     private val DRAWABLE_RIGHT = 2
     private var db : FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    class ProductItemHolder(v: View, parentView: ViewGroup) : RecyclerView.ViewHolder(v) {
+    class ProductItemHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view : View
-        private var parent : ViewGroup
 
         init {
             this.view = v
-            this.parent = parentView
         }
 
         fun setTitle(title: String) {
@@ -78,15 +76,11 @@ class ProductItemsAdapter(
         fun getQuantityEditText() : EditText {
             return view.findViewById(R.id.txtProductItemQuantity)
         }
-
-        fun deleteProductItem() {
-            parent.removeView(getCardView())
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItemHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.cart_product_item, parent, false)
-        return (ProductItemHolder(view, parent))
+        return (ProductItemHolder(view))
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -144,8 +138,8 @@ class ProductItemsAdapter(
         })
 
         holder.getDeleteButton().setOnClickListener {
-            holder.deleteProductItem()
             cart.deleteProductItem(position)
+            notifyDataSetChanged()
         }
     }
 
