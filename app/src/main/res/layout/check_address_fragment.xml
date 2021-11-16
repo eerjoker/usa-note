@@ -14,13 +14,12 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="408dp"
         android:layout_marginEnd="48dp"
-        android:background="#95AFF1"
+        android:background="@drawable/rounde_corner_blue"
         android:gravity="center"
         android:text="Añadir Domicilio"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +30,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="200dp"
-        android:background="#95AFF1"
+        android:background="@drawable/rounde_corner_blue"
         android:text="Envio por moto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +42,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="132dp"
-        android:background="#95AFF1"
+        android:background="@drawable/rounde_corner_blue"
         android:checked="false"
         android:text="Lo paso a buscar"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="276dp"
         android:layout_marginEnd="48dp"
-        android:background="#95AFF1"
+        android:background="@drawable/rounde_corner_blue"
         android:text="Domicilio de envio"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +85,8 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="332dp"
         android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
