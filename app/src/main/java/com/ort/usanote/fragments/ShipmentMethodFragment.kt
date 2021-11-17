@@ -93,6 +93,9 @@ class ShipmentMethodFragment : Fragment() {
                     val direccion = direcciones[0]
                     val direccionDb = fetchDireccion(direccion)
                     direccionLiveData.value = direccionDb
+                    tieneDomicilios = true
+                } else {
+                    tieneDomicilios = false
                 }
             }
         }
@@ -121,7 +124,8 @@ class ShipmentMethodFragment : Fragment() {
         direccionLiveData.observe(viewLifecycleOwner, Observer {
             checkBoxLoPasoABuscar.isChecked = false
             textViewAddress.isVisible = true
-            textViewAddressValue.text = direccionLiveData.value!!.calle
+            textViewAddressValue.text = direccionLiveData.value!!.calle + " " + direccionLiveData.value!!.numero
+            this.direccion = direccionLiveData.value!!.calle + " " + direccionLiveData.value!!.numero
             textViewAddressValue.isVisible = true
             textViewAddAddress.isVisible = true
             floatingActionButton.isVisible = true
