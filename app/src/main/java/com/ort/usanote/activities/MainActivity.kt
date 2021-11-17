@@ -117,10 +117,20 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        val bundle = bundleOf("searchQuery" to query,
-                            "categoria" to "busqueda")
+                        if(query.length >= 3){
+                            val bundle = bundleOf("searchQuery" to query,
+                                "categoria" to "busqueda")
                             NavHostFragment.findNavController(navHostFragment).navigate(R.id.productosFragment,bundle)
 
+                        }else{
+                            Snackbar.make(
+                                findViewById(android.R.id.content),
+                                "Ingrese por lo menos 3 caracteres",
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .setBackgroundTint(getColor(R.color.alert_danger))
+                                .show()
+                        }
 
                         return false
                     }

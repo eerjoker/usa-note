@@ -110,7 +110,7 @@ class Repo {
 
         if(query.lowercase() != "null"){
             ret = productsFromDB.filter{
-                query in it.nombre
+                query.lowercase() in it.nombre.lowercase()
             }.toMutableList()
         }
         return ret
