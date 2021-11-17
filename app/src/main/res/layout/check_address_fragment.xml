@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewAdress"
+        android:id="@+id/textViewAddress"
         android:layout_width="311dp"
         android:layout_height="106dp"
         android:layout_marginStart="48dp"
@@ -91,7 +91,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton5"
+        android:id="@+id/btnUpdateDireccion"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="288dp"
@@ -103,7 +103,7 @@
         android:visibility="invisible"
         app:backgroundTint="@android:color/transparent"
         app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewAdress"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewAddress"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
