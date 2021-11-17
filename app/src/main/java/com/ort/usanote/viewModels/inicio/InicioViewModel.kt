@@ -16,7 +16,6 @@ class InicioViewModel : ViewModel() {
     private var sliderItemList: ArrayList<SliderItem> = arrayListOf()
 
     fun onCategoryClick(v: View, it:Int){
-        itemsCategory()
         val category = categoryList[it].nombre
         val action = InicioFragmentDirections.actionInicioFragmentToProductosFragment().setCategoria(category)
         v.findNavController().navigate(action)
