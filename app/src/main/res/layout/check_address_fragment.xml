@@ -100,6 +100,7 @@
         android:clickable="true"
         android:outlineProvider="none"
         android:src="@drawable/ic_baseline_edit_24"
+        android:visibility="invisible"
         app:backgroundTint="@android:color/transparent"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@+id/textViewAdress"
