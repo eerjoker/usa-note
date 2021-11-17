@@ -56,7 +56,7 @@ class UserFragment : Fragment() {
 
     lateinit var recDireccion: RecyclerView
     lateinit var direccionUserAdapter: DireccionUserAdapter
-    lateinit var direcciones: ArrayList<Direccion>
+    lateinit var direcciones: MutableList<Direccion>
     lateinit var idsDirecciones: MutableList<String>
 
     private lateinit var btnToMisCompras : Button
@@ -117,7 +117,7 @@ class UserFragment : Fragment() {
 
         progressBar.setVisibility(View.VISIBLE)
 
-        direcciones = ArrayList()
+        direcciones = mutableListOf()
         idsDirecciones = mutableListOf()
 
         recDireccion.layoutManager = LinearLayoutManager(requireContext())
@@ -139,8 +139,8 @@ class UserFragment : Fragment() {
             if (it != null) {
                 progressBar.setVisibility(View.GONE)
                 if(it.size >= 0){
-                    direcciones = it as ArrayList<Direccion>
-                    direccionUserAdapter = DireccionUserAdapter(it as ArrayList<Direccion>, requireContext()) { item ->
+                    direcciones = it
+                    direccionUserAdapter = DireccionUserAdapter(it, requireContext()) { item ->
                         onItemClick(item)
                     }
                     recDireccion.adapter = direccionUserAdapter

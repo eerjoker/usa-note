@@ -12,7 +12,7 @@ import com.ort.usanote.entities.Direccion
 
 
 class DireccionUserAdapter(
-    var direccionList: ArrayList<Direccion>,
+    var direccionList: MutableList<Direccion>,
     var context: Context, var onClick: (Int) -> Unit
 ) :
     RecyclerView.Adapter<DireccionUserAdapter.DireccionHolder>() {
