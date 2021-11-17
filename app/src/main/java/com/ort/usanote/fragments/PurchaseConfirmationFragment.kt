@@ -101,7 +101,7 @@ class PurchaseConfirmationFragment : Fragment() {
         var direccionEntregaCompleta : String = "Acordar con el vendedor"
         var entregadoA : String
 
-        val scope = CoroutineScope(Dispatchers.Main)
+        val scope = CoroutineScope(Dispatchers.Default)
         scope.launch {
                 val usuario = fetchUser(user!!.uid)
                 entregadoA = usuario.email.toString()
@@ -247,9 +247,8 @@ class PurchaseConfirmationFragment : Fragment() {
         var navController = v.findNavController()
         btnContinue.setOnClickListener {
             val scope = CoroutineScope(Dispatchers.Main)
-                .launch {
+                scope.launch {
                     updateDB()
-
                     val action = PurchaseConfirmationFragmentDirections.actionPurchaseConfirmationFragmentToPurchaseFinishedFragment()
                     navController.navigate(action)
                 }
