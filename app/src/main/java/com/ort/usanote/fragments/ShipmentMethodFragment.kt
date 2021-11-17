@@ -3,25 +3,33 @@ package com.ort.usanote.fragments
 import android.content.res.Resources
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
+import com.ort.usanote.entities.Direccion
 import com.ort.usanote.entities.Envio
+import com.ort.usanote.entities.Usuario
 import com.ort.usanote.viewModels.ShipmentMethodViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ShipmentMethodFragment : Fragment() {
 
@@ -29,16 +37,20 @@ class ShipmentMethodFragment : Fragment() {
     lateinit var v: View
     lateinit var checkBoxLoPasoABuscar: CheckBox
     lateinit var checkBoxEnvioPorMoto: CheckBox
+    lateinit var textViewAddress : TextView
+    lateinit var textViewAddressValue : TextView
+    lateinit var textViewAddAddress : TextView
+    lateinit var floatingActionButton : FloatingActionButton
     var envio: Envio? = null
     lateinit var rootLayout: ConstraintLayout
     private lateinit var theme : Resources.Theme
     private val COSTO_ENVIO = 300.00
     private val ENVIO_MOTO = "Envio por moto"
-    private val RETIRO_LOCAL = "Retira en local"
     private lateinit var direccion: String
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     private var tieneDomicilios: Boolean = false
+    var direccionLiveData = MutableLiveData <Direccion> ()
 
     companion object {
         fun newInstance() = ShipmentMethodFragment()
@@ -56,6 +68,10 @@ class ShipmentMethodFragment : Fragment() {
         checkBoxEnvioPorMoto = v.findViewById(R.id.checkBoxEnvioXMoto)
         rootLayout = v.findViewById(R.id.shipmentMethodConstraintLayout)
         theme = (activity as MainActivity).theme
+        textViewAddress = v.findViewById(R.id.textViewAdress)
+        textViewAddressValue = v.findViewById(R.id.adressValue)
+        textViewAddAddress = v.findViewById(R.id.textViewAddAddress)
+        floatingActionButton = v.findViewById(R.id.floatingActionButton)
         return v
     }
 
@@ -65,45 +81,51 @@ class ShipmentMethodFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun getAddress() {
-        var direccionCompleta = ""
+    private  fun getAddress () {
+        var direccionEntregaCompleta = ""
         val user = auth.currentUser
-        val userRef = db.collection("usuarios").document(user!!.uid)
-        userRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val idsDireccionesList = document.data!!["direcciones"] as ArrayList<String>
-                    if (idsDireccionesList.size > 0 ) {
-                        val idDireccion = idsDireccionesList.get(0)
-                        val direcRef = db.collection("direcciones").document(idDireccion)
-                        direcRef.get()
-                            .addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
-                                if (task.isSuccessful) {
-                                    val documentDireccion: DocumentSnapshot? = task.getResult()
-                                    if (documentDireccion != null) {
-                                        direccionCompleta = documentDireccion.getString("calle") + " " +
-                                                documentDireccion.getString("numero")
-                                        this.direccion = direccionCompleta
-                                        this.tieneDomicilios = true
-                                    } else {
-                                        Log.d("LOGGER", "No existe el document")
-                                    }
-                                } else {
-                                    Log.d("LOGGER", "Fallo por la sig exc:  ", task.exception)
-                                }
-                            })
-                    } else {
-                        direccionCompleta = "Este usuario aun no tiene domicilios guardados"
-                        this.direccion = direccionCompleta
-                        this.tieneDomicilios = false
-                    }
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            val usuario = fetchUser(user!!.uid)
+            val direcciones = usuario.direcciones //lista
+            if(direcciones != null){
+                if(direcciones!!.size > 0){
+                    val direccion = direcciones[0]
+                    val direccionDb = fetchDireccion(direccion)
+                    direccionLiveData.value = direccionDb
                 }
             }
+        }
+    }
+
+    private suspend fun fetchDireccion(direccion: String): Direccion {
+        val dirDb = db.collection("direcciones").document(direccion).get().await()
+        var direccion = Direccion()
+        if(dirDb != null){
+            direccion = dirDb.toObject(Direccion::class.java)!!
+        }
+        return  direccion
+    }
+
+    private suspend fun fetchUser(uid: String): Usuario {
+        val userDb = db.collection("usuarios").document(uid).get().await()
+        var usuario:Usuario = Usuario()
+        if(userDb != null){
+            usuario = userDb.toObject(Usuario::class.java)!!
+        }
+        return usuario
     }
 
     override fun onStart() {
         super.onStart()
-        getAddress()
+        direccionLiveData.observe(viewLifecycleOwner, Observer {
+            checkBoxLoPasoABuscar.isChecked = false
+            textViewAddress.isVisible = true
+            textViewAddressValue.text = direccionLiveData.value!!.calle
+            textViewAddressValue.isVisible = true
+            textViewAddAddress.isVisible = true
+            floatingActionButton.isVisible = true
+        })
         checkBoxLoPasoABuscar.setOnClickListener {
             if (checkBoxLoPasoABuscar.isChecked) {
                 this.envio = Envio(0, "Retira en local", 0.00)
@@ -116,7 +138,7 @@ class ShipmentMethodFragment : Fragment() {
         checkBoxEnvioPorMoto.setOnClickListener {
             if (checkBoxEnvioPorMoto.isChecked) {
                 this.envio = Envio(120, "Envio por moto", COSTO_ENVIO)
-                checkBoxLoPasoABuscar.isChecked = false
+                getAddress()
             } else {
                 this.envio = null
             }
