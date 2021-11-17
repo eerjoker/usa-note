@@ -3,27 +3,38 @@ package com.ort.usanote.fragments
 import android.content.res.Resources
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
+import com.ort.usanote.adapters.DireccionShipmentAdapter
 import com.ort.usanote.entities.Direccion
 import com.ort.usanote.entities.Envio
+import com.ort.usanote.entities.Usuario
 import com.ort.usanote.viewModels.ShipmentMethodViewModel
+import com.ort.usanote.viewModels.user.UserViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ShipmentMethodFragment : Fragment() {
 
@@ -31,17 +42,25 @@ class ShipmentMethodFragment : Fragment() {
     lateinit var v: View
     lateinit var checkBoxLoPasoABuscar: CheckBox
     lateinit var checkBoxEnvioPorMoto: CheckBox
+    lateinit var textViewAddress : TextView
+    lateinit var textViewAddAddress : TextView
+    lateinit var btnAddAddress : FloatingActionButton
     var envio: Envio? = null
     lateinit var rootLayout: ConstraintLayout
     private lateinit var theme : Resources.Theme
     private val COSTO_ENVIO = 300.00
     private val ENVIO_MOTO = "Envio por moto"
-    private val RETIRO_LOCAL = "Retira en local"
-    private var direccion: Direccion? = null
+    //private lateinit var direccion: String
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-    private var tieneDomicilios: Boolean = false
-    private lateinit var idDireccion: String
+    var direccionLiveData = MutableLiveData<Direccion>()
+    //private lateinit var idDireccion: String
+    private val userViewModel : UserViewModel by viewModels()
+    private var direcciones: MutableList<Direccion> = mutableListOf()
+    private lateinit var idsDirecciones: MutableList<String>
+    private lateinit var recDirecciones: RecyclerView
+    private var direccionesListPosition = MutableLiveData<Int>()
+    private lateinit var direccionUserAdapter: DireccionShipmentAdapter
 
     companion object {
         fun newInstance() = ShipmentMethodFragment()
@@ -59,6 +78,10 @@ class ShipmentMethodFragment : Fragment() {
         checkBoxEnvioPorMoto = v.findViewById(R.id.checkBoxEnvioXMoto)
         rootLayout = v.findViewById(R.id.shipmentMethodConstraintLayout)
         theme = (activity as MainActivity).theme
+        textViewAddress = v.findViewById(R.id.textViewAddress)
+        textViewAddAddress = v.findViewById(R.id.textViewAddAddress)
+        btnAddAddress = v.findViewById(R.id.floatingActionButton)
+        recDirecciones = v.findViewById(R.id.recDirecciones)
         return v
     }
 
@@ -68,61 +91,96 @@ class ShipmentMethodFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun getAddress() {
-        //var direccionCompleta = ""
+    private fun getAddress () {
+        var direccionEntregaCompleta = ""
         val user = auth.currentUser
-        val userRef = db.collection("usuarios").document(user!!.uid)
-        userRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val idsDireccionesList = document.data!!["direcciones"] as ArrayList<String>
-                    if (idsDireccionesList.size > 0 ) {
-                        idDireccion = idsDireccionesList.get(0)
-                        val direcRef = db.collection("direcciones").document(idDireccion)
-                        direcRef.get()
-                            .addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
-                                if (task.isSuccessful) {
-                                    val documentDireccion: DocumentSnapshot? = task.getResult()
-                                    if (documentDireccion != null) {
-                                        //direccionCompleta = documentDireccion.getString("calle") + " " + documentDireccion.getString("numero")
-                                        this.direccion = documentDireccion.toObject<Direccion>()
-                                        //this.direccion = direccionCompleta
-                                        this.tieneDomicilios = true
-                                    } else {
-                                        Log.d("LOGGER", "No existe el document")
-                                    }
-                                } else {
-                                    Log.d("LOGGER", "Fallo por la sig exc:  ", task.exception)
-                                }
-                            })
-                    } else {
-                        //direccionCompleta = "Este usuario aun no tiene domicilios guardados"
-                        //this.direccion = direccionCompleta
-                        this.tieneDomicilios = false
-                    }
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            val usuario = fetchUser(user!!.uid)
+            val direcciones = usuario.direcciones //lista
+            if(direcciones != null){
+                if(direcciones!!.size > 0){
+                    val direccion = direcciones[0]
+                    val direccionDb = fetchDireccion(direccion)
+                    direccionLiveData.value = direccionDb
                 }
             }
+        }
+    }
+
+    private suspend fun getAddressList() {
+        userViewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
+            if (it != null) {
+                //progressBar.setVisibility(View.GONE)
+                if(it.size >= 0){
+                    direcciones = it as ArrayList<Direccion>
+                    updateDireccionesAdapter(direcciones)
+                    //envioPorMotoIsChecked()
+                }
+            }
+        })
+
+        userViewModel.idDireccionesUser.observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                idsDirecciones = it
+            }
+        })
+        userViewModel.getDirecciones()
+    }
+
+    private fun updateDireccionesAdapter(direcciones: MutableList<Direccion>) {
+        direccionUserAdapter = DireccionShipmentAdapter(direcciones, direccionesListPosition.value!!, requireContext()) { position ->
+            onDireccionClick(position)
+        }
+        recDirecciones.adapter = direccionUserAdapter
+        direccionUserAdapter.notifyDataSetChanged()
+    }
+
+    private suspend fun fetchDireccion(direccion: String): Direccion {
+        val dirDb = db.collection("direcciones").document(direccion).get().await()
+        var direccion = Direccion()
+        if(dirDb != null){
+            direccion = dirDb.toObject(Direccion::class.java)!!
+        }
+        return  direccion
+    }
+
+    private suspend fun fetchUser(uid: String): Usuario {
+        val userDb = db.collection("usuarios").document(uid).get().await()
+        var usuario = Usuario()
+        if(userDb != null){
+            usuario = userDb.toObject(Usuario::class.java)!!
+        }
+        return usuario
     }
 
     override fun onStart() {
         super.onStart()
-        getAddress()
+        recDirecciones.setHasFixedSize(true)
+        recDirecciones.layoutManager = LinearLayoutManager(requireContext())
+        direccionesListPosition.value = 0
+
+        direccionesListPosition.observe(viewLifecycleOwner, Observer{
+            updateDireccionesAdapter(direcciones)
+        })
+
+        checkIfEnvioPorMotoIsChecked()
         checkBoxLoPasoABuscar.setOnClickListener {
             if (checkBoxLoPasoABuscar.isChecked) {
                 this.envio = Envio(0, "Retira en local", 0.00)
-                checkBoxEnvioPorMoto.isChecked = false
+                retiroEnLocalIsChecked()
             } else {
                 this.envio = null
             }
         }
 
         checkBoxEnvioPorMoto.setOnClickListener {
-            if (checkBoxEnvioPorMoto.isChecked) {
-                this.envio = Envio(120, "Envio por moto", COSTO_ENVIO)
-                checkBoxLoPasoABuscar.isChecked = false
-            } else {
-                this.envio = null
-            }
+            checkIfEnvioPorMotoIsChecked()
+        }
+
+        btnAddAddress.setOnClickListener {
+            val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToDireccionFragment()
+            v.findNavController().navigate(action)
         }
 
         btnContinue.setOnClickListener {
@@ -131,21 +189,26 @@ class ShipmentMethodFragment : Fragment() {
                     BaseTransientBottomBar.ANIMATION_MODE_FADE)
                     .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
                     .show()
-            } else if (this.envio != null && envio!!.tipoEnvio == ENVIO_MOTO && !this.tieneDomicilios) {
-                showSnackbarDebeAgregarDomicilio()
+            } else if (this.envio!!.tipoEnvio == ENVIO_MOTO && direcciones.size == 0) {
+                    showSnackbarDebeAgregarDomicilio()
             } else {
-                if (this.envio!!.tipoEnvio == ENVIO_MOTO) {
-                    if (this.direccion != null && this.idDireccion != null) {
-                        val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion!!, idDireccion)
-                        v.findNavController().navigate(action)
-                    } else {
-                        showSnackbarDebeAgregarDomicilio()
-                    }
-                } else {
-                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToPaymentMethodFragment(envio!!)
-                    v.findNavController().navigate(action)
-                }
+                val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToPaymentMethodFragment(envio!!)
+                v.findNavController().navigate(action)
             }
+        }
+    }
+
+    private fun checkIfEnvioPorMotoIsChecked() {
+        if (checkBoxEnvioPorMoto.isChecked) {
+                this.envio = Envio(120, ENVIO_MOTO, COSTO_ENVIO)
+                envioPorMotoIsChecked()
+                //getAddress()
+                val scope = CoroutineScope(Dispatchers.Main)
+                scope.launch {
+                    getAddressList()
+                }
+        } else {
+            this.envio = null
         }
     }
 
@@ -154,5 +217,27 @@ class ShipmentMethodFragment : Fragment() {
             BaseTransientBottomBar.ANIMATION_MODE_FADE)
             .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
             .show()
+    }
+
+    private fun onDireccionClick(direccionPosition: Int) {
+        this.direccionesListPosition.value = direccionPosition
+    }
+
+    private fun retiroEnLocalIsChecked() {
+        checkBoxEnvioPorMoto.isChecked = false
+        checkBoxLoPasoABuscar.isChecked = true
+        textViewAddress.isVisible = false
+        textViewAddAddress.isVisible = false
+        btnAddAddress.isVisible = false
+        recDirecciones.isVisible = false
+    }
+
+    private fun envioPorMotoIsChecked() {
+        checkBoxLoPasoABuscar.isChecked = false
+        checkBoxEnvioPorMoto.isChecked = true
+        textViewAddress.isVisible = true
+        textViewAddAddress.isVisible = true
+        btnAddAddress.isVisible = true
+        recDirecciones.isVisible = true
     }
 }
