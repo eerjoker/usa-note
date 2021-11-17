@@ -22,12 +22,11 @@ class ContactoFragment : Fragment() {
     lateinit var btnWP: Button
     lateinit var rootLayout: ConstraintLayout
 
-
     companion object {
         fun newInstance() = ContactoFragment()
     }
 
-    private lateinit var viewModel: ContactoViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +39,6 @@ class ContactoFragment : Fragment() {
         rootLayout = v.findViewById(R.id.frameLayout8)
 
         return v
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ContactoViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     override fun onStart() {
