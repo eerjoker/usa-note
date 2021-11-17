@@ -136,7 +136,6 @@ class DireccionFragment : Fragment() {
             var provincia: String = provinciaDireccion.text.toString().trim()
             var codigoPostal: String = codigoPostalDireccion.text.toString().trim()
 
-            var aliasValido: Boolean = viewModelDireccion.validateGenerales(alias)
             var nombreValido: Boolean = viewModelDireccion.validateNombreApellido(nombre)
             var calleValido: Boolean = viewModelDireccion.validateGenerales(calle)
             var localidadValido: Boolean = viewModelDireccion.validateGenerales(localidad)
@@ -146,13 +145,13 @@ class DireccionFragment : Fragment() {
             var provinciaValido: Boolean = viewModelDireccion.validateGenerales(provincia)
             var codigoPostalValido: Boolean = viewModelDireccion.validateCodigoPostal(codigoPostal)
 
-            sacarErrores(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)
+            sacarErrores()
 
-            if (viewModelDireccion.validateForm(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)){
+            if (viewModelDireccion.validateForm(nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)){
                 progressBar.setVisibility(View.VISIBLE)
                 viewModelDireccion.agregarDireccion(alias, nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
             }else{
-                asignarErrores(aliasValido, nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)
+                asignarErrores(nombreValido, calleValido, localidadValido, nroValido, pisoValido, deptoValido, provinciaValido, codigoPostalValido)
                 Snackbar.make(rootLayout, "Campos invalidos. Verifique sus datos", Snackbar.LENGTH_LONG).setAnimationMode(
                     BaseTransientBottomBar.ANIMATION_MODE_FADE).setBackgroundTint(
                     Color.parseColor("#E91E3C")).show()
@@ -160,8 +159,8 @@ class DireccionFragment : Fragment() {
         }
     }
 
-    fun asignarErrores (alias: Boolean, nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean){
-        if (!alias) aliasDireccionLayout.error = viewModelDireccion.msgErrorGeneral
+    fun asignarErrores (nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean){
+
         if (!nombre) nombreDireccionLayout.error = viewModelDireccion.msgErrorNombreApellido
         if (!calle) calleDireccionLayout.error = viewModelDireccion.msgErrorGeneral
         if (!localidad) localidadDireccionLayout.error = viewModelDireccion.msgErrorGeneral
@@ -173,8 +172,7 @@ class DireccionFragment : Fragment() {
 
     }
 
-    fun sacarErrores (alias: Boolean, nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean){
-        aliasDireccionLayout.error = null
+    fun sacarErrores (){
          nombreDireccionLayout.error = null
          calleDireccionLayout.error = null
          localidadDireccionLayout.error = null

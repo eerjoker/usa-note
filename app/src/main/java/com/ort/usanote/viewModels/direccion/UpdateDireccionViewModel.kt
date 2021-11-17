@@ -138,8 +138,8 @@ class UpdateDireccionViewModel : ViewModel() {
 
 
 
-    fun validateForm(alias: Boolean, nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean ): Boolean{
-        val result = arrayOf(alias, nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
+    fun validateForm(nombre: Boolean, calle: Boolean, localidad: Boolean, nro: Boolean, piso: Boolean, depto: Boolean, provincia: Boolean, codigoPostal: Boolean ): Boolean{
+        val result = arrayOf(nombre, calle, localidad, nro, piso, depto, provincia, codigoPostal)
         if (false in result){
             return false
         }
