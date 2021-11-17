@@ -77,7 +77,7 @@ class UserViewModel : ViewModel() {
     fun validateNombreApellido(valor: String): String?{
 
         var msgErrorGeneral: String? = null
-        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ\\s]{3,20})" + "$")
+        val passwordRegex = Pattern.compile("^" + "([a-zA-ZÀ-ÿ]{3,20})" + "$")
 
         if (valor.isEmpty()){
             msgErrorGeneral = "Debe completar el campo"

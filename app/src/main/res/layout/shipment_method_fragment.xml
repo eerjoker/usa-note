@@ -42,9 +42,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewAdress"
-        android:layout_width="311dp"
-        android:layout_height="106dp"
+        android:id="@+id/textViewAddress"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginTop="276dp"
         android:layout_marginEnd="48dp"
@@ -53,50 +53,6 @@
         android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/adressValue"
-        android:layout_width="281dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="328dp"
-        android:text=""
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewAddAddress"
-        android:layout_width="305dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="408dp"
-        android:layout_marginEnd="48dp"
-        android:visibility="invisible"
-        android:background="@drawable/rounde_corner_blue"
-        android:gravity="center"
-        android:text="Añadir Domicilio"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="408dp"
-        android:clickable="false"
-        android:visibility="invisible"
-        android:outlineProvider="none"
-        android:src="@drawable/ic_baseline_add_24"
-        app:backgroundTint="@android:color/transparent"
-        app:fabSize="mini"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +75,7 @@
         android:layout_width="356dp"
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="480dp"
+        android:layout_marginTop="524dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:backgroundTint="#42BF65"
@@ -127,6 +83,38 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAddAddress"
+        android:layout_width="305dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="452dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/rounde_corner_blue"
+        android:gravity="center"
+        android:text="Añadir Domicilio"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="452dp"
+        android:clickable="false"
+        android:outlineProvider="none"
+        android:src="@drawable/ic_baseline_add_24"
+        android:visibility="invisible"
+        app:backgroundTint="@android:color/transparent"
+        app:fabSize="mini"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -213,4 +201,17 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recDirecciones"
+        android:layout_width="265dp"
+        android:layout_height="131dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAddAddress"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewAddress"
+        app:layout_constraintRight_toRightOf="@+id/textViewAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAddress"
+        app:layout_constraintVertical_bias="0.478" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,4 +46,5 @@
         <string name="celularTexto">+549-11-2345-6798</string>
         <string name="whatsappBtn">Enviar Whatsapp</string>
         <string name="detalleContacto">Estos son nuestros datos para que puedas contactarte:</string>
+        <string name="domicilios_missing">Este usuario aun no tiene domicilios guardados</string>
 </resources>

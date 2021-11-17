@@ -9,4 +9,7 @@ class Direccion (var userId: String, var departamento: String, var piso: String,
 {
     constructor():this("","","","","","","","","","")
 
+    fun getFullAddress() : String {
+        return this.calle + " " + this.numero
+    }
 }
