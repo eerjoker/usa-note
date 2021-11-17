@@ -50,11 +50,9 @@ class ShipmentMethodFragment : Fragment() {
     private lateinit var theme : Resources.Theme
     private val COSTO_ENVIO = 300.00
     private val ENVIO_MOTO = "Envio por moto"
-    //private lateinit var direccion: String
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     var direccionLiveData = MutableLiveData<Direccion>()
-    //private lateinit var idDireccion: String
     private val userViewModel : UserViewModel by viewModels()
     private var direcciones: MutableList<Direccion> = mutableListOf()
     private lateinit var idsDirecciones: MutableList<String>
@@ -91,23 +89,6 @@ class ShipmentMethodFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun getAddress () {
-        var direccionEntregaCompleta = ""
-        val user = auth.currentUser
-        val scope = CoroutineScope(Dispatchers.Main)
-        scope.launch {
-            val usuario = fetchUser(user!!.uid)
-            val direcciones = usuario.direcciones //lista
-            if(direcciones != null){
-                if(direcciones!!.size > 0){
-                    val direccion = direcciones[0]
-                    val direccionDb = fetchDireccion(direccion)
-                    direccionLiveData.value = direccionDb
-                }
-            }
-        }
-    }
-
     private suspend fun getAddressList() {
         userViewModel.direccionesUser.observe(viewLifecycleOwner, Observer{
             if (it != null) {
@@ -134,24 +115,6 @@ class ShipmentMethodFragment : Fragment() {
         }
         recDirecciones.adapter = direccionUserAdapter
         direccionUserAdapter.notifyDataSetChanged()
-    }
-
-    private suspend fun fetchDireccion(direccion: String): Direccion {
-        val dirDb = db.collection("direcciones").document(direccion).get().await()
-        var direccion = Direccion()
-        if(dirDb != null){
-            direccion = dirDb.toObject(Direccion::class.java)!!
-        }
-        return  direccion
-    }
-
-    private suspend fun fetchUser(uid: String): Usuario {
-        val userDb = db.collection("usuarios").document(uid).get().await()
-        var usuario = Usuario()
-        if(userDb != null){
-            usuario = userDb.toObject(Usuario::class.java)!!
-        }
-        return usuario
     }
 
     override fun onStart() {
@@ -190,7 +153,7 @@ class ShipmentMethodFragment : Fragment() {
                     .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
                     .show()
             } else if (this.envio!!.tipoEnvio == ENVIO_MOTO && direcciones.size == 0) {
-                    showSnackbarDebeAgregarDomicilio()
+                showSnackbarDebeAgregarDomicilio()
             } else {
                 val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToPaymentMethodFragment(envio!!)
                 v.findNavController().navigate(action)
