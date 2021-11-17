@@ -41,6 +41,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewAdress"
+        android:layout_width="311dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/rounde_corner_blue"
+        android:text="Domicilio de envio"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/adressValue"
+        android:layout_width="281dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="328dp"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAddAddress"
+        android:layout_width="305dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="408dp"
+        android:layout_marginEnd="48dp"
+        android:visibility="invisible"
+        android:background="@drawable/rounde_corner_blue"
+        android:gravity="center"
+        android:text="Añadir Domicilio"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="408dp"
+        android:clickable="false"
+        android:visibility="invisible"
+        android:outlineProvider="none"
+        android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="@android:color/transparent"
+        app:fabSize="mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <CheckBox
         android:id="@+id/checkBoxLoPasoABuscar"
