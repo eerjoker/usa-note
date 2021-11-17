@@ -121,6 +121,9 @@
         <action
             android:id="@+id/action_shipmentMethodFragment_to_checkAddressFragment"
             app:destination="@id/checkAddressFragment" />
+        <action
+            android:id="@+id/action_shipmentMethodFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethodFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkAddressFragment"
@@ -139,10 +142,13 @@
             app:destination="@id/direccionFragment" />
         <argument
             android:name="direccion"
-            app:argType="string" />
+            app:argType="com.ort.usanote.entities.Direccion" />
         <action
             android:id="@+id/action_checkAddressFragment_to_updateDireccionFragment"
             app:destination="@id/updateDireccionFragment" />
+        <argument
+            android:name="idDireccion"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"

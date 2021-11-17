@@ -18,8 +18,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.ort.usanote.R
 import com.ort.usanote.activities.MainActivity
+import com.ort.usanote.entities.Direccion
 import com.ort.usanote.entities.Envio
 import com.ort.usanote.viewModels.ShipmentMethodViewModel
 
@@ -34,11 +36,12 @@ class ShipmentMethodFragment : Fragment() {
     private lateinit var theme : Resources.Theme
     private val COSTO_ENVIO = 300.00
     private val ENVIO_MOTO = "Envio por moto"
-    private lateinit var direccion: String
+    private val RETIRO_LOCAL = "Retira en local"
+    private var direccion: Direccion? = null
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     private var tieneDomicilios: Boolean = false
-    private var idDireccion: String
+    private lateinit var idDireccion: String
 
     companion object {
         fun newInstance() = ShipmentMethodFragment()
@@ -66,7 +69,7 @@ class ShipmentMethodFragment : Fragment() {
     }
 
     private fun getAddress() {
-        var direccionCompleta = ""
+        //var direccionCompleta = ""
         val user = auth.currentUser
         val userRef = db.collection("usuarios").document(user!!.uid)
         userRef.get()
@@ -81,9 +84,9 @@ class ShipmentMethodFragment : Fragment() {
                                 if (task.isSuccessful) {
                                     val documentDireccion: DocumentSnapshot? = task.getResult()
                                     if (documentDireccion != null) {
-                                        direccionCompleta = documentDireccion.getString("calle") + " " +
-                                                documentDireccion.getString("numero")
-                                        this.direccion = direccionCompleta
+                                        //direccionCompleta = documentDireccion.getString("calle") + " " + documentDireccion.getString("numero")
+                                        this.direccion = documentDireccion.toObject<Direccion>()
+                                        //this.direccion = direccionCompleta
                                         this.tieneDomicilios = true
                                     } else {
                                         Log.d("LOGGER", "No existe el document")
@@ -93,8 +96,8 @@ class ShipmentMethodFragment : Fragment() {
                                 }
                             })
                     } else {
-                        direccionCompleta = "Este usuario aun no tiene domicilios guardados"
-                        this.direccion = direccionCompleta
+                        //direccionCompleta = "Este usuario aun no tiene domicilios guardados"
+                        //this.direccion = direccionCompleta
                         this.tieneDomicilios = false
                     }
                 }
@@ -129,18 +132,27 @@ class ShipmentMethodFragment : Fragment() {
                     .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
                     .show()
             } else if (this.envio != null && envio!!.tipoEnvio == ENVIO_MOTO && !this.tieneDomicilios) {
-                Snackbar.make(rootLayout, getString(R.string.debe_agregar_domicilio), Snackbar.LENGTH_LONG).setAnimationMode(
-                    BaseTransientBottomBar.ANIMATION_MODE_FADE)
-                    .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
-                    .show()
-            }
-            else {
-                if (idDireccion != null) {
-                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion)
+                showSnackbarDebeAgregarDomicilio()
+            } else {
+                if (this.envio!!.tipoEnvio == ENVIO_MOTO) {
+                    if (this.direccion != null && this.idDireccion != null) {
+                        val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion!!, idDireccion)
+                        v.findNavController().navigate(action)
+                    } else {
+                        showSnackbarDebeAgregarDomicilio()
+                    }
+                } else {
+                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToPaymentMethodFragment(envio!!)
                     v.findNavController().navigate(action)
                 }
             }
         }
     }
 
+    private fun showSnackbarDebeAgregarDomicilio() {
+        Snackbar.make(rootLayout, getString(R.string.debe_agregar_domicilio), Snackbar.LENGTH_LONG).setAnimationMode(
+            BaseTransientBottomBar.ANIMATION_MODE_FADE)
+            .setBackgroundTint(resources.getColor(R.color.rojo_denied, theme))
+            .show()
+    }
 }

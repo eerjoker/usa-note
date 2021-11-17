@@ -36,7 +36,7 @@ class CheckAddressFragment : Fragment() {
     lateinit var btnUpdateDireccion : FloatingActionButton
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-    lateinit var direccion : String
+    private lateinit var direccion : Direccion
     private lateinit var idDireccion : String
 
     companion object {
@@ -44,7 +44,6 @@ class CheckAddressFragment : Fragment() {
     }
 
     private lateinit var viewModel: CheckAddressViewModel
-    private val viewModelUser: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,7 +73,12 @@ class CheckAddressFragment : Fragment() {
         direccion = CheckAddressFragmentArgs.fromBundle(requireArguments()).direccion
         idDireccion = CheckAddressFragmentArgs.fromBundle(requireArguments()).idDireccion
 
-        addressValueTxtView.text = direccion
+        if (direccion != null) {
+            addressValueTxtView.text = direccion.calle + " " + direccion.numero
+        } else {
+            addressValueTxtView.text = getString(R.string.domicilios_missing)
+        }
+
         if (envio.tipoEnvio == RETIRO_EN_LOCAL) {
             checkBoxLoPasoABuscar.isChecked = true
         }
@@ -92,8 +96,8 @@ class CheckAddressFragment : Fragment() {
         }
 
         btnUpdateDireccion.setOnClickListener {
-            viewModelUser.getDirecciones()
             val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToUpdateDireccionFragment(direccion, idDireccion)
+            v.findNavController().navigate(action)
         }
     }
 
