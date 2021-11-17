@@ -50,7 +50,7 @@ class InicioFragment : Fragment() {
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(rootView.context)
         recyclerView.layoutManager = GridLayoutManager(context,2)
-        recyclerView.adapter =CategoryInicioAdapter(viewModelInicio.getCategoryList(),context){
+        recyclerView.adapter = CategoryInicioAdapter(viewModelInicio.getCategoryList(),context){
             onCategoryClick(it)
         }
     }
