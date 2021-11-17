@@ -174,7 +174,7 @@
         app:endIconMode="password_toggle"
         app:errorIconDrawable= "@null"
         app:errorEnabled="true"
-        app:helperText="Debe contener una mayúscula, una minúscula, un caractér espepial y un total de 6 caracteres como mínimo"
+        app:helperText="Debe contener una mayúscula, una minúscula y un total de 6 caracteres como mínimo"
         app:layout_constraintBottom_toTopOf="@+id/RegistroButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
