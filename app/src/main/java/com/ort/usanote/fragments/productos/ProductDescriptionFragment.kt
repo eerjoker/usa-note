@@ -74,12 +74,12 @@ class ProductDescriptionFragment : Fragment() {
         if(carrito.size() > 0){
              val productoCarrito = carrito.getProductItem(idProducto)
             if(productoCarrito != null){
-                //test = stockDB
+
                 if( test - (productoCarrito.quantity + selectedStock) <= 0){
-                    //bloquearBtnYModal()
+
                     if(test - (productoCarrito.quantity + selectedStock) != 0){
                         makeSnackError("No puede agregar mas este producto por falta de stock")
-                        //estaComprandoStock = true
+
                         if(stockDB.minus(productoCarrito.quantity) < 0){
                             stockDB = 0
                             selectedStock = 1
@@ -282,10 +282,7 @@ class ProductDescriptionFragment : Fragment() {
                 try{
                     if(Integer.parseInt(stockModal.editText?.text.toString()) <= stockDB){
                         selectedStock = Integer.parseInt(stockModal.editText?.text.toString())
-                        //current_stock.value = stockDB
-//                        if(stockDB == selectedStock){
-//                            estaComprandoStock = true
-//                        }
+
                         current_stock.value = stockDB.minus(selectedStock)
                     }else{
                         dialog.dismiss()
