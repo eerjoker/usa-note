@@ -140,6 +140,9 @@
         <argument
             android:name="direccion"
             app:argType="string" />
+        <action
+            android:id="@+id/action_checkAddressFragment_to_updateDireccionFragment"
+            app:destination="@id/updateDireccionFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"

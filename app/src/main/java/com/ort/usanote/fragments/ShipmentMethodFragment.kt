@@ -38,6 +38,7 @@ class ShipmentMethodFragment : Fragment() {
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     private var tieneDomicilios: Boolean = false
+    private var idDireccion: String
 
     companion object {
         fun newInstance() = ShipmentMethodFragment()
@@ -73,7 +74,7 @@ class ShipmentMethodFragment : Fragment() {
                 if (document != null) {
                     val idsDireccionesList = document.data!!["direcciones"] as ArrayList<String>
                     if (idsDireccionesList.size > 0 ) {
-                        val idDireccion = idsDireccionesList.get(0)
+                        idDireccion = idsDireccionesList.get(0)
                         val direcRef = db.collection("direcciones").document(idDireccion)
                         direcRef.get()
                             .addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
@@ -134,8 +135,10 @@ class ShipmentMethodFragment : Fragment() {
                     .show()
             }
             else {
-                val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion)
-                v.findNavController().navigate(action)
+                if (idDireccion != null) {
+                    val action = ShipmentMethodFragmentDirections.actionShipmentMethodFragmentToCheckAddressFragment(envio, direccion)
+                    v.findNavController().navigate(action)
+                }
             }
         }
     }

@@ -9,13 +9,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ort.usanote.R
+import com.ort.usanote.adapters.DireccionUserAdapter
+import com.ort.usanote.entities.Direccion
 import com.ort.usanote.entities.Envio
 import com.ort.usanote.viewModels.CheckAddressViewModel
+import com.ort.usanote.viewModels.user.UserViewModel
 
 class CheckAddressFragment : Fragment() {
 
@@ -28,15 +33,18 @@ class CheckAddressFragment : Fragment() {
     private val ENVIO_MOTO = "Envio por moto"
     lateinit var addressValueTxtView : TextView
     lateinit var addAddressBtn : FloatingActionButton
+    lateinit var btnUpdateDireccion : FloatingActionButton
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     lateinit var direccion : String
+    private lateinit var idDireccion : String
 
     companion object {
         fun newInstance() = CheckAddressFragment()
     }
 
     private lateinit var viewModel: CheckAddressViewModel
+    private val viewModelUser: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +58,7 @@ class CheckAddressFragment : Fragment() {
         checkBoxEnvioPorMoto.isClickable = false
         addAddressBtn = v.findViewById(R.id.floatingActionButton)
         addressValueTxtView = v.findViewById(R.id.adressValue)
+        btnUpdateDireccion = v.findViewById(R.id.btnUpdateDireccion)
         return v
     }
 
@@ -63,6 +72,8 @@ class CheckAddressFragment : Fragment() {
         super.onStart()
         envio = CheckAddressFragmentArgs.fromBundle(requireArguments()).envio!!
         direccion = CheckAddressFragmentArgs.fromBundle(requireArguments()).direccion
+        idDireccion = CheckAddressFragmentArgs.fromBundle(requireArguments()).idDireccion
+
         addressValueTxtView.text = direccion
         if (envio.tipoEnvio == RETIRO_EN_LOCAL) {
             checkBoxLoPasoABuscar.isChecked = true
@@ -78,6 +89,11 @@ class CheckAddressFragment : Fragment() {
         addAddressBtn.setOnClickListener {
             val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToDireccionFragment()
             v.findNavController().navigate(action)
+        }
+
+        btnUpdateDireccion.setOnClickListener {
+            viewModelUser.getDirecciones()
+            val action = CheckAddressFragmentDirections.actionCheckAddressFragmentToUpdateDireccionFragment(direccion, idDireccion)
         }
     }
 
